@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Vocabulary Practice</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f5f6fa;
+padding:20px;
+margin:0;
+}
+
+h2{
+margin-top:0;
+}
+
+.top{
+margin-bottom:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+button{
+padding:8px 12px;
+border-radius:10px;
+border:1px solid #d9d9d9;
+background:white;
+cursor:pointer;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+}
+
+@media (max-width:600px){
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
+.card{
+background:white;
+padding:14px;
+border-radius:16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border:1px solid #e3e3e3;
+}
+
+.left{
+display:flex;
+gap:10px;
+}
+
+.num{
+color:#666;
+font-size:14px;
+}
+
+.word{
+font-size:18px;
+font-weight:bold;
+}
+
+.meaning{
+margin-top:4px;
+color:#555;
+font-size:14px;
+}
+
+.speak-btn{
+font-size:18px;
+border-radius:10px;
+width:46px;
+height:36px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 여기만 수정 -->
+<h2>Chapter 2 Unit 3 & Unit 4</h2>
+
+<div class="top">
+<button onclick="toggleMeaning()">뜻 숨기기</button>
+<button onclick="toggleWord()">영어 숨기기</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+
+/*
+=========================
+여기 단어만 수정
+=========================
+*/
+
+const vocabList = [
+["similarity","닮은 점"],
+["view","보다"],
+["detail","세부 사항"],
+["surrounding","인근의, 주위의"],
+["height","높이"],
+["in common","공동으로"],
+["feature","특징"],
+["popularity","인기"],
+["structure","구조물"],
+["immediately","즉시, 즉각"],
+["record","기록"],
+["ground","땅바닥, 지면"],
+["exceptional","특출한"],
+["extremely","매우, 정말로"],
+["imagine","상상하다"],
+["arch","아치형 구조물"],
+["tower","탑"],
+["statue","조각상"],
+["observation deck","전망대"],
+["dome","돔, 반구형 모양의 것"],
+["shape","모양"],
+["on the other hand","반면에"],
+["landscape","풍경"],
+["church","교회"],
+["creative","창조적인"],
+["ancient","고대의"],
+["incredibly","엄청나게"],
+["tourist attraction","관광 명소"],
+["monument","기념물"],
+["popular","인기 있는"],
+["tomb","무덤"],
+["heritage","유산"],
+["landmark","주요 지형 지물, 랜드마크"],
+["complete","완료하다, 끝마치다"],
+["man-made","인공의"],
+["location","위치"],
+["comfortable","편안한"],
+["business office","사무실"],
+["likewise","또한, 비슷하게"],
+["massive","거대한"]
+];
+
+
+
+/* 아래는 건드리지 마세요 */
+
+const grid=document.getElementById("grid")
+
+vocabList.forEach((v,i)=>{
+
+grid.innerHTML+=`
+
+<div class="card">
+
+<div class="left">
+
+<div class="num">${i+1}.</div>
+
+<div>
+<div class="word">${v[0]}</div>
+<div class="meaning">${v[1]}</div>
+</div>
+
+</div>
+
+<button class="speak-btn" onclick="speak('${v[0]}')">🔊</button>
+
+</div>
+
+`
+
+})
+
+function speak(word){
+
+let u=new SpeechSynthesisUtterance(word)
+u.lang='en-US'
+speechSynthesis.speak(u)
+
+}
+
+let meaningHidden=false
+
+function toggleMeaning(){
+
+meaningHidden=!meaningHidden
+
+document.querySelectorAll(".meaning").forEach(e=>{
+e.style.display=meaningHidden?"none":"block"
+})
+
+}
+
+let wordHidden=false
+
+function toggleWord(){
+
+wordHidden=!wordHidden
+
+document.querySelectorAll(".word").forEach(e=>{
+e.style.visibility=wordHidden?"hidden":"visible"
+})
+
+}
+
+</script>
+
+</body>
+</html>
