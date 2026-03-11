@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Vocabulary Practice</title>
+
+<style>
+body{
+font-family: Arial;
+background:#f5f6fa;
+padding:20px;
+margin:0;
+}
+
+h2{
+margin-top:0;
+}
+
+.top{
+margin-bottom:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+button{
+padding:8px 12px;
+border-radius:10px;
+border:1px solid #d9d9d9;
+background:white;
+cursor:pointer;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+}
+
+@media (max-width:600px){
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
+.card{
+background:white;
+padding:14px;
+border-radius:16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border:1px solid #e3e3e3;
+}
+
+.left{
+display:flex;
+gap:10px;
+}
+
+.num{
+color:#666;
+font-size:14px;
+}
+
+.word{
+font-size:18px;
+font-weight:bold;
+}
+
+.meaning{
+margin-top:4px;
+color:#555;
+font-size:14px;
+}
+
+.speak-btn{
+font-size:18px;
+border-radius:10px;
+width:46px;
+height:36px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Chapter 1 Unit 1 & Unit 2</h2>
+
+<div class="top">
+<button onclick="toggleMeaning()">뜻 숨기기</button>
+<button onclick="toggleWord()">영어 숨기기</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const vocabList = [
+["express","표현하다, 나타내다"],
+["energetic","활기에 찬"],
+["entertain","즐겁게 하다"],
+["upbeat","명랑한, 쾌활한"],
+["form","종류, 형태"],
+["famous","유명한"],
+["genre","장르"],
+["fashion","유행, 유행하는 스타일"],
+["instrumental","악기를 위한"],
+["electronic","전자의"],
+["lyrics","(노래의) 가사"],
+["digital","디지털 방식의"],
+["composer","작곡가"],
+["thoughtful","생각에 잠기는"],
+["rhythm","리듬"],
+["chore","(특히 집안에서 정기적으로 하는) 일"],
+["catchy","기억하기 쉬운"],
+["remember","기억하다"],
+["mood","기분, 분위기"],
+["modern","현대의"],
+["relaxing","마음을 느긋하게 해 주는, 편한"],
+["interesting","재미있는, 흥미로운"],
+["create","창조하다"],
+["important","중요한"],
+["category","범주"],
+["favorite","가장 좋아하는"],
+["musical instrument","악기"],
+["poem","시"],
+["cheerful","발랄한, 생기를 주는"],
+["sculpture","조각품, 조각"],
+["record","녹화하다"],
+["painting","그림"],
+["comic book","만화책"],
+["basic","기본적인"],
+["pottery","도예"],
+["information","정보"],
+["film","영화"],
+["director","감독"],
+["impressive","인상적인"],
+["thoughtful","(조용히) 생각에 잠긴"]
+];
+
+const grid = document.getElementById("grid");
+
+vocabList.forEach((v,i)=>{
+grid.innerHTML += `
+<div class="card">
+<div class="left">
+<div class="num">${i+1}.</div>
+<div>
+<div class="word">${v[0]}</div>
+<div class="meaning">${v[1]}</div>
+</div>
+</div>
+<button class="speak-btn" onclick="speak('${v[0]}')">🔊</button>
+</div>
+`;
+});
+
+function speak(word){
+let u = new SpeechSynthesisUtterance(word);
+u.lang = 'en-US';
+speechSynthesis.speak(u);
+}
+
+let meaningHidden = false;
+
+function toggleMeaning(){
+meaningHidden = !meaningHidden;
+document.querySelectorAll(".meaning").forEach(e=>{
+e.style.display = meaningHidden ? "none" : "block";
+});
+}
+
+let wordHidden = false;
+
+function toggleWord(){
+wordHidden = !wordHidden;
+document.querySelectorAll(".word").forEach(e=>{
+e.style.visibility = wordHidden ? "hidden" : "visible";
+});
+}
+</script>
+
+</body>
+</html>
