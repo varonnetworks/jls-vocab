@@ -5,28 +5,29 @@
 <title>JLS Vocabulary</title>
 
 <style>
-
 body{
 font-family:Arial,sans-serif;
 background:#f5f6fa;
 margin:0;
 padding:30px;
+color:#111;
 }
 
 h1{
-margin-top:0;
-font-size:28px;
+margin:0 0 8px 0;
+font-size:30px;
 }
 
 .desc{
+margin:0 0 24px 0;
 color:#666;
-margin-bottom:20px;
+font-size:15px;
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:14px;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:18px;
 }
 
 .card{
@@ -34,25 +35,56 @@ display:block;
 text-decoration:none;
 color:#111;
 background:#fff;
-border:1px solid #ddd;
-border-radius:16px;
-padding:18px;
-box-shadow:0 2px 8px rgba(0,0,0,0.04);
-transition:0.2s;
+border:1px solid #e2e2e2;
+border-radius:18px;
+padding:14px;
+box-shadow:0 4px 14px rgba(0,0,0,0.05);
+transition:transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover{
-transform:translateY(-2px);
-box-shadow:0 4px 14px rgba(0,0,0,0.08);
+transform:translateY(-4px);
+box-shadow:0 8px 24px rgba(0,0,0,0.10);
 }
 
-.book{width:100%;border-radius:10px;margin-bottom:10px;}
+.book{
+width:100%;
+aspect-ratio:3/4.2;
+object-fit:cover;
+display:block;
+border-radius:12px;
+margin-bottom:12px;
+border:1px solid #ececec;
+background:#f0f0f0;
+}
 
 .title{
-font-size:18px;
-font-weight:bold;
+font-size:17px;
+font-weight:700;
+line-height:1.35;
+word-break:keep-all;
 }
 
+@media (max-width:1100px){
+.grid{
+grid-template-columns:repeat(3,minmax(0,1fr));
+}
+}
+
+@media (max-width:800px){
+.grid{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+}
+
+@media (max-width:520px){
+body{
+padding:20px;
+}
+.grid{
+grid-template-columns:1fr;
+}
+}
 </style>
 </head>
 
@@ -64,37 +96,37 @@ font-weight:bold;
 <div class="grid">
 
 <a class="card" href="./Environment-Expert/index.html">
-<img src="./images/environment-expert.jpg" class="book">
+<img src="./images/environment-expert.jpg" class="book" alt="Environment Expert">
 <div class="title">Environment Expert</div>
 </a>
 
 <a class="card" href="./Environment-Explorer/index.html">
-<img src="./images/environment-explorer.jpg" class="book">
+<img src="./images/environment-explorer.jpg" class="book" alt="Environment Explorer">
 <div class="title">Environment Explorer</div>
 </a>
 
 <a class="card" href="./Global-Affairs-Explorer/index.html">
-<img src="./images/global-affairs-explorer.jpg" class="book">
+<img src="./images/global-affairs-explorer.jpg" class="book" alt="Global Affairs Explorer">
 <div class="title">Global Affairs Explorer</div>
 </a>
 
 <a class="card" href="./Money-Charity-Foundation/index.html">
-<img src="./images/money-charity-foundation.jpg" class="book">
+<img src="./images/money-charity-foundation.jpg" class="book" alt="Money Charity Foundation">
 <div class="title">Money Charity Foundation</div>
 </a>
 
 <a class="card" href="./Pollution-Environmental-Technology-Foundation/index.html">
-<img src="./images/pollution-environmental-technology-foundation.jpg" class="book">
+<img src="./images/pollution-environmental-technology-foundation.jpg" class="book" alt="Pollution Environmental Technology Foundation">
 <div class="title">Pollution Environmental Technology Foundation</div>
 </a>
 
 <a class="card" href="./Social-Issue-Explorer/index.html">
-<img src="./images/social-issue-explorer.jpg" class="book">
+<img src="./images/social-issue-explorer.jpg" class="book" alt="Social Issue Explorer">
 <div class="title">Social Issue Explorer</div>
 </a>
 
 <a class="card" href="./art-architecture-foundation/index.html">
-<img src="./images/art-architecture-foundation.jpg" class="book">
+<img src="./images/art-architecture-foundation.jpg" class="book" alt="Art Architecture Foundation">
 <div class="title">Art Architecture Foundation</div>
 </a>
 
