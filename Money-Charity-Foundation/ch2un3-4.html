@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Vocabulary Practice</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f5f6fa;
+padding:20px;
+margin:0;
+}
+
+h2{
+margin-top:0;
+}
+
+/* 상단 버튼 영역 */
+
+.top{
+margin-bottom:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+/* 버튼 공통 스타일 */
+
+button,
+.home-btn{
+padding:8px 12px;
+border-radius:10px;
+border:1px solid #d9d9d9;
+background:white;
+cursor:pointer;
+font-size:14px;
+text-decoration:none;
+color:black;
+display:inline-flex;
+align-items:center;
+}
+
+/* 단어 카드 그리드 */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+}
+
+/* 모바일에서는 2열 */
+
+@media (max-width:600px){
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
+.card{
+background:white;
+padding:14px;
+border-radius:16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border:1px solid #e3e3e3;
+}
+
+.left{
+display:flex;
+gap:10px;
+}
+
+.num{
+color:#666;
+font-size:14px;
+}
+
+.word{
+font-size:18px;
+font-weight:bold;
+}
+
+.meaning{
+margin-top:4px;
+color:#555;
+font-size:14px;
+}
+
+.speak-btn{
+font-size:18px;
+border-radius:10px;
+width:46px;
+height:36px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Chapter 2 Unit 3 & Unit 4</h2>
+
+<div class="top">
+<button onclick="toggleMeaning()">뜻 숨기기</button>
+<button onclick="toggleWord()">영어 숨기기</button>
+<a class="home-btn" href="index.html">🏠 홈</a>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+
+/* 단어 목록 */
+
+const vocabList = [
+["fundraise","(자금을) 모금 활동으로 모으다"],
+["precisely","정확히, 꼭"],
+["mission","임무, 사명"],
+["troubled","걱정하는, 불안해하는"],
+["believe","~라고 믿다"],
+["passionately","열성적으로"],
+["make a difference","변화를 가져오다"],
+["enormous","거대한, 막대한"],
+["exchange","교환, 주고받음"],
+["attract","마음을 끌다"],
+["cause","이유, 근거"],
+["fee","회비, 가입비"],
+["participate","참여하다, 참가하다"],
+["sponsor","후원하다"],
+["deserve","누릴 자격이 있다"],
+["well","우물"],
+["chore","(정기적으로 하는) 일"],
+["organization","조직, 단체"],
+["costume","의상, 변장"],
+["tough","힘든, 어려운"],
+["father","(카톨릭 등에서의) 신부"],
+["donate","기부하다, 기증하다"],
+["kindness","친절, 다정함"],
+["mercy","자비, 고마운 일"],
+["affordable","감당할 수 있는, 여유가 되는"],
+["bless","(신의) 축복을 빌다"],
+["rescue","구하다"],
+["innocent","아무 잘못이 없는, 결백한"],
+["orphan","고아"],
+["lack","부족, 결핍"],
+["frequently","자주, 흔히"],
+["access","입장, 접근"],
+["elderly","연세가 드신"],
+["mission","임무, 파견단"],
+["suffering","고통, 괴로움"],
+["stray","제 위치를 벗어나다, 옆길로 새다"],
+["deforestation","산림벌채"],
+["adoption","입양"],
+["support","지지하다, 지원하다"],
+["online","온라인의, 인터넷상의"]
+];
+
+
+/* 단어 카드 생성 */
+
+const grid = document.getElementById("grid");
+
+vocabList.forEach((v,i)=>{
+
+grid.innerHTML += `
+
+<div class="card">
+
+<div class="left">
+
+<div class="num">${i+1}.</div>
+
+<div>
+<div class="word">${v[0]}</div>
+<div class="meaning">${v[1]}</div>
+</div>
+
+</div>
+
+<button class="speak-btn" onclick="speak('${v[0]}')">🔊</button>
+
+</div>
+
+`;
+
+});
+
+
+/* 발음 */
+
+function speak(word){
+
+let u = new SpeechSynthesisUtterance(word);
+u.lang = 'en-US';
+speechSynthesis.speak(u);
+
+}
+
+
+/* 뜻 숨기기 */
+
+let meaningHidden = false;
+
+function toggleMeaning(){
+
+meaningHidden = !meaningHidden;
+
+document.querySelectorAll(".meaning").forEach(e=>{
+e.style.display = meaningHidden ? "none" : "block";
+});
+
+}
+
+
+/* 영어 숨기기 */
+
+let wordHidden = false;
+
+function toggleWord(){
+
+wordHidden = !wordHidden;
+
+document.querySelectorAll(".word").forEach(e=>{
+e.style.visibility = wordHidden ? "hidden" : "visible";
+});
+
+}
+
+</script>
+
+</body>
+</html>
