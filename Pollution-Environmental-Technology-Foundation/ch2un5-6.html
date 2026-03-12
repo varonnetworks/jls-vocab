@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Vocabulary Practice</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f5f6fa;
+padding:20px;
+margin:0;
+}
+
+h2{
+margin-top:0;
+}
+
+/* 상단 버튼 영역 */
+
+.top{
+margin-bottom:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+/* 버튼 공통 스타일 */
+
+button,
+.home-btn{
+padding:8px 12px;
+border-radius:10px;
+border:1px solid #d9d9d9;
+background:white;
+cursor:pointer;
+font-size:14px;
+text-decoration:none;
+color:black;
+display:inline-flex;
+align-items:center;
+}
+
+/* 단어 카드 그리드 */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+}
+
+/* 모바일에서는 2열 */
+
+@media (max-width:600px){
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
+.card{
+background:white;
+padding:14px;
+border-radius:16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border:1px solid #e3e3e3;
+}
+
+.left{
+display:flex;
+gap:10px;
+}
+
+.num{
+color:#666;
+font-size:14px;
+}
+
+.word{
+font-size:18px;
+font-weight:bold;
+}
+
+.meaning{
+margin-top:4px;
+color:#555;
+font-size:14px;
+}
+
+.speak-btn{
+font-size:18px;
+border-radius:10px;
+width:46px;
+height:36px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Chapter 2 Unit 5 & Unit 6</h2>
+
+<div class="top">
+<button onclick="toggleMeaning()">뜻 숨기기</button>
+<button onclick="toggleWord()">영어 숨기기</button>
+<a class="home-btn" href="index.html">🏠 홈</a>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+
+/* 단어 목록 */
+
+const vocabList = [
+["major","주요한, 중대한"],
+["innovation","혁신, 획기적인 것"],
+["vertical","수직의, 세로의"],
+["advantage","유리한 점, 장점"],
+["crop","농작물"],
+["efficient","능률적인, 효율적인"],
+["conserve","아끼다, 아껴 쓰다"],
+["possible","가능한, 성취할 수 있는"],
+["harvest","수확하다, 거둬들이다"],
+["remove","치우다, 없애다"],
+["complex","복잡한"],
+["ensure","확실하게 하다, 보증하다"],
+["column","기둥"],
+["stack","더미, 쌓아 올림"],
+["require","필요하다, 요구하다"],
+["method","방법"],
+["fertilizer","비료"],
+["weed","잡초"],
+["shovel","삽"],
+["plow","쟁기"],
+["tool","도구, 공구"],
+["indoor","실내의, 실내용의"],
+["artificial","인공의, 인조의"],
+["intelligence","지능, 정보"],
+["perhaps","아마, 어쩌면"],
+["forget","잊다"],
+["population","인구, 주민"],
+["vacuum","진공 청소기"],
+["teleport","순간이동시키다"],
+["without","~없이"],
+["control","통제하다, 제어하다"],
+["planet","행성, 세상"],
+["discuss","상의하다, 논의하다"],
+["effectively","효과적으로, 실질적으로"],
+["conclusion","결론, 결말"],
+["surface","표면, 수면"],
+["care","보살핌, 돌봄"],
+["water","(화초 등에) 물을 주다"],
+["style","방식"],
+["stream","개울, 시내"]
+];
+
+
+/* 단어 카드 생성 */
+
+const grid = document.getElementById("grid");
+
+vocabList.forEach((v,i)=>{
+
+grid.innerHTML += `
+
+<div class="card">
+
+<div class="left">
+
+<div class="num">${i+1}.</div>
+
+<div>
+<div class="word">${v[0]}</div>
+<div class="meaning">${v[1]}</div>
+</div>
+
+</div>
+
+<button class="speak-btn" onclick="speak('${v[0]}')">🔊</button>
+
+</div>
+
+`;
+
+});
+
+
+/* 발음 */
+
+function speak(word){
+
+let u = new SpeechSynthesisUtterance(word);
+u.lang = 'en-US';
+speechSynthesis.speak(u);
+
+}
+
+
+/* 뜻 숨기기 */
+
+let meaningHidden = false;
+
+function toggleMeaning(){
+
+meaningHidden = !meaningHidden;
+
+document.querySelectorAll(".meaning").forEach(e=>{
+e.style.display = meaningHidden ? "none" : "block";
+});
+
+}
+
+
+/* 영어 숨기기 */
+
+let wordHidden = false;
+
+function toggleWord(){
+
+wordHidden = !wordHidden;
+
+document.querySelectorAll(".word").forEach(e=>{
+e.style.visibility = wordHidden ? "hidden" : "visible";
+});
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Vocabulary Practice</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f5f6fa;
+padding:20px;
+margin:0;
+}
+
+h2{
+margin-top:0;
+}
+
+/* 상단 버튼 영역 */
+
+.top{
+margin-bottom:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+/* 버튼 공통 스타일 */
+
+button,
+.home-btn{
+padding:8px 12px;
+border-radius:10px;
+border:1px solid #d9d9d9;
+background:white;
+cursor:pointer;
+font-size:14px;
+text-decoration:none;
+color:black;
+display:inline-flex;
+align-items:center;
+}
+
+/* 단어 카드 그리드 */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+}
+
+/* 모바일에서는 2열 */
+
+@media (max-width:600px){
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
+.card{
+background:white;
+padding:14px;
+border-radius:16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border:1px solid #e3e3e3;
+}
+
+.left{
+display:flex;
+gap:10px;
+}
+
+.num{
+color:#666;
+font-size:14px;
+}
+
+.word{
+font-size:18px;
+font-weight:bold;
+}
+
+.meaning{
+margin-top:4px;
+color:#555;
+font-size:14px;
+}
+
+.speak-btn{
+font-size:18px;
+border-radius:10px;
+width:46px;
+height:36px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Chapter 2 Unit 1 & Unit 2</h2>
+
+<div class="top">
+<button onclick="toggleMeaning()">뜻 숨기기</button>
+<button onclick="toggleWord()">영어 숨기기</button>
+<a class="home-btn" href="index.html">🏠 홈</a>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+
+/* 단어 목록 */
+
+const vocabList = [
+["environmental","(자연) 환경의, 환경과 관련된"],
+["improvement","향상, 개선"],
+["vehicle","탈 것, 운송 수단"],
+["electricity","전기"],
+["produce","생산하다"],
+["perfect","완벽한, 완전한"],
+["battery","건전지, 배터리"],
+["magnet","자석, 자철"],
+["beneficial","유익한, 이로운"],
+["solar","태양의"],
+["material","재료"],
+["develop","발달하다, 발달시키다"],
+["transportation","수송, 운송"],
+["expensive","비싼"],
+["float","뜨다, 떠다니다"],
+["rare","드문, 보기 힘든"],
+["invent","개발하다"],
+["modern","현대의, 최신의"],
+["spaceship","우주선"],
+["track","(사람들이 걸어다녀서 생긴) 길"],
+
+["still","아직(도), 계속해서"],
+["risky","위험한"],
+["tell","(말 또는 글로) 알리다, 전하다"],
+["travel","여행하다, 이동하다"],
+["motorcycle","오토바이"],
+["enough","충분한"],
+["current","현재의, 지금의"],
+["renewable","재생 가능한"],
+["traffic","차량들, 교통"],
+["lightbulb","전구"],
+["responsibly","책임감 있게"],
+["convenient","편리한, 가까운"],
+["filter","여과하다, 거르다"],
+["handle","다루다, 조절하다"],
+["housing","주택"],
+["quality","품질, 상태"],
+["create","창조하다"],
+["bill","고지서, 청구서"],
+["product","생산물, 상품, 제품"],
+["careful","조심하는, 주의 깊은"]
+];
+
+
+/* 단어 카드 생성 */
+
+const grid = document.getElementById("grid");
+
+vocabList.forEach((v,i)=>{
+
+grid.innerHTML += `
+
+<div class="card">
+
+<div class="left">
+
+<div class="num">${i+1}.</div>
+
+<div>
+<div class="word">${v[0]}</div>
+<div class="meaning">${v[1]}</div>
+</div>
+
+</div>
+
+<button class="speak-btn" onclick="speak('${v[0]}')">🔊</button>
+
+</div>
+
+`;
+
+});
+
+
+/* 발음 */
+
+function speak(word){
+
+let u = new SpeechSynthesisUtterance(word);
+u.lang = 'en-US';
+speechSynthesis.speak(u);
+
+}
+
+
+/* 뜻 숨기기 */
+
+let meaningHidden = false;
+
+function toggleMeaning(){
+
+meaningHidden = !meaningHidden;
+
+document.querySelectorAll(".meaning").forEach(e=>{
+e.style.display = meaningHidden ? "none" : "block";
+});
+
+}
+
+
+/* 영어 숨기기 */
+
+let wordHidden = false;
+
+function toggleWord(){
+
+wordHidden = !wordHidden;
+
+document.querySelectorAll(".word").forEach(e=>{
+e.style.visibility = wordHidden ? "hidden" : "visible";
+});
+
+}
+
+</script>
+
+</body>
+</html>
