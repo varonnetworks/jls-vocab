@@ -29,7 +29,7 @@ flex-wrap:wrap;
 /* 버튼 공통 스타일 */
 
 button,
-.home-btn{
+.list-btn{
 padding:8px 12px;
 border-radius:10px;
 border:1px solid #d9d9d9;
@@ -104,9 +104,9 @@ height:36px;
 <h2>Chapter 3 Unit 3</h2>
 
 <div class="top">
+<a class="list-btn" href="./index.html">← 챕터 목록</a>
 <button onclick="toggleMeaning()">뜻 숨기기</button>
 <button onclick="toggleWord()">영어 숨기기</button>
-<a class="home-btn" href="index.html">🏠 홈</a>
 </div>
 
 <div class="grid" id="grid"></div>
@@ -217,4 +217,5 @@ e.style.visibility = wordHidden ? "hidden" : "visible";
 </script>
 
 </body>
+
 </html>
