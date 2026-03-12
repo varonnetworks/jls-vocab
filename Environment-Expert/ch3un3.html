@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Vocabulary Practice</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f5f6fa;
+padding:20px;
+margin:0;
+}
+
+h2{
+margin-top:0;
+}
+
+/* 상단 버튼 영역 */
+
+.top{
+margin-bottom:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+/* 버튼 공통 스타일 */
+
+button,
+.list-btn{
+padding:8px 12px;
+border-radius:10px;
+border:1px solid #d9d9d9;
+background:white;
+cursor:pointer;
+font-size:14px;
+text-decoration:none;
+color:black;
+display:inline-flex;
+align-items:center;
+}
+
+/* 단어 카드 그리드 */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+}
+
+/* 모바일에서는 2열 */
+
+@media (max-width:600px){
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
+.card{
+background:white;
+padding:14px;
+border-radius:16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border:1px solid #e3e3e3;
+}
+
+.left{
+display:flex;
+gap:10px;
+}
+
+.num{
+color:#666;
+font-size:14px;
+}
+
+.word{
+font-size:18px;
+font-weight:bold;
+}
+
+.meaning{
+margin-top:4px;
+color:#555;
+font-size:14px;
+}
+
+.speak-btn{
+font-size:18px;
+border-radius:10px;
+width:46px;
+height:36px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Chapter 3 Unit 3</h2>
+
+<div class="top">
+<a class="list-btn" href="./index.html">← 챕터 목록</a>
+<button onclick="toggleMeaning()">뜻 숨기기</button>
+<button onclick="toggleWord()">영어 숨기기</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+
+/* 단어 목록 */
+
+const vocabList = [
+["conscious","의식하는"],
+["sort","분류하다"],
+["overflow","넘쳐나다"],
+["ideally","이상적으로"],
+["completely","완전히"],
+["combine","결합하다"],
+["deodorant","냄새 제거제"],
+["can","통조림으로 만들다"],
+["convenience store","편의점"],
+["reduce","줄이다"],
+["washcloth","행주"],
+["greens","푸른 채소"],
+["vinegar","식초"],
+["bulk","대량"],
+["seal","밀봉하다"],
+["prove","입증하다"],
+["garbage","쓰레기"],
+["lifestyle","생활 방식"],
+["pump","펌프"],
+["prep","준비하다"],
+["barely","간신히"],
+["homemade","집에서 만든"],
+["tight","단단한"],
+["notice","알아차리다"],
+["basically","기본적으로"],
+["journey","여행"],
+["replace","대신하다"],
+["pre-washed","미리 씻은"],
+["unpackaged","포장되지 않은"],
+["bunch","다발"],
+["require","요구하다"],
+["aisle","통로"],
+["weigh","무게가 나가다"],
+["variety","다양성"],
+["lab","실험실"],
+["film","얇은 막"],
+["shut","닫다"],
+["unnecessary","불필요한"],
+["totally","완전히"],
+["rag","넝마"]
+];
+
+
+/* 단어 카드 생성 */
+
+const grid = document.getElementById("grid");
+
+vocabList.forEach((v,i)=>{
+
+grid.innerHTML += `
+
+<div class="card">
+
+<div class="left">
+
+<div class="num">${i+1}.</div>
+
+<div>
+<div class="word">${v[0]}</div>
+<div class="meaning">${v[1]}</div>
+</div>
+
+</div>
+
+<button class="speak-btn" onclick="speak('${v[0]}')">🔊</button>
+
+</div>
+
+`;
+
+});
+
+
+/* 발음 */
+
+function speak(word){
+
+let u = new SpeechSynthesisUtterance(word);
+u.lang = 'en-US';
+speechSynthesis.speak(u);
+
+}
+
+
+/* 뜻 숨기기 */
+
+let meaningHidden = false;
+
+function toggleMeaning(){
+
+meaningHidden = !meaningHidden;
+
+document.querySelectorAll(".meaning").forEach(e=>{
+e.style.display = meaningHidden ? "none" : "block";
+});
+
+}
+
+
+/* 영어 숨기기 */
+
+let wordHidden = false;
+
+function toggleWord(){
+
+wordHidden = !wordHidden;
+
+document.querySelectorAll(".word").forEach(e=>{
+e.style.visibility = wordHidden ? "hidden" : "visible";
+});
+
+}
+
+</script>
+
+</body>
+</html>
