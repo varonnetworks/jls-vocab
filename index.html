@@ -6,7 +6,6 @@
 <title>JLS 활용독해 단어장</title>
 
 <style>
-
 body{
 font-family:Arial;
 background:#f5f6fa;
@@ -37,7 +36,6 @@ gap:16px;
 }
 
 /* 태블릿 */
-
 @media (max-width:1024px){
 .grid{
 grid-template-columns:repeat(3,1fr);
@@ -45,7 +43,6 @@ grid-template-columns:repeat(3,1fr);
 }
 
 /* 모바일 */
-
 @media (max-width:600px){
 .grid{
 grid-template-columns:repeat(3,1fr);
@@ -66,6 +63,7 @@ display:block;
 width:100%;
 border-radius:12px;
 margin-bottom:10px;
+display:block;
 }
 
 .title{
@@ -73,7 +71,6 @@ font-size:14px;
 font-weight:bold;
 line-height:1.4;
 }
-
 </style>
 </head>
 
@@ -88,65 +85,59 @@ line-height:1.4;
 <div class="grid" id="grid">
 
 <a class="card" data-name="environment expert" href="./Environment-Expert/index.html">
-<img src="environment-expert.jpg">
+<img src="./images/environment-expert.jpg" alt="Environment Expert">
 <div class="title">Environment Expert</div>
 </a>
 
 <a class="card" data-name="environment explorer" href="./Environment-Explorer/index.html">
-<img src="Environment-Explorer.jpg">
+<img src="./images/Environment-Explorer.jpg" alt="Environment Explorer">
 <div class="title">Environment Explorer</div>
 </a>
 
 <a class="card" data-name="global affairs explorer" href="./Global-Affairs-Explorer/index.html">
-<img src="Global-Affairs-Explorer.jpg">
+<img src="./images/Global-Affairs-Explorer.jpg" alt="Global Affairs Explorer">
 <div class="title">Global Affairs Explorer</div>
 </a>
 
 <a class="card" data-name="money charity foundation" href="./Money-Charity-Foundation/index.html">
-<img src="Money-Charity-Foundation.png">
+<img src="./images/Money-Charity-Foundation.png" alt="Money & Charity Foundation">
 <div class="title">Money & Charity Foundation</div>
 </a>
 
 <a class="card" data-name="pollution environmental technology foundation" href="./Pollution-Environmental-Technology-Foundation/index.html">
-<img src="Pollution-Environmental-Technology-Foundation.png">
+<img src="./images/Pollution-Environmental-Technology-Foundation.png" alt="Pollution Environmental Technology Foundation">
 <div class="title">Pollution Environmental Technology Foundation</div>
 </a>
 
 <a class="card" data-name="social issue explorer" href="./Social-Issue-Explorer/index.html">
-<img src="Social-Issues-Explorer.jpg">
+<img src="./images/Social-Issues-Explorer.jpg" alt="Social Issue Explorer">
 <div class="title">Social Issue Explorer</div>
 </a>
 
 <a class="card" data-name="art architecture foundation" href="./art-architecture-foundation/index.html">
-<img src="Art-Architecture-Foundation.png">
+<img src="./images/Art-Architecture-Foundation.png" alt="Art Architecture Foundation">
 <div class="title">Art Architecture Foundation</div>
 </a>
 
 </div>
 
 <script>
-
 const search = document.getElementById("search");
 const cards = document.querySelectorAll(".card");
 
 search.addEventListener("input", function(){
-
 let value = this.value.toLowerCase();
 
 cards.forEach(card=>{
-
 let name = card.dataset.name;
 
 if(name.includes(value)){
-card.style.display="block";
+card.style.display = "block";
 }else{
-card.style.display="none";
+card.style.display = "none";
 }
-
 });
-
 });
-
 </script>
 
 </body>
