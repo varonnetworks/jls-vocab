@@ -32,7 +32,6 @@ h2{
   line-height:1.2;
 }
 
-/* 상단 고정 */
 .top-wrap{
   position:sticky;
   top:0;
@@ -48,7 +47,6 @@ h2{
   flex-wrap:wrap;
 }
 
-/* 버튼 공통 */
 .btn{
   appearance:none;
   -webkit-appearance:none;
@@ -70,7 +68,6 @@ h2{
   background:#fafafa;
 }
 
-/* 카드 그리드 */
 .grid{
   display:grid;
   grid-template-columns:repeat(4, minmax(0, 1fr));
@@ -140,7 +137,6 @@ h2{
   background:#fafafa;
 }
 
-/* 하단 다음 버튼 */
 .bottom-nav{
   display:flex;
   justify-content:flex-end;
@@ -167,14 +163,12 @@ h2{
   background:#fafafa;
 }
 
-/* 태블릿 */
 @media (max-width:1024px){
   .grid{
     grid-template-columns:repeat(3, minmax(0, 1fr));
   }
 }
 
-/* 모바일 */
 @media (max-width:600px){
   body{
     padding:14px;
@@ -274,6 +268,14 @@ const wordBtn = document.getElementById("wordBtn");
 
 let meaningHidden = false;
 let wordHidden = false;
+let voices = [];
+
+function loadVoices(){
+  voices = window.speechSynthesis.getVoices();
+}
+
+loadVoices();
+window.speechSynthesis.onvoiceschanged = loadVoices;
 
 function escapeHtml(text){
   return text
@@ -300,20 +302,49 @@ function renderCards(){
             <div class="meaning"${meaningHidden ? ' style="display:none;"' : ""}>${escapeHtml(meaning)}</div>
           </div>
         </div>
-        <button type="button" class="speak-btn" onclick="speakWord(${JSON.stringify(word)})">🔊</button>
+        <button type="button" class="speak-btn" data-word="${escapeHtml(word)}">🔊</button>
       </div>
     `;
   });
 
   grid.innerHTML = html;
+
+  document.querySelectorAll(".speak-btn").forEach(btn => {
+    btn.addEventListener("click", function(){
+      speakWord(this.dataset.word);
+    });
+  });
 }
 
 function speakWord(word){
-  const u = new SpeechSynthesisUtterance(word);
-  u.lang = "en-US";
-  u.rate = 0.9;
+  if (!("speechSynthesis" in window)) {
+    alert("이 브라우저는 음성 재생을 지원하지 않습니다.");
+    return;
+  }
+
   window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(u);
+
+  const utter = new SpeechSynthesisUtterance(word);
+  utter.lang = "en-US";
+  utter.rate = 0.9;
+  utter.pitch = 1;
+  utter.volume = 1;
+
+  const englishVoice =
+    voices.find(v => v.lang && v.lang.toLowerCase().includes("en-us")) ||
+    voices.find(v => v.lang && v.lang.toLowerCase().startsWith("en")) ||
+    null;
+
+  if (englishVoice) {
+    utter.voice = englishVoice;
+  }
+
+  utter.onerror = function(e){
+    console.log("speech error:", e);
+    alert("발음 재생이 안 됩니다. 브라우저 음성 설정을 확인해주세요.");
+  };
+
+  window.speechSynthesis.speak(utter);
 }
 
 meaningBtn.addEventListener("click", function(){
