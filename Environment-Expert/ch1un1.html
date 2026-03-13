@@ -236,46 +236,46 @@ h2{
 
 <script>
 const vocabList = [
-  ["environmentalist","환경 운동가"],
-  ["recycle","재활용하다"],
-  ["mold","만들다, 주조하다"],
-  ["primary","주된, 주요한"],
-  ["mine","광산"],
-  ["compress","압축하다"],
-  ["landfill","쓰레기 매립지"],
-  ["crisis","위기"],
-  ["ingredient","재료"],
-  ["manufacturer","제조업체"],
-  ["sort","분류하다"],
-  ["informative","유익한"],
-  ["basics","기본"],
-  ["aluminum","알루미늄"],
-  ["define","정의하다"],
-  ["material","재료"],
-  ["reel","실감개, 릴"],
-  ["product","제품"],
-  ["normal","보통의"],
-  ["collection","수집"],
-  ["approximately","거의"],
-  ["mill","공장"],
-  ["shred","잘게 찢다"],
-  ["pour","붓다"],
-  ["chemical","화학 물질"],
-  ["contaminant","오염 물질"],
-  ["polish","광을 내다"],
-  ["crush","으깨다"],
-  ["chop up","잘게 썰다"],
-  ["pellet","작은 알갱이"],
-  ["fraction","부분"],
-  ["harm","해를 끼치다"],
-  ["break down","분해되다"],
-  ["natural","자연의"],
-  ["thought-provoking","생각을 자극하는"],
-  ["heat","가열하다"],
-  ["audience","청중"],
-  ["flat","평평한"],
-  ["mixture","혼합물"],
-  ["surface","표면"]
+["environmentalist","환경 운동가"],
+["recycle","재활용하다"],
+["mold","만들다, 주조하다"],
+["primary","주된, 주요한"],
+["mine","광산"],
+["compress","압축하다"],
+["landfill","쓰레기 매립지"],
+["crisis","위기"],
+["ingredient","재료"],
+["manufacturer","제조업체"],
+["sort","분류하다"],
+["informative","유익한"],
+["basics","기본"],
+["aluminum","알루미늄"],
+["define","정의하다"],
+["material","재료"],
+["reel","실감개, 릴"],
+["product","제품"],
+["normal","보통의"],
+["collection","수집"],
+["approximately","거의"],
+["mill","공장"],
+["shred","잘게 찢다"],
+["pour","붓다"],
+["chemical","화학 물질"],
+["contaminant","오염 물질"],
+["polish","광을 내다"],
+["crush","으깨다"],
+["chop up","잘게 썰다"],
+["pellet","작은 알갱이"],
+["fraction","부분"],
+["harm","해를 끼치다"],
+["break down","분해되다"],
+["natural","자연의"],
+["thought-provoking","생각을 자극하는"],
+["heat","가열하다"],
+["audience","청중"],
+["flat","평평한"],
+["mixture","혼합물"],
+["surface","표면"]
 ];
 
 const grid = document.getElementById("grid");
@@ -287,11 +287,11 @@ let wordHidden = false;
 
 function escapeHtml(text){
   return text
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function renderCards(){
@@ -306,24 +306,41 @@ function renderCards(){
         <div class="left">
           <div class="num">${i + 1}.</div>
           <div class="text-box">
-            <div class="word"${wordHidden ? ' style="visibility:hidden;"' : ""}>${escapeHtml(word)}</div>
-            <div class="meaning"${meaningHidden ? ' style="display:none;"' : ""}>${escapeHtml(meaning)}</div>
+            <div class="word" style="${wordHidden ? 'visibility:hidden;' : 'visibility:visible;'}">${escapeHtml(word)}</div>
+            <div class="meaning" style="${meaningHidden ? 'display:none;' : 'display:block;'}">${escapeHtml(meaning)}</div>
           </div>
         </div>
-        <button type="button" class="speak-btn" onclick="speakWord(${JSON.stringify(word)})">🔊</button>
+        <button type="button" class="speak-btn" data-word="${escapeHtml(word)}">🔊</button>
       </div>
     `;
   });
 
   grid.innerHTML = html;
+
+  document.querySelectorAll(".speak-btn").forEach(btn => {
+    btn.addEventListener("click", function(){
+      const word = this.getAttribute("data-word");
+      speakWord(word);
+    });
+  });
 }
 
 function speakWord(word){
-  const u = new SpeechSynthesisUtterance(word);
-  u.lang = "en-US";
-  u.rate = 0.9;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(u);
+  if (!("speechSynthesis" in window)) {
+    alert("이 브라우저에서는 음성 기능을 지원하지 않습니다.");
+    return;
+  }
+
+  window.speechSynthesis.pause();
+  window.speechSynthesis.resume();
+
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-US";
+  utterance.rate = 1;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+
+  window.speechSynthesis.speak(utterance);
 }
 
 meaningBtn.addEventListener("click", function(){
