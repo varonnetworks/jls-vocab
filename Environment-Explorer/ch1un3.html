@@ -274,6 +274,8 @@ const wordBtn = document.getElementById("wordBtn");
 
 let meaningHidden = false;
 let wordHidden = false;
+let isSpeaking = false;
+let speakTimer = null;
 
 function escapeHtml(text){
   return text
@@ -308,7 +310,10 @@ function renderCards(){
   grid.innerHTML = html;
 
   document.querySelectorAll(".speak-btn").forEach(btn => {
-    btn.addEventListener("click", function(){
+    btn.addEventListener("click", function(e){
+      e.preventDefault();
+      e.stopPropagation();
+
       const word = this.getAttribute("data-word");
       speakWord(word);
     });
@@ -321,8 +326,16 @@ function speakWord(word){
     return;
   }
 
-  window.speechSynthesis.pause();
-  window.speechSynthesis.resume();
+  if (speakTimer) {
+    clearTimeout(speakTimer);
+    speakTimer = null;
+  }
+
+  try {
+    window.speechSynthesis.cancel();
+  } catch (e) {}
+
+  isSpeaking = false;
 
   const utterance = new SpeechSynthesisUtterance(word);
   utterance.lang = "en-US";
@@ -330,7 +343,24 @@ function speakWord(word){
   utterance.pitch = 1;
   utterance.volume = 1;
 
-  window.speechSynthesis.speak(utterance);
+  utterance.onstart = function(){
+    isSpeaking = true;
+  };
+
+  utterance.onend = function(){
+    isSpeaking = false;
+  };
+
+  utterance.onerror = function(){
+    isSpeaking = false;
+  };
+
+  speakTimer = setTimeout(function(){
+    if (!isSpeaking) {
+      window.speechSynthesis.speak(utterance);
+    }
+    speakTimer = null;
+  }, 80);
 }
 
 meaningBtn.addEventListener("click", function(){
