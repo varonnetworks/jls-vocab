@@ -32,7 +32,6 @@ h2{
   line-height:1.2;
 }
 
-/* 상단 고정 */
 .top-wrap{
   position:sticky;
   top:0;
@@ -48,7 +47,6 @@ h2{
   flex-wrap:wrap;
 }
 
-/* 버튼 공통 */
 .btn{
   appearance:none;
   -webkit-appearance:none;
@@ -70,10 +68,9 @@ h2{
   background:#fafafa;
 }
 
-/* 카드 그리드 */
 .grid{
   display:grid;
-  grid-template-columns:repeat(4, minmax(0, 1fr));
+  grid-template-columns:repeat(4,minmax(0,1fr));
   gap:14px;
   align-items:start;
 }
@@ -134,7 +131,6 @@ h2{
   display:none;
 }
 
-/* 긴 한 단어용: 중간 줄바꿈 방지 + 글자 살짝 축소 */
 .word.long-single{
   white-space:nowrap;
   font-size:16px;
@@ -158,7 +154,6 @@ h2{
   background:#fafafa;
 }
 
-/* 하단 다음 버튼 */
 .bottom-nav{
   display:flex;
   justify-content:flex-end;
@@ -185,14 +180,12 @@ h2{
   background:#fafafa;
 }
 
-/* 태블릿 */
 @media (max-width:1024px){
   .grid{
-    grid-template-columns:repeat(3, minmax(0, 1fr));
+    grid-template-columns:repeat(3,minmax(0,1fr));
   }
 }
 
-/* 모바일 */
 @media (max-width:600px){
   body{
     padding:14px;
@@ -203,7 +196,7 @@ h2{
   }
 
   .grid{
-    grid-template-columns:repeat(2, minmax(0, 1fr));
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:10px;
   }
 
@@ -236,27 +229,31 @@ h2{
 }
 </style>
 </head>
+
 <body>
 
 <div class="page">
-  <h2>Chapter 1 Unit 3 & 4</h2>
 
-  <div class="top-wrap">
-    <div class="top">
-      <a class="btn" href="./index.html">← 챕터 목록</a>
-      <button type="button" class="btn" id="meaningBtn">뜻 숨기기</button>
-      <button type="button" class="btn" id="wordBtn">영어 숨기기</button>
-    </div>
-  </div>
+<h2>Chapter 1 Unit 3 & 4</h2>
 
-  <div class="grid" id="grid"></div>
+<div class="top-wrap">
+<div class="top">
+<a class="btn" href="./index.html">← 챕터 목록</a>
+<button type="button" class="btn" id="meaningBtn">뜻 숨기기</button>
+<button type="button" class="btn" id="wordBtn">영어 숨기기</button>
+</div>
+</div>
 
-  <div class="bottom-nav">
-    <a class="next-btn" href="./ch1un5-6.html"> ▶다음 Unit보기</a>
-  </div>
+<div class="grid" id="grid"></div>
+
+<div class="bottom-nav">
+<a class="next-btn" href="./ch1un5-6.html">▶ 다음 Unit 보기</a>
+</div>
+
 </div>
 
 <script>
+
 const vocabList = [
 ["subject","소재, 대상"],
 ["issue","문제, 시안"],
@@ -304,163 +301,207 @@ const grid = document.getElementById("grid");
 const meaningBtn = document.getElementById("meaningBtn");
 const wordBtn = document.getElementById("wordBtn");
 
-let meaningHidden = false;
-let wordHidden = false;
-let isSpeaking = false;
-let speakTimer = null;
+let meaningHidden=false;
+let wordHidden=false;
+let isSpeaking=false;
+let speakTimer=null;
 
-/* 각 카드별 임시 공개 상태 */
-const revealedMeaning = new Set();
-const revealedWord = new Set();
+const revealedMeaning=new Set();
+const revealedWord=new Set();
 
 function escapeHtml(text){
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+return text
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;");
 }
 
 function isSingleLongWord(word){
-  return !word.includes(" ") && word.length >= 11;
+return !word.includes(" ") && word.length>=11;
+}
+
+function updateButtonLabels(){
+meaningBtn.textContent=meaningHidden?"뜻 보이기":"뜻 숨기기";
+wordBtn.textContent=wordHidden?"영어 보이기":"영어 숨기기";
 }
 
 function renderCards(){
-  let html = "";
 
-  vocabList.forEach((item, i) => {
-    const word = item[0];
-    const meaning = item[1];
+let html="";
 
-    const showMeaning = !meaningHidden || revealedMeaning.has(i);
-    const showWord = !wordHidden || revealedWord.has(i);
+vocabList.forEach((item,i)=>{
 
-    const wordClass = isSingleLongWord(word) ? "word long-single" : "word";
-    const wordHiddenClass = showWord ? "" : " hidden-text";
-    const meaningHiddenClass = showMeaning ? "" : " hidden-text";
+const word=item[0];
+const meaning=item[1];
 
-    html += `
-      <div class="card" data-index="${i}">
-        <div class="left">
-          <div class="num">${i + 1}.</div>
-          <div class="text-box">
-            <div class="${wordClass}${wordHiddenClass}">${escapeHtml(word)}</div>
-            <div class="meaning${meaningHiddenClass}">${escapeHtml(meaning)}</div>
-          </div>
-        </div>
-        <button type="button" class="speak-btn" data-word="${escapeHtml(word)}">🔊</button>
-      </div>
-    `;
-  });
+const showMeaning=!meaningHidden||revealedMeaning.has(i);
+const showWord=!wordHidden||revealedWord.has(i);
 
-  grid.innerHTML = html;
+const wordClass=isSingleLongWord(word)?"word long-single":"word";
+const wordHiddenClass=showWord?"":" hidden-text";
+const meaningHiddenClass=showMeaning?"":" hidden-text";
 
-  document.querySelectorAll(".card").forEach(card => {
-    card.addEventListener("click", function(){
-      const index = Number(this.getAttribute("data-index"));
+html+=`
+<div class="card" data-index="${i}">
+<div class="left">
+<div class="num">${i+1}.</div>
+<div class="text-box">
+<div class="${wordClass}${wordHiddenClass}">${escapeHtml(word)}</div>
+<div class="meaning${meaningHiddenClass}">${escapeHtml(meaning)}</div>
+</div>
+</div>
+<button type="button" class="speak-btn" data-word="${escapeHtml(word)}">🔊</button>
+</div>
+`;
 
-      if (meaningHidden) {
-        if (revealedMeaning.has(index)) {
-          revealedMeaning.delete(index);
-        } else {
-          revealedMeaning.add(index);
-        }
-      }
+});
 
-      if (wordHidden) {
-        if (revealedWord.has(index)) {
-          revealedWord.delete(index);
-        } else {
-          revealedWord.add(index);
-        }
-      }
+grid.innerHTML=html;
 
-      if (meaningHidden || wordHidden) {
-        renderCards();
-      }
-    });
-  });
+document.querySelectorAll(".card").forEach(card=>{
+card.addEventListener("click",function(){
 
-  document.querySelectorAll(".speak-btn").forEach(btn => {
-    btn.addEventListener("click", function(e){
-      e.preventDefault();
-      e.stopPropagation();
+const index=Number(this.getAttribute("data-index"));
 
-      const word = this.getAttribute("data-word");
-      speakWord(word);
-    });
-  });
+if(meaningHidden){
+if(revealedMeaning.has(index)){
+revealedMeaning.delete(index);
+}else{
+revealedMeaning.add(index);
+}
+}
+
+if(wordHidden){
+if(revealedWord.has(index)){
+revealedWord.delete(index);
+}else{
+revealedWord.add(index);
+}
+}
+
+if(meaningHidden||wordHidden){
+renderCards();
+}
+
+});
+});
+
+document.querySelectorAll(".speak-btn").forEach(btn=>{
+btn.addEventListener("click",function(e){
+
+e.preventDefault();
+e.stopPropagation();
+
+const word=this.getAttribute("data-word");
+speakWord(word);
+
+});
+});
+
 }
 
 function speakWord(word){
-  if (!("speechSynthesis" in window)) {
-    alert("이 브라우저에서는 음성 기능을 지원하지 않습니다.");
-    return;
-  }
 
-  if (speakTimer) {
-    clearTimeout(speakTimer);
-    speakTimer = null;
-  }
-
-  try {
-    window.speechSynthesis.cancel();
-  } catch (e) {}
-
-  isSpeaking = false;
-
-  const utterance = new SpeechSynthesisUtterance(word);
-  utterance.lang = "en-US";
-  utterance.rate = 1;
-  utterance.pitch = 1;
-  utterance.volume = 1;
-
-  utterance.onstart = function(){
-    isSpeaking = true;
-  };
-
-  utterance.onend = function(){
-    isSpeaking = false;
-  };
-
-  utterance.onerror = function(){
-    isSpeaking = false;
-  };
-
-  speakTimer = setTimeout(function(){
-    if (!isSpeaking) {
-      window.speechSynthesis.speak(utterance);
-    }
-    speakTimer = null;
-  }, 80);
+if(!("speechSynthesis" in window)){
+alert("이 브라우저에서는 음성 기능을 지원하지 않습니다.");
+return;
 }
 
-meaningBtn.addEventListener("click", function(){
-  meaningHidden = !meaningHidden;
-  meaningBtn.textContent = meaningHidden ? "뜻 보이기" : "뜻 숨기기";
+if(speakTimer){
+clearTimeout(speakTimer);
+speakTimer=null;
+}
 
-  /* 전체 보이기로 돌아갈 땐 개별 공개 상태 초기화 */
-  if (!meaningHidden) {
-    revealedMeaning.clear();
-  }
+try{
+window.speechSynthesis.cancel();
+}catch(e){}
 
-  renderCards();
-});
+isSpeaking=false;
 
-wordBtn.addEventListener("click", function(){
-  wordHidden = !wordHidden;
-  wordBtn.textContent = wordHidden ? "영어 보이기" : "영어 숨기기";
+const utterance=new SpeechSynthesisUtterance(word);
 
-  /* 전체 보이기로 돌아갈 땐 개별 공개 상태 초기화 */
-  if (!wordHidden) {
-    revealedWord.clear();
-  }
+utterance.lang="en-US";
+utterance.rate=1;
+utterance.pitch=1;
+utterance.volume=1;
 
-  renderCards();
-});
+utterance.onstart=function(){
+isSpeaking=true;
+};
 
+utterance.onend=function(){
+isSpeaking=false;
+};
+
+utterance.onerror=function(){
+isSpeaking=false;
+};
+
+speakTimer=setTimeout(function(){
+
+if(!isSpeaking){
+window.speechSynthesis.speak(utterance);
+}
+
+speakTimer=null;
+
+},80);
+
+}
+
+meaningBtn.addEventListener("click",function(){
+
+const nextMeaningHidden=!meaningHidden;
+
+if(nextMeaningHidden){
+
+meaningHidden=true;
+wordHidden=false;
+
+revealedWord.clear();
+
+}else{
+
+meaningHidden=false;
+
+}
+
+revealedMeaning.clear();
+
+updateButtonLabels();
 renderCards();
+
+});
+
+wordBtn.addEventListener("click",function(){
+
+const nextWordHidden=!wordHidden;
+
+if(nextWordHidden){
+
+wordHidden=true;
+meaningHidden=false;
+
+revealedMeaning.clear();
+
+}else{
+
+wordHidden=false;
+
+}
+
+revealedWord.clear();
+
+updateButtonLabels();
+renderCards();
+
+});
+
+updateButtonLabels();
+renderCards();
+
 </script>
 
 </body>
