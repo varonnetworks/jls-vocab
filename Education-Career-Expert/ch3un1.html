@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary Practice</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html, body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f5f6fa;
+  color:#111;
+  padding:20px;
+}
+
+.page{
+  width:100%;
+}
+
+h2{
+  margin:0 0 12px 0;
+  font-size:28px;
+  line-height:1.2;
+}
+
+.top-wrap{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:#f5f6fa;
+  padding:8px 0 14px 0;
+  margin-bottom:10px;
+}
+
+.top{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid #d9d9d9;
+  background:#fff;
+  color:#111;
+  border-radius:10px;
+  padding:8px 12px;
+  font-size:14px;
+  line-height:1.2;
+  text-decoration:none;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.btn:hover{
+  background:#fafafa;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  align-items:start;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #e3e3e3;
+  border-radius:16px;
+  padding:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  min-width:0;
+  cursor:pointer;
+}
+
+.left{
+  display:flex;
+  gap:10px;
+  min-width:0;
+  flex:1;
+}
+
+.num{
+  color:#666;
+  font-size:14px;
+  flex:0 0 auto;
+  line-height:1.4;
+}
+
+.text-box{
+  min-width:0;
+  flex:1;
+}
+
+.word{
+  font-size:18px;
+  font-weight:700;
+  line-height:1.25;
+  word-break:normal;
+  overflow-wrap:normal;
+  white-space:normal;
+}
+
+.meaning{
+  margin-top:4px;
+  color:#555;
+  font-size:14px;
+  line-height:1.35;
+  word-break:keep-all;
+}
+
+.word.hidden-text{
+  visibility:hidden;
+}
+
+.meaning.hidden-text{
+  display:none;
+}
+
+.word.long-single{
+  white-space:nowrap;
+  font-size:16px;
+}
+
+.speak-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid #d9d9d9;
+  background:#fff;
+  border-radius:10px;
+  width:46px;
+  height:36px;
+  font-size:18px;
+  line-height:1;
+  cursor:pointer;
+  flex:0 0 auto;
+}
+
+.speak-btn:hover{
+  background:#fafafa;
+}
+
+.bottom-nav{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:16px;
+}
+
+.next-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid #d9d9d9;
+  background:#fff;
+  color:#111;
+  border-radius:14px;
+  padding:14px 18px;
+  font-size:16px;
+  line-height:1.2;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.next-btn:hover{
+  background:#fafafa;
+}
+
+@media (max-width:1024px){
+  .grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media (max-width:600px){
+  body{
+    padding:14px;
+  }
+
+  h2{
+    font-size:24px;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+
+  .card{
+    padding:12px;
+  }
+
+  .word{
+    font-size:16px;
+  }
+
+  .word.long-single{
+    font-size:14px;
+  }
+
+  .meaning{
+    font-size:13px;
+  }
+
+  .speak-btn{
+    width:40px;
+    height:34px;
+    font-size:16px;
+  }
+
+  .next-btn{
+    font-size:15px;
+    padding:12px 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<h2>Chapter 3 Unit 1</h2>
+
+<div class="top-wrap">
+<div class="top">
+<a class="btn" href="./index.html">← 챕터 목록</a>
+<button type="button" class="btn" id="meaningBtn">뜻 숨기기</button>
+<button type="button" class="btn" id="wordBtn">영어 숨기기</button>
+</div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="bottom-nav">
+<a class="next-btn" href="./ch3un2.html">▶ 다음 Unit보기</a>
+</div>
+
+</div>
+
+<script>
+
+const vocabList = [
+["demand","요구"],
+["lifespan","수명"],
+["combat","싸우다"],
+["integrated","통합된"],
+["unnecessary","불필요한"],
+["age","나이를 먹다"],
+["trend","추세"],
+["automated","자동화된"],
+["increase","증가하다"],
+["adapt","적응하다"],
+["population","인구"],
+["install","설치하다"],
+["medical","의학의"],
+["caregiver","돌보는 사람"],
+["pave","포장하다"],
+["renewable","재생 가능한"],
+["specialized","전문화된"],
+["decline","감소하다"],
+["unpredictable","예측할 수 없는"],
+["adulthood","성인기"],
+["consider","고려하다"],
+["industry","산업"],
+["professional","전문적인"],
+["pharmacy","약학"],
+["increasingly","점점 더"],
+["maintain","유지하다"],
+["repair","수리하다"],
+["perform","수행하다"],
+["uncertain","확실하지 않은"],
+["replace","대체하다"]
+];
+
+const grid = document.getElementById("grid");
+const meaningBtn = document.getElementById("meaningBtn");
+const wordBtn = document.getElementById("wordBtn");
+
+let meaningHidden=false;
+let wordHidden=false;
+let isSpeaking=false;
+let speakTimer=null;
+
+const revealedMeaning=new Set();
+const revealedWord=new Set();
+
+function escapeHtml(text){
+return text
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;");
+}
+
+function isSingleLongWord(word){
+return !word.includes(" ") && word.length>=11;
+}
+
+function updateButtonLabels(){
+meaningBtn.textContent=meaningHidden?"뜻 보이기":"뜻 숨기기";
+wordBtn.textContent=wordHidden?"영어 보이기":"영어 숨기기";
+}
+
+function renderCards(){
+
+let html="";
+
+vocabList.forEach((item,i)=>{
+
+const word=item[0];
+const meaning=item[1];
+
+const showMeaning=!meaningHidden||revealedMeaning.has(i);
+const showWord=!wordHidden||revealedWord.has(i);
+
+const wordClass=isSingleLongWord(word)?"word long-single":"word";
+const wordHiddenClass=showWord?"":" hidden-text";
+const meaningHiddenClass=showMeaning?"":" hidden-text";
+
+html+=`
+<div class="card" data-index="${i}">
+<div class="left">
+<div class="num">${i+1}.</div>
+<div class="text-box">
+<div class="${wordClass}${wordHiddenClass}">${escapeHtml(word)}</div>
+<div class="meaning${meaningHiddenClass}">${escapeHtml(meaning)}</div>
+</div>
+</div>
+<button type="button" class="speak-btn" data-word="${escapeHtml(word)}">🔊</button>
+</div>
+`;
+
+});
+
+grid.innerHTML=html;
+
+document.querySelectorAll(".card").forEach(card=>{
+card.addEventListener("click",function(){
+
+const index=Number(this.getAttribute("data-index"));
+
+if(meaningHidden){
+if(revealedMeaning.has(index)){
+revealedMeaning.delete(index);
+}else{
+revealedMeaning.add(index);
+}
+}
+
+if(wordHidden){
+if(revealedWord.has(index)){
+revealedWord.delete(index);
+}else{
+revealedWord.add(index);
+}
+}
+
+if(meaningHidden||wordHidden){
+renderCards();
+}
+
+});
+});
+
+document.querySelectorAll(".speak-btn").forEach(btn=>{
+btn.addEventListener("click",function(e){
+
+e.preventDefault();
+e.stopPropagation();
+
+const word=this.getAttribute("data-word");
+speakWord(word);
+
+});
+});
+
+}
+
+function speakWord(word){
+
+if(!("speechSynthesis" in window)){
+alert("이 브라우저에서는 음성 기능을 지원하지 않습니다.");
+return;
+}
+
+if(speakTimer){
+clearTimeout(speakTimer);
+speakTimer=null;
+}
+
+try{
+window.speechSynthesis.cancel();
+}catch(e){}
+
+isSpeaking=false;
+
+const utterance=new SpeechSynthesisUtterance(word);
+
+utterance.lang="en-US";
+utterance.rate=1;
+utterance.pitch=1;
+utterance.volume=1;
+
+utterance.onstart=function(){
+isSpeaking=true;
+};
+
+utterance.onend=function(){
+isSpeaking=false;
+};
+
+utterance.onerror=function(){
+isSpeaking=false;
+};
+
+speakTimer=setTimeout(function(){
+
+if(!isSpeaking){
+window.speechSynthesis.speak(utterance);
+}
+
+speakTimer=null;
+
+},80);
+
+}
+
+meaningBtn.addEventListener("click",function(){
+
+const nextMeaningHidden=!meaningHidden;
+
+if(nextMeaningHidden){
+
+meaningHidden=true;
+wordHidden=false;
+
+revealedWord.clear();
+
+}else{
+
+meaningHidden=false;
+
+}
+
+revealedMeaning.clear();
+
+updateButtonLabels();
+renderCards();
+
+});
+
+wordBtn.addEventListener("click",function(){
+
+const nextWordHidden=!wordHidden;
+
+if(nextWordHidden){
+
+wordHidden=true;
+meaningHidden=false;
+
+revealedMeaning.clear();
+
+}else{
+
+wordHidden=false;
+
+}
+
+revealedWord.clear();
+
+updateButtonLabels();
+renderCards();
+
+});
+
+updateButtonLabels();
+renderCards();
+
+</script>
+
+</body>
+</html>
