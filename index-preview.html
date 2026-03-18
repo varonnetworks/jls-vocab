@@ -67,18 +67,21 @@ h1{
   display:flex;
   justify-content:center;
   gap:10px;
-  flex-wrap:wrap;
+  flex-wrap:nowrap;
   margin-bottom:18px;
 }
 
 .filter-btn{
+  min-width:0;
   width:104px;
   height:36px;
+  padding:0 10px;
   border:none;
   border-radius:999px;
   font-size:13px;
   font-weight:600;
   cursor:pointer;
+  white-space:nowrap;
   transition:
     transform 0.12s ease,
     box-shadow 0.18s ease,
@@ -271,13 +274,18 @@ h1{
   }
 
   .filter-tabs{
-    gap:8px;
+    gap:6px;
+    flex-wrap:nowrap;
+    justify-content:space-between;
   }
 
   .filter-btn{
-    width:96px;
-    height:34px;
-    font-size:12px;
+    width:auto;
+    flex:1;
+    height:32px;
+    padding:0 6px;
+    font-size:11px;
+    border-radius:999px;
   }
 
   .card{
@@ -313,6 +321,19 @@ h1{
     font-size:12px;
   }
 }
+
+@media (max-width:420px){
+  .filter-tabs{
+    gap:4px;
+  }
+
+  .filter-btn{
+    height:30px;
+    padding:0 4px;
+    font-size:10px;
+    letter-spacing:-0.2px;
+  }
+}
 </style>
 </head>
 
@@ -337,7 +358,7 @@ h1{
 
   <div class="grid" id="grid">
 
-    <a class="card" data-name="art architecture foundation" data-level="foundation" href="./art-architecture-foundation/index-preview.html">
+    <a class="card" data-name="art architecture foundation" data-level="foundation" href="./Art-Architecture-Foundation/index-preview.html">
       <img src="./images/Art-Architecture-Foundation.png" alt="Art Architecture Foundation">
       <div class="card-text">
         <div class="card-top">
