@@ -6,9 +6,7 @@
 <title>Chapter 1 Unit 1</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 html, body{
   margin:0;
@@ -28,125 +26,76 @@ body{
 }
 
 .back-row{
-  margin-bottom:18px;
+  margin-bottom:16px;
 }
 
 .back-btn{
-  display:inline-flex;
+  display:flex;
   align-items:center;
   justify-content:center;
-  min-height:52px;
-  padding:0 22px;
-  border-radius:20px;
-  border:2px solid #dedee6;
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  border:2px solid #eceaf3;
   background:#fff;
-  color:#333;
+  font-size:22px;
+  font-weight:900;
+  color:#555;
   text-decoration:none;
-  font-size:16px;
-  font-weight:700;
-  box-shadow:0 2px 6px rgba(0,0,0,0.03);
-}
-
-.title-row{
-  margin-bottom:14px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.04);
 }
 
 h1{
-  margin:0;
-  font-size:44px;
-  line-height:1.12;
-  font-weight:800;
-  letter-spacing:-0.02em;
+  margin:0 0 10px 0;
+  font-size:42px;
+  font-weight:900;
+  line-height:1.15;
 }
 
-.status-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:18px;
-  flex-wrap:wrap;
-}
-
-.progress-chip{
-  display:inline-flex;
-  align-items:center;
-  min-height:42px;
-  padding:0 16px;
-  border-radius:999px;
-  background:#ffffff;
-  border:2px solid #eceaf3;
-  color:#5a4b7d;
-  font-size:16px;
+.progress{
+  margin-bottom:16px;
   font-weight:800;
-  box-shadow:0 2px 8px rgba(0,0,0,0.03);
+  color:#6a45b8;
 }
 
 .guide{
   display:flex;
+  gap:10px;
   align-items:center;
-  gap:12px;
-  background:#ffffff;
+  background:#fff;
   border:2px solid #eceaf3;
-  border-radius:22px;
-  padding:18px 20px;
-  margin-bottom:18px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.03);
-}
-
-.guide-bulb{
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  background:#f3e7a3;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:18px;
-  flex:0 0 auto;
-}
-
-.guide-text{
-  font-size:19px;
-  font-weight:800;
-  color:#303030;
-  line-height:1.4;
-  word-break:keep-all;
+  border-radius:18px;
+  padding:14px 16px;
+  margin-bottom:16px;
+  font-weight:700;
 }
 
 .top-wrap{
   position:sticky;
   top:0;
-  z-index:100;
   background:#f5f6fa;
-  padding:8px 0 16px 0;
-  margin-bottom:14px;
+  padding:10px 0;
+  z-index:100;
 }
 
 .top{
   display:grid;
-  grid-template-columns:repeat(4, minmax(0, 1fr));
-  gap:10px;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
 }
 
 .filter-btn{
   appearance:none;
   -webkit-appearance:none;
-  border:none;
-  min-height:56px;
-  padding:0 12px;
-  border-radius:18px;
-  background:#ffffff;
-  color:#303030;
-  font-size:18px;
-  font-weight:800;
-  cursor:pointer;
-  box-shadow:0 4px 10px rgba(0,0,0,0.07);
+  height:48px;
+  border-radius:14px;
   border:2px solid #eceaf3;
+  background:#fff;
+  font-weight:800;
+  font-size:14px;
+  color:#303030;
+  cursor:pointer;
   white-space:nowrap;
-  display:flex;
-  align-items:center;
-  justify-content:center;
 }
 
 .filter-btn.active{
@@ -156,20 +105,20 @@ h1{
 }
 
 .list-wrap{
-  background:#ffffff;
+  background:#fff;
   border:4px solid #d7b9ff;
-  border-radius:34px;
-  padding:12px 18px;
+  border-radius:26px;
+  padding:10px 12px;
   box-shadow:0 4px 14px rgba(0,0,0,0.04);
 }
 
 .word-row{
   display:flex;
   align-items:center;
-  gap:14px;
-  min-height:96px;
-  padding:0 8px;
-  border-bottom:1px solid #ececf2;
+  gap:10px;
+  min-height:80px;
+  padding:4px 2px;
+  border-bottom:1px solid #eee;
 }
 
 .word-row:last-child{
@@ -179,14 +128,14 @@ h1{
 .check-btn{
   appearance:none;
   -webkit-appearance:none;
-  width:34px;
-  height:34px;
+  width:26px;
+  height:26px;
   border-radius:50%;
-  border:3px solid #c9c9d2;
+  border:2px solid #ccc;
   background:#fff;
   cursor:pointer;
   position:relative;
-  flex:0 0 auto;
+  flex:0 0 26px;
 }
 
 .check-btn.checked{
@@ -201,7 +150,7 @@ h1{
   top:48%;
   transform:translate(-50%,-50%);
   color:#fff;
-  font-size:20px;
+  font-size:15px;
   font-weight:900;
 }
 
@@ -209,9 +158,9 @@ h1{
   flex:1;
   min-width:0;
   display:grid;
-  grid-template-columns:minmax(170px, 240px) minmax(0, 1fr);
-  align-items:center;
+  grid-template-columns:minmax(170px,240px) minmax(0,1fr);
   column-gap:26px;
+  align-items:center;
 }
 
 .word-box,
@@ -226,18 +175,17 @@ h1{
 }
 
 .word-text{
-  font-size:22px;
-  line-height:1.25;
+  font-size:20px;
   font-weight:800;
-  color:#202124;
+  line-height:1.25;
   word-break:break-word;
 }
 
 .meaning-text{
-  font-size:20px;
-  line-height:1.35;
-  font-weight:700;
+  font-size:18px;
+  line-height:1.3;
   color:#4a4a55;
+  font-weight:700;
   text-align:left;
   word-break:keep-all;
   overflow-wrap:break-word;
@@ -245,57 +193,52 @@ h1{
 }
 
 .placeholder{
-  font-size:15px;
-  color:#b7b7c3;
+  color:#bbb;
+  font-size:13px;
   font-weight:700;
 }
 
 .speak-btn{
   appearance:none;
   -webkit-appearance:none;
+  width:38px;
+  height:38px;
+  border-radius:12px;
   border:none;
-  width:58px;
-  height:58px;
-  border-radius:18px;
-  background:#f7f7fb;
-  box-shadow:0 4px 10px rgba(0,0,0,0.06);
+  background:#f2f2f7;
+  font-size:17px;
   cursor:pointer;
-  font-size:26px;
-  flex:0 0 58px;
+  flex:0 0 38px;
 }
 
 .bottom-nav{
-  margin-top:24px;
+  display:flex;
+  justify-content:flex-end;
+  margin-top:18px;
 }
 
 .next-btn{
-  display:flex;
+  display:inline-flex;
   align-items:center;
   justify-content:center;
-  width:100%;
-  min-height:84px;
-  border-radius:28px;
-  background:#d9c2ff;
-  border:3px solid #caa8ff;
+  padding:0 16px;
+  height:42px;
+  border-radius:999px;
+  background:#efe7ff;
+  border:2px solid #dcc8ff;
+  font-weight:800;
+  font-size:15px;
+  color:#6a45b8;
   text-decoration:none;
-  color:#3f277a;
-  font-size:34px;
-  font-weight:900;
-  box-shadow:0 6px 0 #c39afc;
-}
-
-.next-btn:active{
-  transform:translateY(2px);
-  box-shadow:0 4px 0 #c39afc;
 }
 
 .empty-row{
   display:flex;
   align-items:center;
   justify-content:center;
-  min-height:90px;
+  min-height:72px;
   color:#666;
-  font-size:18px;
+  font-size:15px;
   font-weight:700;
 }
 
@@ -308,55 +251,26 @@ h1{
     font-size:28px;
   }
 
-  .status-row{
-    margin-bottom:14px;
-  }
-
-  .progress-chip{
-    min-height:38px;
-    padding:0 14px;
-    font-size:14px;
-  }
-
   .guide{
     padding:14px 16px;
-    border-radius:18px;
-  }
-
-  .guide-text{
     font-size:14px;
-  }
-
-  .top{
-    grid-template-columns:repeat(4, minmax(0, 1fr));
-    gap:8px;
   }
 
   .filter-btn{
-    min-height:46px;
-    padding:0 6px;
+    height:46px;
     font-size:14px;
     border-radius:14px;
-    letter-spacing:-0.02em;
-  }
-
-  .list-wrap{
-    border-radius:28px;
-    padding:8px 12px;
+    padding:0 4px;
   }
 
   .word-row{
-    display:flex;
-    align-items:center;
-    gap:10px;
     min-height:82px;
-    padding:0 2px;
+    gap:10px;
   }
 
   .check-btn{
     width:28px;
     height:28px;
-    border-width:2px;
     flex:0 0 28px;
   }
 
@@ -365,37 +279,18 @@ h1{
   }
 
   .word-main{
-    flex:1;
-    min-width:0;
-    display:grid;
-    grid-template-columns:minmax(76px, 104px) minmax(0, 1fr);
+    grid-template-columns:minmax(76px,104px) minmax(0,1fr);
     column-gap:10px;
-    align-items:center;
-  }
-
-  .word-box,
-  .meaning-box{
-    min-width:0;
-    width:100%;
-  }
-
-  .meaning-box{
-    overflow:hidden;
   }
 
   .word-text{
     font-size:15px;
     line-height:1.2;
-    word-break:break-word;
   }
 
   .meaning-text{
     font-size:14px;
     line-height:1.28;
-    text-align:left;
-    word-break:keep-all;
-    overflow-wrap:break-word;
-    max-width:100%;
   }
 
   .placeholder{
@@ -409,17 +304,6 @@ h1{
     border-radius:14px;
     flex:0 0 40px;
   }
-
-  .next-btn{
-    min-height:68px;
-    font-size:26px;
-    border-radius:22px;
-  }
-
-  .empty-row{
-    min-height:72px;
-    font-size:15px;
-  }
 }
 
 @media (max-width:430px){
@@ -432,14 +316,14 @@ h1{
   }
 
   .filter-btn{
-    min-height:42px;
+    height:42px;
     font-size:12px;
-    padding:0 4px;
     border-radius:12px;
+    padding:0 2px;
   }
 
   .word-main{
-    grid-template-columns:minmax(70px, 96px) minmax(0, 1fr);
+    grid-template-columns:minmax(70px,96px) minmax(0,1fr);
     column-gap:8px;
   }
 
@@ -451,67 +335,51 @@ h1{
     font-size:14px;
   }
 
-  .placeholder{
-    font-size:12px;
-  }
-
-  .guide-text{
-    font-size:13px;
-  }
-
   .speak-btn{
     width:38px;
     height:38px;
     font-size:17px;
     flex:0 0 38px;
   }
-
-  .progress-chip{
-    font-size:13px;
-  }
 }
 </style>
 </head>
+
 <body>
 
 <div class="page">
 
   <div class="back-row">
-    <a class="back-btn" href="./index.html">교재 전체 목록</a>
+    <a class="back-btn" href="./index.html" aria-label="챕터 목록">‹</a>
   </div>
 
-  <div class="title-row">
-    <h1>Chapter 1 · Unit 1</h1>
-  </div>
+  <h1>Chapter 1 · Unit 1</h1>
 
-  <div class="status-row">
-    <div class="progress-chip" id="progressText">모르는 단어 0 / 0</div>
-  </div>
+  <div class="progress" id="progress"></div>
 
-  <div class="guide">
-    <div class="guide-bulb">💡</div>
-    <div class="guide-text">왼쪽 원을 눌러 모르는 단어를 체크하세요.</div>
-  </div>
+  <div class="guide">💡 모르는 단어를 체크하세요</div>
 
   <div class="top-wrap">
     <div class="top">
-      <button type="button" class="filter-btn active" id="allBtn">전체</button>
-      <button type="button" class="filter-btn" id="unknownBtn">모르는 단어</button>
-      <button type="button" class="filter-btn" id="wordBtn">단어 숨기기</button>
-      <button type="button" class="filter-btn" id="meaningBtn">뜻 숨기기</button>
+      <button class="filter-btn active" id="allBtn" type="button">전체</button>
+      <button class="filter-btn" id="unknownBtn" type="button">모르는 단어</button>
+      <button class="filter-btn" id="wordBtn" type="button">단어 숨기기</button>
+      <button class="filter-btn" id="meaningBtn" type="button">뜻 숨기기</button>
     </div>
   </div>
 
-  <div class="list-wrap" id="listWrap"></div>
+  <div class="list-wrap" id="list"></div>
 
   <div class="bottom-nav">
-    <a class="next-btn" href="./ch1un2.html">다음 Unit →</a>
+    <a class="next-btn" href="./ch1un2.html">다음 unit ›</a>
   </div>
 
 </div>
 
 <script>
-const vocabList = [
+const STORAGE_KEY = "vocab_unknown_ch1un1";
+
+const vocab = [
   ["positive","양성(반응)의"],
   ["cheerful","발랄한, 쾌활한"],
   ["indoors","실내에서, 실내로"],
@@ -544,46 +412,40 @@ const vocabList = [
   ["coop up","가두다"]
 ];
 
-const STORAGE_KEY = "vocab_unknown_ch1un1";
+let unknown = new Set(loadUnknown());
+let filter = "all";
+let mode = "none";
+let revealedWords = new Set();
+let revealedMeanings = new Set();
+let englishVoices = [];
 
-const listWrap = document.getElementById("listWrap");
+const list = document.getElementById("list");
+const progress = document.getElementById("progress");
 const allBtn = document.getElementById("allBtn");
 const unknownBtn = document.getElementById("unknownBtn");
 const wordBtn = document.getElementById("wordBtn");
 const meaningBtn = document.getElementById("meaningBtn");
-const progressText = document.getElementById("progressText");
 
-let currentFilter = "all";
-let hideMode = "none";
-let englishVoices = [];
-
-const unknownSet = new Set(loadUnknownWords());
-const revealedWordSet = new Set();
-const revealedMeaningSet = new Set();
-
-function loadUnknownWords(){
+function loadUnknown(){
   try{
     const saved = localStorage.getItem(STORAGE_KEY);
-    if(!saved) return [];
-    const parsed = JSON.parse(saved);
+    const parsed = JSON.parse(saved || "[]");
     return Array.isArray(parsed) ? parsed : [];
   }catch(e){
     return [];
   }
 }
 
-function saveUnknownWords(){
-  try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([...unknownSet]));
-  }catch(e){}
+function saveUnknown(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify([...unknown]));
 }
 
 function updateProgress(){
-  progressText.textContent = `모르는 단어 ${unknownSet.size} / ${vocabList.length}`;
+  progress.textContent = `모르는 단어 ${unknown.size} / ${vocab.length}`;
 }
 
 function escapeHtml(text){
-  return text
+  return String(text)
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
@@ -591,38 +453,44 @@ function escapeHtml(text){
     .replace(/'/g,"&#39;");
 }
 
-function renderList(){
+function updateButtons(){
+  allBtn.classList.toggle("active", filter === "all");
+  unknownBtn.classList.toggle("active", filter === "unknown");
+  wordBtn.classList.toggle("active", mode === "word");
+  meaningBtn.classList.toggle("active", mode === "meaning");
+}
+
+function resetReveal(){
+  revealedWords.clear();
+  revealedMeanings.clear();
+}
+
+function render(){
   let html = "";
 
-  vocabList.forEach((item, index) => {
+  vocab.forEach((item, i) => {
+    if(filter === "unknown" && !unknown.has(i)) return;
+
     const word = item[0];
     const meaning = item[1];
-    const isUnknown = unknownSet.has(index);
 
-    if(currentFilter === "unknown" && !isUnknown){
-      return;
-    }
+    const wordHtml = mode === "word" && !revealedWords.has(i)
+      ? `<div class="placeholder">탭하여 보기</div>`
+      : `<div class="word-text">${escapeHtml(word)}</div>`;
 
-    let wordHtml = `<div class="word-text">${escapeHtml(word)}</div>`;
-    let meaningHtml = `<div class="meaning-text">${escapeHtml(meaning)}</div>`;
-
-    if(hideMode === "word" && !revealedWordSet.has(index)){
-      wordHtml = `<div class="placeholder">탭하여 보기</div>`;
-    }
-
-    if(hideMode === "meaning" && !revealedMeaningSet.has(index)){
-      meaningHtml = `<div class="placeholder">탭하여 보기</div>`;
-    }
+    const meaningHtml = mode === "meaning" && !revealedMeanings.has(i)
+      ? `<div class="placeholder">탭하여 보기</div>`
+      : `<div class="meaning-text">${escapeHtml(meaning)}</div>`;
 
     html += `
-      <div class="word-row" data-index="${index}">
-        <button type="button" class="check-btn ${isUnknown ? "checked" : ""}" data-check="${index}" aria-label="모르는 단어 체크"></button>
+      <div class="word-row">
+        <button type="button" class="check-btn ${unknown.has(i) ? "checked" : ""}" data-check="${i}" aria-label="모르는 단어 체크"></button>
 
         <div class="word-main">
-          <div class="word-box" data-word-box="${index}">
+          <div class="word-box" data-word="${i}">
             ${wordHtml}
           </div>
-          <div class="meaning-box" data-meaning-box="${index}">
+          <div class="meaning-box" data-meaning="${i}">
             ${meaningHtml}
           </div>
         </div>
@@ -632,122 +500,88 @@ function renderList(){
     `;
   });
 
-  if(html === ""){
+  if(!html){
     html = `<div class="empty-row">체크된 모르는 단어가 없습니다.</div>`;
   }
 
-  listWrap.innerHTML = html;
-  bindEvents();
-  updateActiveButtons();
+  list.innerHTML = html;
   updateProgress();
+  updateButtons();
+  bindEvents();
 }
 
 function bindEvents(){
   document.querySelectorAll("[data-check]").forEach(btn => {
-    btn.addEventListener("click", function(e){
+    btn.onclick = (e) => {
       e.stopPropagation();
-      const index = Number(this.getAttribute("data-check"));
+      const i = Number(btn.dataset.check);
 
-      if(unknownSet.has(index)){
-        unknownSet.delete(index);
-      }else{
-        unknownSet.add(index);
-      }
+      if(unknown.has(i)) unknown.delete(i);
+      else unknown.add(i);
 
-      saveUnknownWords();
-      renderList();
-    });
+      saveUnknown();
+      render();
+    };
   });
 
-  document.querySelectorAll("[data-word-box]").forEach(box => {
-    box.addEventListener("click", function(){
-      const index = Number(this.getAttribute("data-word-box"));
+  document.querySelectorAll("[data-word]").forEach(box => {
+    box.onclick = () => {
+      if(mode !== "word") return;
+      const i = Number(box.dataset.word);
 
-      if(hideMode === "word"){
-        if(revealedWordSet.has(index)){
-          revealedWordSet.delete(index);
-        }else{
-          revealedWordSet.add(index);
-        }
-        renderList();
-      }
-    });
+      if(revealedWords.has(i)) revealedWords.delete(i);
+      else revealedWords.add(i);
+
+      render();
+    };
   });
 
-  document.querySelectorAll("[data-meaning-box]").forEach(box => {
-    box.addEventListener("click", function(){
-      const index = Number(this.getAttribute("data-meaning-box"));
+  document.querySelectorAll("[data-meaning]").forEach(box => {
+    box.onclick = () => {
+      if(mode !== "meaning") return;
+      const i = Number(box.dataset.meaning);
 
-      if(hideMode === "meaning"){
-        if(revealedMeaningSet.has(index)){
-          revealedMeaningSet.delete(index);
-        }else{
-          revealedMeaningSet.add(index);
-        }
-        renderList();
-      }
-    });
+      if(revealedMeanings.has(i)) revealedMeanings.delete(i);
+      else revealedMeanings.add(i);
+
+      render();
+    };
   });
 
   document.querySelectorAll("[data-speak]").forEach(btn => {
-    btn.addEventListener("click", function(e){
+    btn.onclick = (e) => {
       e.stopPropagation();
-      const word = this.getAttribute("data-speak");
-      speakWord(word);
-    });
+      speakWord(btn.dataset.speak);
+    };
   });
 }
 
-function updateActiveButtons(){
-  allBtn.classList.toggle("active", currentFilter === "all");
-  unknownBtn.classList.toggle("active", currentFilter === "unknown");
-  wordBtn.classList.toggle("active", hideMode === "word");
-  meaningBtn.classList.toggle("active", hideMode === "meaning");
-}
+allBtn.onclick = () => {
+  filter = "all";
+  render();
+};
 
-function resetRevealState(){
-  revealedWordSet.clear();
-  revealedMeaningSet.clear();
-}
+unknownBtn.onclick = () => {
+  filter = "unknown";
+  render();
+};
 
-allBtn.addEventListener("click", function(){
-  currentFilter = "all";
-  renderList();
-});
+wordBtn.onclick = () => {
+  mode = mode === "word" ? "none" : "word";
+  resetReveal();
+  render();
+};
 
-unknownBtn.addEventListener("click", function(){
-  currentFilter = "unknown";
-  renderList();
-});
-
-wordBtn.addEventListener("click", function(){
-  if(hideMode === "word"){
-    hideMode = "none";
-  }else{
-    hideMode = "word";
-  }
-  resetRevealState();
-  renderList();
-});
-
-meaningBtn.addEventListener("click", function(){
-  if(hideMode === "meaning"){
-    hideMode = "none";
-  }else{
-    hideMode = "meaning";
-  }
-  resetRevealState();
-  renderList();
-});
+meaningBtn.onclick = () => {
+  mode = mode === "meaning" ? "none" : "meaning";
+  resetReveal();
+  render();
+};
 
 function setBestVoices(){
   if(!("speechSynthesis" in window)) return;
-
   const voices = window.speechSynthesis.getVoices();
-
-  englishVoices = voices.filter(voice =>
-    voice.lang && voice.lang.toLowerCase().startsWith("en")
-  );
+  englishVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith("en"));
 }
 
 function getBestVoice(){
@@ -764,15 +598,12 @@ function getBestVoice(){
     "Microsoft Guy Online"
   ];
 
-  for(const preferred of preferredNames){
-    const found = englishVoices.find(v => v.name.includes(preferred));
+  for(const name of preferredNames){
+    const found = englishVoices.find(v => v.name.includes(name));
     if(found) return found;
   }
 
-  const usVoice = englishVoices.find(v => v.lang.toLowerCase() === "en-us");
-  if(usVoice) return usVoice;
-
-  return englishVoices[0];
+  return englishVoices.find(v => v.lang.toLowerCase() === "en-us") || englishVoices[0];
 }
 
 function speakWord(word){
@@ -805,7 +636,7 @@ if("speechSynthesis" in window){
   window.speechSynthesis.onvoiceschanged = setBestVoices;
 }
 
-renderList();
+render();
 </script>
 
 </body>
