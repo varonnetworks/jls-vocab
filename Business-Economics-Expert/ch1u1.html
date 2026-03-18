@@ -101,8 +101,8 @@ h1{
 }
 
 .top{
-  display:flex;
-  flex-wrap:wrap;
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
   gap:10px;
 }
 
@@ -111,7 +111,7 @@ h1{
   -webkit-appearance:none;
   border:none;
   min-height:56px;
-  padding:0 20px;
+  padding:0 12px;
   border-radius:18px;
   background:#ffffff;
   color:#303030;
@@ -120,6 +120,10 @@ h1{
   cursor:pointer;
   box-shadow:0 4px 10px rgba(0,0,0,0.07);
   border:2px solid #eceaf3;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .filter-btn.active{
@@ -182,15 +186,20 @@ h1{
   flex:1;
   min-width:0;
   display:grid;
-  grid-template-columns:minmax(180px, 280px) minmax(0, 1fr);
+  grid-template-columns:minmax(170px, 240px) minmax(0, 1fr);
   align-items:center;
-  column-gap:36px;
+  column-gap:26px;
 }
 
 .word-box,
 .meaning-box{
   min-width:0;
+  width:100%;
   cursor:pointer;
+}
+
+.meaning-box{
+  overflow:hidden;
 }
 
 .word-text{
@@ -208,6 +217,8 @@ h1{
   color:#4a4a55;
   text-align:left;
   word-break:keep-all;
+  overflow-wrap:break-word;
+  max-width:100%;
 }
 
 .placeholder{
@@ -227,7 +238,7 @@ h1{
   box-shadow:0 4px 10px rgba(0,0,0,0.06);
   cursor:pointer;
   font-size:26px;
-  flex:0 0 auto;
+  flex:0 0 58px;
 }
 
 .bottom-nav{
@@ -255,8 +266,14 @@ h1{
   box-shadow:0 4px 0 #c39afc;
 }
 
-.hidden-row{
-  display:none;
+.empty-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:90px;
+  color:#666;
+  font-size:18px;
+  font-weight:700;
 }
 
 @media (max-width:768px){
@@ -265,7 +282,7 @@ h1{
   }
 
   h1{
-    font-size:30px;
+    font-size:28px;
   }
 
   .guide{
@@ -274,14 +291,20 @@ h1{
   }
 
   .guide-text{
-    font-size:16px;
+    font-size:14px;
+  }
+
+  .top{
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+    gap:8px;
   }
 
   .filter-btn{
-    min-height:50px;
-    padding:0 16px;
-    font-size:16px;
-    border-radius:16px;
+    min-height:46px;
+    padding:0 6px;
+    font-size:14px;
+    border-radius:14px;
+    letter-spacing:-0.02em;
   }
 
   .list-wrap{
@@ -290,48 +313,124 @@ h1{
   }
 
   .word-row{
-    min-height:88px;
-    gap:12px;
-    padding:0 4px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-height:82px;
+    padding:0 2px;
   }
 
   .check-btn{
-    width:30px;
-    height:30px;
+    width:28px;
+    height:28px;
+    border-width:2px;
+    flex:0 0 28px;
   }
 
   .check-btn.checked::after{
-    font-size:18px;
+    font-size:16px;
   }
 
   .word-main{
-    grid-template-columns:minmax(110px, 160px) minmax(0, 1fr);
-    column-gap:18px;
+    flex:1;
+    min-width:0;
+    display:grid;
+    grid-template-columns:minmax(76px, 104px) minmax(0, 1fr);
+    column-gap:10px;
+    align-items:center;
+  }
+
+  .word-box,
+  .meaning-box{
+    min-width:0;
+    width:100%;
+  }
+
+  .meaning-box{
+    overflow:hidden;
   }
 
   .word-text{
-    font-size:18px;
+    font-size:15px;
+    line-height:1.2;
+    word-break:break-word;
   }
 
   .meaning-text{
-    font-size:17px;
+    font-size:14px;
+    line-height:1.28;
+    text-align:left;
+    word-break:keep-all;
+    overflow-wrap:break-word;
+    max-width:100%;
   }
 
   .placeholder{
+    font-size:12px;
+  }
+
+  .speak-btn{
+    width:40px;
+    height:40px;
+    font-size:18px;
+    border-radius:14px;
+    flex:0 0 40px;
+  }
+
+  .next-btn{
+    min-height:68px;
+    font-size:26px;
+    border-radius:22px;
+  }
+
+  .empty-row{
+    min-height:72px;
+    font-size:15px;
+  }
+}
+
+@media (max-width:430px){
+  body{
+    padding:14px;
+  }
+
+  .top{
+    gap:6px;
+  }
+
+  .filter-btn{
+    min-height:42px;
+    font-size:12px;
+    padding:0 4px;
+    border-radius:12px;
+  }
+
+  .word-main{
+    grid-template-columns:minmax(70px, 96px) minmax(0, 1fr);
+    column-gap:8px;
+  }
+
+  .word-text{
+    font-size:15px;
+  }
+
+  .meaning-text{
+    font-size:14px;
+  }
+
+  .placeholder{
+    font-size:12px;
+  }
+
+  .guide-text{
     font-size:13px;
   }
 
   .speak-btn{
-    width:50px;
-    height:50px;
-    font-size:22px;
-    border-radius:16px;
-  }
-
-  .next-btn{
-    min-height:72px;
-    font-size:28px;
-    border-radius:24px;
+    width:38px;
+    height:38px;
+    font-size:17px;
+    flex:0 0 38px;
   }
 }
 </style>
@@ -411,7 +510,7 @@ const wordBtn = document.getElementById("wordBtn");
 const meaningBtn = document.getElementById("meaningBtn");
 
 let currentFilter = "all";
-let hideMode = "none"; // none, word, meaning
+let hideMode = "none";
 
 const unknownSet = new Set();
 const revealedWordSet = new Set();
@@ -467,14 +566,11 @@ function renderList(){
     `;
   });
 
-  listWrap.innerHTML = html || `
-    <div class="word-row">
-      <div class="word-main" style="grid-template-columns:1fr;">
-        <div class="meaning-text">체크된 모르는 단어가 없습니다.</div>
-      </div>
-    </div>
-  `;
+  if(html === ""){
+    html = `<div class="empty-row">체크된 모르는 단어가 없습니다.</div>`;
+  }
 
+  listWrap.innerHTML = html;
   bindEvents();
   updateActiveButtons();
 }
