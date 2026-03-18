@@ -166,7 +166,7 @@ body{
 
 .unit-main{
   display:flex;
-  align-items:flex-start;
+  align-items:center;
   gap:12px;
   min-width:0;
   flex:1;
@@ -181,11 +181,22 @@ body{
 }
 
 .unit-title{
-  font-size:14px;
-  color:#908e8e;
-  line-height:1.4;
-  font-weight:500;
-  word-break:keep-all;
+  flex:1;
+  min-width:0;
+  font-size:11px;
+  color:#aaa8b3;
+  line-height:1.3;
+  font-weight:600;
+  text-align:right;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  padding-right:2px;
+}
+
+.unit-title.has-unknown{
+  color:#7b59d6;
+  font-weight:700;
 }
 
 .unit-arrow{
@@ -258,7 +269,8 @@ body{
   }
 
   .unit-title{
-    font-size:15px;
+    font-size:10px;
+    padding-right:0;
   }
 
   .unit-arrow{
@@ -290,26 +302,26 @@ body{
         </h2>
       </div>
 
-      <a class="unit-item" href="ch1un1.html" data-storage-key="vocab_unknown_ch1un1">
+      <a class="unit-item" href="ch1u1.html" data-storage-key="vocab_unknown_ch1u1">
         <span class="unit-main">
           <span class="unit-number">Unit 1</span>
-          <span class="unit-title">모르는 단어 0개</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch1un2.html" data-storage-key="vocab_unknown_ch1un2">
+      <a class="unit-item" href="ch1u2.html" data-storage-key="vocab_unknown_ch1u2">
         <span class="unit-main">
           <span class="unit-number">Unit 2</span>
-          <span class="unit-title">모르는 단어 0개</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch1un3.html" data-storage-key="vocab_unknown_ch1un3">
+      <a class="unit-item" href="ch1u3.html" data-storage-key="vocab_unknown_ch1u3">
         <span class="unit-main">
           <span class="unit-number">Unit 3</span>
-          <span class="unit-title">모르는 단어 0개</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
@@ -323,26 +335,26 @@ body{
         </h2>
       </div>
 
-      <a class="unit-item" href="ch2un1.html" data-storage-key="vocab_unknown_ch2un1">
+      <a class="unit-item" href="ch2u1.html" data-storage-key="vocab_unknown_ch2u1">
         <span class="unit-main">
           <span class="unit-number">Unit 1</span>
-          <span class="unit-title">모르는 단어 0개</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch2un2.html" data-storage-key="vocab_unknown_ch2un2">
+      <a class="unit-item" href="ch2u2.html" data-storage-key="vocab_unknown_ch2u2">
         <span class="unit-main">
           <span class="unit-number">Unit 2</span>
-          <span class="unit-title">모르는 단어 0개</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch2un3.html" data-storage-key="vocab_unknown_ch2un3">
+      <a class="unit-item" href="ch2u3.html" data-storage-key="vocab_unknown_ch2u3">
         <span class="unit-main">
           <span class="unit-number">Unit 3</span>
-          <span class="unit-title">모르는 단어 0개</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
@@ -356,26 +368,26 @@ body{
         </h2>
       </div>
 
-      <a class="unit-item" href="ch3un1.html" data-storage-key="vocab_unknown_ch3un1">
+      <a class="unit-item" href="ch3u1.html" data-storage-key="vocab_unknown_ch3u1">
         <span class="unit-main">
           <span class="unit-number">Unit 1</span>
-          <span class="unit-title">모르는 단어 0개</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch3un2.html" data-storage-key="vocab_unknown_ch3un2">
+      <a class="unit-item" href="ch3u2.html" data-storage-key="vocab_unknown_ch3u2">
         <span class="unit-main">
           <span class="unit-number">Unit 2</span>
-          <span class="unit-title">모르는 단어 0개</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch3un3.html" data-storage-key="vocab_unknown_ch3un3">
+      <a class="unit-item" href="ch3u3.html" data-storage-key="vocab_unknown_ch3u3">
         <span class="unit-main">
           <span class="unit-number">Unit 3</span>
-          <span class="unit-title">모르는 단어 0개</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
@@ -402,7 +414,14 @@ document.querySelectorAll(".unit-item").forEach(item => {
   if(!storageKey || !titleEl) return;
 
   const count = getUnknownCount(storageKey);
-  titleEl.textContent = count === 0 ? "모르는 단어 없음" : `모르는 단어 ${count}개`;
+
+  if(count > 0){
+    titleEl.textContent = `모르는 단어 ${count}개`;
+    titleEl.classList.add("has-unknown");
+  }else{
+    titleEl.textContent = "모르는 단어 없음";
+    titleEl.classList.remove("has-unknown");
+  }
 });
 </script>
 </body>
