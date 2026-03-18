@@ -90,10 +90,20 @@ body{
   font-size:18px;
   font-weight:700;
   margin-bottom:14px;
+  display:flex;
+  align-items:baseline;
+  gap:6px;
 }
 
 .chapter-number{
-  margin-right:6px; /* 🔥 자동 띄어쓰기 */
+  margin-right:6px;
+  color:#222;
+}
+
+/* 🔥 핵심 수정 (챕터 제목 색) */
+.chapter-name{
+  color:#7F8594;
+  font-weight:600;
 }
 
 .unit-item{
@@ -145,7 +155,8 @@ body{
 <!-- Chapter 1 -->
 <div class="chapter-card chapter-1">
 <div class="chapter-title">
-<span class="chapter-number">Chapter 1</span>World Leaders
+<span class="chapter-number">Chapter 1</span>
+<span class="chapter-name">World Leaders</span>
 </div>
 
 <a class="unit-item" href="ch1un1.html">
@@ -177,7 +188,8 @@ body{
 <!-- Chapter 2 -->
 <div class="chapter-card chapter-2">
 <div class="chapter-title">
-<span class="chapter-number">Chapter 2</span>Medical Pioneers
+<span class="chapter-number">Chapter 2</span>
+<span class="chapter-name">Medical Pioneers</span>
 </div>
 
 <a class="unit-item" href="ch2un1.html">
