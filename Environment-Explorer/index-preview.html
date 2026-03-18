@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Environment Explorer</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial, sans-serif;
+  background:#f5f6fa;
+  padding:24px 16px 40px;
+  margin:0;
+  color:#222;
+}
+
+.container{
+  max-width:820px;
+  margin:0 auto;
+}
+
+.top{
+  margin-bottom:18px;
+}
+
+.btn{
+  display:inline-block;
+  padding:11px 16px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  background:white;
+  text-decoration:none;
+  font-size:14px;
+  color:#222;
+  box-shadow:0 2px 6px rgba(0,0,0,0.04);
+  transition:all 0.18s ease;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 5px 12px rgba(0,0,0,0.08);
+}
+
+.title-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+  flex-wrap:nowrap;
+}
+
+.title-row h1{
+  margin:0;
+  font-size:28px;
+  line-height:1.2;
+  font-weight:700;
+}
+
+.book-badge{
+  flex-shrink:0;
+  min-width:104px;
+  height:38px;
+  padding:0 14px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+  font-weight:700;
+  background:#dff0ff;
+  color:#2d73d6;
+  border:1px solid #b9dbff;
+  margin-left:4px;
+}
+
+.chapter-list{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.chapter-card{
+  background:#fff;
+  border-radius:22px;
+  padding:18px 16px 14px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+  border:3px solid transparent;
+}
+
+.chapter-1{ border-color:#cbe6ff; }
+.chapter-2{ border-color:#a8d4ff; }
+.chapter-3{ border-color:#7ebeff; }
+
+.chapter-head{
+  margin:0 0 14px 2px;
+}
+
+.chapter-title{
+  margin:0;
+  font-size:18px;
+  font-weight:700;
+  line-height:1.35;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:baseline;
+}
+
+/* 🔥 핵심 수정 */
+.chapter-number{
+  color:#222;
+  margin-right:6px;
+}
+
+.chapter-name{
+  color:#6f7785;
+  font-weight:600;
+}
+
+.unit-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  background:#fff;
+  border:1px solid #e6e6ea;
+  border-radius:18px;
+  padding:16px 18px;
+  margin-bottom:10px;
+  text-decoration:none;
+  color:#222;
+  box-shadow:0 3px 10px rgba(0,0,0,0.04);
+  transition:all 0.18s ease;
+}
+
+.unit-item:last-child{
+  margin-bottom:0;
+}
+
+.unit-item:hover{
+  transform:translateY(-1px);
+  box-shadow:0 7px 16px rgba(0,0,0,0.08);
+}
+
+.chapter-1 .unit-item:hover{ border-color:#c7e1ff; }
+.chapter-2 .unit-item:hover{ border-color:#abd5ff; }
+.chapter-3 .unit-item:hover{ border-color:#84c1ff; }
+
+.unit-main{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  min-width:0;
+  flex:1;
+}
+
+.unit-number{
+  font-size:18px;
+  font-weight:700;
+  color:#222;
+  flex-shrink:0;
+  min-width:62px;
+}
+
+.unit-title{
+  font-size:14px;
+  color:#908e8e;
+  line-height:1.4;
+  font-weight:500;
+  word-break:keep-all;
+}
+
+.unit-arrow{
+  flex-shrink:0;
+  font-size:28px;
+  line-height:1;
+  color:#a8a8b3;
+}
+
+@media (max-width:640px){
+  body{
+    padding:18px 12px 28px;
+  }
+
+  .btn{
+    font-size:13px;
+    padding:10px 14px;
+    border-radius:11px;
+  }
+
+  .title-row{
+    align-items:center;
+    gap:8px;
+    flex-wrap:nowrap;
+    margin-bottom:16px;
+  }
+
+  .title-row h1{
+    font-size:22px;
+  }
+
+  .book-badge{
+    min-width:94px;
+    height:34px;
+    font-size:14px;
+    padding:0 12px;
+  }
+
+  .chapter-card{
+    padding:16px 12px 12px;
+    border-radius:20px;
+    border-width:3px;
+  }
+
+  .chapter-title{
+    font-size:18px;
+    gap:6px;
+  }
+
+  .chapter-name{
+    font-size:16px;
+  }
+
+  .unit-item{
+    padding:15px 16px;
+    border-radius:16px;
+  }
+
+  .unit-number{
+    font-size:17px;
+    min-width:58px;
+  }
+
+  .unit-title{
+    font-size:15px;
+  }
+
+  .unit-arrow{
+    font-size:24px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<div class="top">
+<a class="btn" href="../index.html">교재 전체 목록</a>
+</div>
+
+<div class="title-row">
+<h1>Environment</h1>
+<div class="book-badge">Explorer</div>
+</div>
+
+<div class="chapter-list">
+
+<div class="chapter-card chapter-1">
+<div class="chapter-head">
+<h2 class="chapter-title">
+<span class="chapter-number">Chapter 1</span>
+<span class="chapter-name">Why Do We Need Trees?</span>
+</h2>
+</div>
+
+<a class="unit-item" href="ch1un1.html">
+<span class="unit-main">
+<span class="unit-number">Unit 01</span>
+<span class="unit-title">A Walk among the Trees</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
+
+<a class="unit-item" href="ch1un2.html">
+<span class="unit-main">
+<span class="unit-number">Unit 02</span>
+<span class="unit-title">Trees under Attack</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
+
+<a class="unit-item" href="ch1un3.html">
+<span class="unit-main">
+<span class="unit-number">Unit 03</span>
+<span class="unit-title">Plant a Tree, Plant Hope</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
+</div>
+
+<div class="chapter-card chapter-2">
+<div class="chapter-head">
+<h2 class="chapter-title">
+<span class="chapter-number">Chapter 2</span>
+<span class="chapter-name">Water Shortage</span>
+</h2>
+</div>
+
+<a class="unit-item" href="ch2un1.html">
+<span class="unit-main">
+<span class="unit-number">Unit 01</span>
+<span class="unit-title">Water, Water Everywhere</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
+
+<a class="unit-item" href="ch2un2.html">
+<span class="unit-main">
+<span class="unit-number">Unit 02</span>
+<span class="unit-title">What Causes Water Shortages?</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
+
+<a class="unit-item" href="ch2un3.html">
+<span class="unit-main">
+<span class="unit-number">Unit 03</span>
+<span class="unit-title">What Can We Do?</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
+</div>
+
+<div class="chapter-card chapter-3">
+<div class="chapter-head">
+<h2 class="chapter-title">
+<span class="chapter-number">Chapter 3</span>
+<span class="chapter-name">Disappearing Bees</span>
+</h2>
+</div>
+
+<a class="unit-item" href="ch3un1.html">
+<span class="unit-main">
+<span class="unit-number">Unit 01</span>
+<span class="unit-title">Bees as Pollinators</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
+
+<a class="unit-item" href="ch3un2.html">
+<span class="unit-main">
+<span class="unit-number">Unit 02</span>
+<span class="unit-title">Why Are Bees Disappearing?</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
+
+<a class="unit-item" href="ch3un3.html">
+<span class="unit-main">
+<span class="unit-number">Unit 03</span>
+<span class="unit-title">Saving the Bees</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
+
+</div>
+
+</div>
+
+</div>
+</body>
+</html>
