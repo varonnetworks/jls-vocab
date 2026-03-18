@@ -6,9 +6,7 @@
 <title>JLS 활용독해 단어</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
   font-family:Arial, sans-serif;
@@ -18,176 +16,61 @@ body{
   color:#222;
 }
 
-.container{
-  max-width:900px;
-  margin:0 auto;
-}
+.container{max-width:900px;margin:0 auto;}
 
-/* 헤더 */
+.header{display:flex;justify-content:center;align-items:center;gap:14px;margin-bottom:22px;}
+.logo-space{width:48px;height:48px;}
 
-.header{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:14px;
-  margin-bottom:22px;
-}
+h1{margin:0;font-size:24px;font-weight:700;}
 
-.logo-space{
-  width:48px;
-  height:48px;
-}
-
-h1{
-  margin:0;
-  font-size:24px;
-  font-weight:700;
-}
-
-/* 검색 */
-
-.search-box{
-  margin-bottom:18px;
-}
-
+.search-box{margin-bottom:18px;}
 .search-box input{
-  width:100%;
-  padding:14px 18px;
-  border-radius:999px;
-  border:1px solid #eadfcd;
-  font-size:14px;
-  background:#fff;
+  width:100%;padding:14px 18px;border-radius:999px;
+  border:1px solid #eadfcd;font-size:14px;background:#fff;
 }
 
-/* 필터 버튼 */
-
-.filter-tabs{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
-}
+.filter-tabs{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
 
 .filter-btn{
-  width:110px;   /* 👉 크기 줄임 */
-  height:36px;
-  border:none;
-  border-radius:999px;
-  font-size:13px;
-  font-weight:600;
-  cursor:pointer;
+  width:110px;height:36px;border:none;border-radius:999px;
+  font-size:13px;font-weight:600;cursor:pointer;
 }
 
-/* All = 주황 */
+.filter-btn[data-level="all"]{background:#ff8a3d;color:#fff;}
 
-.filter-btn[data-level="all"]{
-  background:#ff8a3d;
-  color:#fff;
-}
+/* 더 밝은 노랑으로 수정 */
+.filter-btn[data-level="foundation"]{background:#ffe58f;color:#5a4a00;}
 
-/* Foundation = 노랑 */
+.filter-btn[data-level="explorer"]{background:#e5f1ff;color:#2d73d6;}
 
-.filter-btn[data-level="foundation"]{
-  background:#f6d873;
-  color:#5a4a00;
-}
+.filter-btn[data-level="expert"]{background:#ede4ff;color:#5b3cc4;}
 
-/* Explorer = 하늘 */
-
-.filter-btn[data-level="explorer"]{
-  background:#e5f1ff;
-  color:#2d73d6;
-}
-
-/* Expert = 보라 (단색) */
-
-.filter-btn[data-level="expert"]{
-  background:#ede4ff;
-  color:#5b3cc4;
-}
-
-/* 카드 */
-
-.grid{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
+.grid{display:flex;flex-direction:column;gap:14px;}
 
 .card{
-  background:#fff;
-  border-radius:18px;
-  padding:12px;
-  border:1px solid #eee3d1;
-  display:flex;
-  align-items:center;
-  gap:14px;
-  text-decoration:none;
-  color:#222;
+  background:#fff;border-radius:18px;padding:12px;
+  border:1px solid #eee3d1;display:flex;align-items:center;
+  gap:14px;text-decoration:none;color:#222;
 }
 
-.card img{
-  width:84px;
-  height:84px;
-  border-radius:12px;
-  object-fit:cover;
-}
+.card img{width:84px;height:84px;border-radius:12px;object-fit:cover;}
+.card-text{flex:1;}
 
-.card-text{
-  flex:1;
-}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
 
-.card-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  margin-bottom:6px;
-}
-
-.title{
-  font-size:16px;
-  font-weight:700;
-}
-
-/* 배지 (오른쪽) */
+.title{font-size:16px;font-weight:700;}
 
 .badge{
-  width:110px;
-  height:32px;
-  border-radius:999px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:11px;
-  font-weight:600;
+  width:110px;height:32px;border-radius:999px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:600; /* 글자 키움 */
 }
 
-/* Foundation */
+.badge.foundation{background:#ffe58f;color:#5a4a00;}
+.badge.explorer{background:#e5f1ff;color:#2d73d6;}
+.badge.expert{background:#ede4ff;color:#5b3cc4;}
 
-.badge.foundation{
-  background:#f6d873;
-  color:#5a4a00;
-}
-
-/* Explorer */
-
-.badge.explorer{
-  background:#e5f1ff;
-  color:#2d73d6;
-}
-
-/* Expert */
-
-.badge.expert{
-  background:#ede4ff;
-  color:#5b3cc4;
-}
-
-.desc{
-  font-size:13px;
-  color:#777;
-}
+.desc{font-size:13px;color:#777;}
 </style>
 </head>
 
@@ -212,73 +95,74 @@ h1{
 
 <div class="grid" id="grid">
 
-<!-- 기존 카드 그대로 유지 (이미지/경로 절대 안건드림) -->
+<!-- 전체 교재 복구 -->
 
 <a class="card" data-name="art architecture foundation" data-level="foundation" href="./art-architecture-foundation/index.html">
 <img src="./images/Art-Architecture-Foundation.png">
-<div class="card-text">
-<div class="card-top">
-<div class="title">Art & Architecture</div>
-<div class="badge foundation">Foundation</div>
-</div>
-<div class="desc">Foundation vocabulary</div>
-</div>
-</a>
+<div class="card-text"><div class="card-top"><div class="title">Art & Architecture</div><div class="badge foundation">Foundation</div></div><div class="desc">Foundation vocabulary</div></div></a>
 
 <a class="card" data-name="business economics expert" data-level="expert" href="./Business-Economics-Expert/index.html">
 <img src="./images/Business-Economics-Expert.jpg">
-<div class="card-text">
-<div class="card-top">
-<div class="title">Business & Economics</div>
-<div class="badge expert">Expert</div>
-</div>
-<div class="desc">Expert vocabulary</div>
-</div>
-</a>
+<div class="card-text"><div class="card-top"><div class="title">Business & Economics</div><div class="badge expert">Expert</div></div><div class="desc">Expert vocabulary</div></div></a>
+
+<a class="card" data-name="careers inspiring people foundation" data-level="foundation" href="./Careers-Inspiring-People-Foundation/index.html">
+<img src="./images/Careers-Inspiring-People-Foundation.png">
+<div class="card-text"><div class="card-top"><div class="title">Careers & Inspiring People</div><div class="badge foundation">Foundation</div></div><div class="desc">Foundation vocabulary</div></div></a>
+
+<a class="card" data-name="education career expert" data-level="expert" href="./Education-Career-Expert/index.html">
+<img src="./images/Education-Career-Expert.jpg">
+<div class="card-text"><div class="card-top"><div class="title">Education & Career</div><div class="badge expert">Expert</div></div><div class="desc">Expert vocabulary</div></div></a>
 
 <a class="card" data-name="education career explorer" data-level="explorer" href="./Education-Career-Explorer/index.html">
 <img src="./images/EducationCareer-Explorer.jpg">
-<div class="card-text">
-<div class="card-top">
-<div class="title">Education & Career</div>
-<div class="badge explorer">Explorer</div>
-</div>
-<div class="desc">Explorer vocabulary</div>
-</div>
-</a>
+<div class="card-text"><div class="card-top"><div class="title">Education & Career</div><div class="badge explorer">Explorer</div></div><div class="desc">Explorer vocabulary</div></div></a>
+
+<a class="card" data-name="environment expert" data-level="expert" href="./Environment-Expert/index.html">
+<img src="./images/environment-expert.jpg">
+<div class="card-text"><div class="card-top"><div class="title">Environment</div><div class="badge expert">Expert</div></div><div class="desc">Expert vocabulary</div></div></a>
+
+<a class="card" data-name="environment explorer" data-level="explorer" href="./Environment-Explorer/index.html">
+<img src="./images/Environment-Explorer.jpg">
+<div class="card-text"><div class="card-top"><div class="title">Environment</div><div class="badge explorer">Explorer</div></div><div class="desc">Explorer vocabulary</div></div></a>
+
+<a class="card" data-name="global affairs explorer" data-level="explorer" href="./Global-Affairs-Explorer/index.html">
+<img src="./images/Global-Affairs-Explorer.jpg">
+<div class="card-text"><div class="card-top"><div class="title">Global Affairs</div><div class="badge explorer">Explorer</div></div><div class="desc">Explorer vocabulary</div></div></a>
+
+<a class="card" data-name="health hobbies foundation" data-level="foundation" href="./Health-Hobbies-Foundation/index.html">
+<img src="./images/Health-Hobbies-Foundation.png">
+<div class="card-text"><div class="card-top"><div class="title">Health & Hobbies</div><div class="badge foundation">Foundation</div></div><div class="desc">Foundation vocabulary</div></div></a>
+
+<a class="card" data-name="historical figures expert" data-level="expert" href="./Historical-Figures-Expert/index.html">
+<img src="./images/Historical-Figures-Expert.jpg">
+<div class="card-text"><div class="card-top"><div class="title">Historical Figures</div><div class="badge expert">Expert</div></div><div class="desc">Expert vocabulary</div></div></a>
+
+<a class="card" data-name="money charity foundation" data-level="foundation" href="./Money-Charity-Foundation/index.html">
+<img src="./images/Money-Charity-Foundation.png">
+<div class="card-text"><div class="card-top"><div class="title">Money & Charity</div><div class="badge foundation">Foundation</div></div><div class="desc">Foundation vocabulary</div></div></a>
+
+<a class="card" data-name="pollution environmental technology foundation" data-level="foundation" href="./Pollution-Environmental-Technology-Foundation/index.html">
+<img src="./images/Pollution-Environmental-Technology-Foundation.png">
+<div class="card-text"><div class="card-top"><div class="title">Pollution & Environmental Technology</div><div class="badge foundation">Foundation</div></div><div class="desc">Foundation vocabulary</div></div></a>
+
+<a class="card" data-name="science technology explorer" data-level="explorer" href="./Science-Technology-Explorer/index.html">
+<img src="./images/Science-Technology-Explorer.jpg">
+<div class="card-text"><div class="card-top"><div class="title">Science & Technology</div><div class="badge explorer">Explorer</div></div><div class="desc">Explorer vocabulary</div></div></a>
+
+<a class="card" data-name="social issue explorer" data-level="explorer" href="./Social-Issue-Explorer/index.html">
+<img src="./images/Social-Issues-Explorer.jpg">
+<div class="card-text"><div class="card-top"><div class="title">Social Issue</div><div class="badge explorer">Explorer</div></div><div class="desc">Explorer vocabulary</div></div></a>
+
+<a class="card" data-name="the world of arts explorer" data-level="explorer" href="./The-World-of-Arts-Explorer/index.html">
+<img src="./images/The-World-of-Art-Explorer.png">
+<div class="card-text"><div class="card-top"><div class="title">The World of Arts</div><div class="badge explorer">Explorer</div></div><div class="desc">Explorer vocabulary</div></div></a>
+
+<a class="card" data-name="travel communication foundation" data-level="foundation" href="./Travel-Communication-Foundation/index.html">
+<img src="./images/Travel-Communication-Foundation.png">
+<div class="card-text"><div class="card-top"><div class="title">Travel & Communication</div><div class="badge foundation">Foundation</div></div><div class="desc">Foundation vocabulary</div></div></a>
 
 </div>
 
-<script>
-const search = document.getElementById("search");
-const cards = document.querySelectorAll(".card");
-const buttons = document.querySelectorAll(".filter-btn");
-
-let current = "all";
-
-function update(){
-  const val = search.value.toLowerCase();
-
-  cards.forEach(card=>{
-    const name = card.dataset.name;
-    const level = card.dataset.level;
-
-    const matchText = name.includes(val);
-    const matchLevel = current==="all" || level===current;
-
-    card.style.display = (matchText && matchLevel) ? "flex" : "none";
-  });
-}
-
-search.addEventListener("input", update);
-
-buttons.forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    current = btn.dataset.level;
-    update();
-  });
-});
-</script>
-
+</div>
 </body>
 </html>
