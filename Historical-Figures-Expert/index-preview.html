@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historical Figures Expert</title>
+
+<style>
+*{ box-sizing:border-box; }
+
+body{
+  font-family:Arial, sans-serif;
+  background:#f5f6fa;
+  padding:24px 16px 40px;
+  margin:0;
+  color:#222;
+}
+
+.container{
+  max-width:820px;
+  margin:0 auto;
+}
+
+.top{ margin-bottom:18px; }
+
+.btn{
+  display:inline-block;
+  padding:11px 16px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  background:white;
+  text-decoration:none;
+  font-size:14px;
+  color:#222;
+  box-shadow:0 2px 6px rgba(0,0,0,0.04);
+  transition:all 0.18s ease;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 5px 12px rgba(0,0,0,0.08);
+}
+
+.title-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.title-row h1{
+  margin:0;
+  font-size:28px;
+  font-weight:700;
+}
+
+.book-badge{
+  min-width:102px;
+  height:38px;
+  padding:0 14px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+  font-weight:700;
+  background:#ede4ff;
+  color:#5b3cc4;
+  border:1px solid #d7c5ff;
+}
+
+.chapter-list{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.chapter-card{
+  background:#fff;
+  border-radius:22px;
+  padding:18px 16px 14px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+  border:3px solid transparent;
+}
+
+.chapter-1{ border-color:#cab4ff; }
+.chapter-2{ border-color:#b58cff; }
+
+.chapter-title{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:14px;
+}
+
+.chapter-number{
+  margin-right:6px; /* 🔥 자동 띄어쓰기 */
+}
+
+.unit-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 18px;
+  border-radius:18px;
+  border:1px solid #e6e6ea;
+  margin-bottom:10px;
+  text-decoration:none;
+  color:#222;
+}
+
+.unit-main{
+  display:flex;
+  gap:12px;
+}
+
+.unit-number{
+  font-weight:700;
+}
+
+.unit-title{
+  color:#908e8e;
+}
+
+.unit-arrow{
+  font-size:26px;
+  color:#aaa;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<div class="top">
+<a class="btn" href="../index.html">교재 전체 목록</a>
+</div>
+
+<div class="title-row">
+<h1>Historical Figures</h1>
+<div class="book-badge">Expert</div>
+</div>
+
+<div class="chapter-list">
+
+<!-- Chapter 1 -->
+<div class="chapter-card chapter-1">
+<div class="chapter-title">
+<span class="chapter-number">Chapter 1</span>World Leaders
+</div>
+
+<a class="unit-item" href="ch1un1.html">
+<div class="unit-main">
+<span class="unit-number">Unit 01</span>
+<span class="unit-title">Benjamin Franklin</span>
+</div>
+<span class="unit-arrow">›</span>
+</a>
+
+<a class="unit-item" href="ch1un2.html">
+<div class="unit-main">
+<span class="unit-number">Unit 02</span>
+<span class="unit-title">Winston Churchill</span>
+</div>
+<span class="unit-arrow">›</span>
+</a>
+
+<a class="unit-item" href="ch1un3.html">
+<div class="unit-main">
+<span class="unit-number">Unit 03</span>
+<span class="unit-title">Nelson Mandela</span>
+</div>
+<span class="unit-arrow">›</span>
+</a>
+
+</div>
+
+<!-- Chapter 2 -->
+<div class="chapter-card chapter-2">
+<div class="chapter-title">
+<span class="chapter-number">Chapter 2</span>Medical Pioneers
+</div>
+
+<a class="unit-item" href="ch2un1.html">
+<div class="unit-main">
+<span class="unit-number">Unit 01</span>
+<span class="unit-title">In Search of a Better Antibiotic</span>
+</div>
+<span class="unit-arrow">›</span>
+</a>
+
+<a class="unit-item" href="ch2un2.html">
+<div class="unit-main">
+<span class="unit-number">Unit 02</span>
+<span class="unit-title">Edward Jenner: The Father of Smallpox Vaccination</span>
+</div>
+<span class="unit-arrow">›</span>
+</a>
+
+<a class="unit-item" href="ch2un3.html">
+<div class="unit-main">
+<span class="unit-number">Unit 03</span>
+<span class="unit-title">Is Sigmund Freud Relevant Today?</span>
+</div>
+<span class="unit-arrow">›</span>
+</a>
+
+</div>
+
+</div>
+
+</div>
+</body>
+</html>
