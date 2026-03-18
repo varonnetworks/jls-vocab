@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 1 Unit 1</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html, body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f5f6fa;
+  color:#202124;
+  padding:20px;
+}
+
+.page{
+  max-width:860px;
+  margin:0 auto;
+}
+
+.back-row{
+  margin-bottom:18px;
+}
+
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:52px;
+  padding:0 22px;
+  border-radius:20px;
+  border:2px solid #dedee6;
+  background:#fff;
+  color:#333;
+  text-decoration:none;
+  font-size:16px;
+  font-weight:700;
+  box-shadow:0 2px 6px rgba(0,0,0,0.03);
+}
+
+.title-row{
+  margin-bottom:16px;
+}
+
+h1{
+  margin:0;
+  font-size:44px;
+  line-height:1.12;
+  font-weight:800;
+  letter-spacing:-0.02em;
+}
+
+.guide{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#ffffff;
+  border:2px solid #eceaf3;
+  border-radius:22px;
+  padding:18px 20px;
+  margin-bottom:18px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.03);
+}
+
+.guide-bulb{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#f3e7a3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  flex:0 0 auto;
+}
+
+.guide-text{
+  font-size:19px;
+  font-weight:800;
+  color:#303030;
+  line-height:1.4;
+  word-break:keep-all;
+}
+
+.top-wrap{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:#f5f6fa;
+  padding:8px 0 16px 0;
+  margin-bottom:14px;
+}
+
+.top{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.filter-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  border:none;
+  min-height:56px;
+  padding:0 20px;
+  border-radius:18px;
+  background:#ffffff;
+  color:#303030;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.07);
+  border:2px solid #eceaf3;
+}
+
+.filter-btn.active{
+  background:#d9c2ff;
+  border-color:#c9a9ff;
+  color:#4d2ea8;
+}
+
+.list-wrap{
+  background:#ffffff;
+  border:4px solid #d7b9ff;
+  border-radius:34px;
+  padding:12px 18px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.04);
+}
+
+.word-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  min-height:96px;
+  padding:0 8px;
+  border-bottom:1px solid #ececf2;
+}
+
+.word-row:last-child{
+  border-bottom:none;
+}
+
+.check-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:3px solid #c9c9d2;
+  background:#fff;
+  cursor:pointer;
+  position:relative;
+  flex:0 0 auto;
+}
+
+.check-btn.checked{
+  background:#d9c2ff;
+  border-color:#d9c2ff;
+}
+
+.check-btn.checked::after{
+  content:"✓";
+  position:absolute;
+  left:50%;
+  top:48%;
+  transform:translate(-50%,-50%);
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+}
+
+.word-main{
+  flex:1;
+  min-width:0;
+  display:grid;
+  grid-template-columns:minmax(180px, 280px) minmax(0, 1fr);
+  align-items:center;
+  column-gap:36px;
+}
+
+.word-box,
+.meaning-box{
+  min-width:0;
+  cursor:pointer;
+}
+
+.word-text{
+  font-size:22px;
+  line-height:1.25;
+  font-weight:800;
+  color:#202124;
+  word-break:break-word;
+}
+
+.meaning-text{
+  font-size:20px;
+  line-height:1.35;
+  font-weight:700;
+  color:#4a4a55;
+  text-align:left;
+  word-break:keep-all;
+}
+
+.placeholder{
+  font-size:15px;
+  color:#b7b7c3;
+  font-weight:700;
+}
+
+.speak-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  border:none;
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  background:#f7f7fb;
+  box-shadow:0 4px 10px rgba(0,0,0,0.06);
+  cursor:pointer;
+  font-size:26px;
+  flex:0 0 auto;
+}
+
+.bottom-nav{
+  margin-top:24px;
+}
+
+.next-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:84px;
+  border-radius:28px;
+  background:#d9c2ff;
+  border:3px solid #caa8ff;
+  text-decoration:none;
+  color:#3f277a;
+  font-size:34px;
+  font-weight:900;
+  box-shadow:0 6px 0 #c39afc;
+}
+
+.next-btn:active{
+  transform:translateY(2px);
+  box-shadow:0 4px 0 #c39afc;
+}
+
+.hidden-row{
+  display:none;
+}
+
+@media (max-width:768px){
+  body{
+    padding:16px;
+  }
+
+  h1{
+    font-size:30px;
+  }
+
+  .guide{
+    padding:14px 16px;
+    border-radius:18px;
+  }
+
+  .guide-text{
+    font-size:16px;
+  }
+
+  .filter-btn{
+    min-height:50px;
+    padding:0 16px;
+    font-size:16px;
+    border-radius:16px;
+  }
+
+  .list-wrap{
+    border-radius:28px;
+    padding:8px 12px;
+  }
+
+  .word-row{
+    min-height:88px;
+    gap:12px;
+    padding:0 4px;
+  }
+
+  .check-btn{
+    width:30px;
+    height:30px;
+  }
+
+  .check-btn.checked::after{
+    font-size:18px;
+  }
+
+  .word-main{
+    grid-template-columns:minmax(110px, 160px) minmax(0, 1fr);
+    column-gap:18px;
+  }
+
+  .word-text{
+    font-size:18px;
+  }
+
+  .meaning-text{
+    font-size:17px;
+  }
+
+  .placeholder{
+    font-size:13px;
+  }
+
+  .speak-btn{
+    width:50px;
+    height:50px;
+    font-size:22px;
+    border-radius:16px;
+  }
+
+  .next-btn{
+    min-height:72px;
+    font-size:28px;
+    border-radius:24px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="back-row">
+    <a class="back-btn" href="./index.html">교재 전체 목록</a>
+  </div>
+
+  <div class="title-row">
+    <h1>Chapter 1 · Unit 1</h1>
+  </div>
+
+  <div class="guide">
+    <div class="guide-bulb">💡</div>
+    <div class="guide-text">왼쪽 원을 눌러 모르는 단어를 체크하세요.</div>
+  </div>
+
+  <div class="top-wrap">
+    <div class="top">
+      <button type="button" class="filter-btn active" id="allBtn">전체</button>
+      <button type="button" class="filter-btn" id="unknownBtn">모르는 단어</button>
+      <button type="button" class="filter-btn" id="wordBtn">단어 숨기기</button>
+      <button type="button" class="filter-btn" id="meaningBtn">뜻 숨기기</button>
+    </div>
+  </div>
+
+  <div class="list-wrap" id="listWrap"></div>
+
+  <div class="bottom-nav">
+    <a class="next-btn" href="./ch1un2.html">다음 Unit →</a>
+  </div>
+
+</div>
+
+<script>
+const vocabList = [
+  ["positive","양성(반응)의"],
+  ["cheerful","발랄한, 쾌활한"],
+  ["indoors","실내에서, 실내로"],
+  ["achy","아픈"],
+  ["lockdown","제재"],
+  ["landscaping","조경"],
+  ["pace","속도"],
+  ["pandemic","전국적인 유행병"],
+  ["virtual","가상의"],
+  ["carefree","근심 걱정 없는"],
+  ["self-isolate","자가 격리하다"],
+  ["pharmacy","약국"],
+  ["attorney","변호사, 대리인"],
+  ["grateful","고마워하는, 감사하는"],
+  ["remote","외진, 외딴"],
+  ["cough","기침"],
+  ["rare","드문, 진귀한"],
+  ["recover","회복되다, 되찾다"],
+  ["fortunate","운 좋은, 다행한"],
+  ["vacation","방학"],
+  ["depression","우울증"],
+  ["therapist","치료사"],
+  ["strategy","전략"],
+  ["client","의뢰인"],
+  ["maintain","유지하다"],
+  ["novelty","참신함"],
+  ["principal","학장, 총장"],
+  ["encourage","격려하다, 권장하다"],
+  ["several","몇의"],
+  ["coop up","가두다"]
+];
+
+const listWrap = document.getElementById("listWrap");
+const allBtn = document.getElementById("allBtn");
+const unknownBtn = document.getElementById("unknownBtn");
+const wordBtn = document.getElementById("wordBtn");
+const meaningBtn = document.getElementById("meaningBtn");
+
+let currentFilter = "all";
+let hideMode = "none"; // none, word, meaning
+
+const unknownSet = new Set();
+const revealedWordSet = new Set();
+const revealedMeaningSet = new Set();
+
+function escapeHtml(text){
+  return text
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+
+function renderList(){
+  let html = "";
+
+  vocabList.forEach((item, index) => {
+    const word = item[0];
+    const meaning = item[1];
+    const isUnknown = unknownSet.has(index);
+
+    if(currentFilter === "unknown" && !isUnknown){
+      return;
+    }
+
+    let wordHtml = `<div class="word-text">${escapeHtml(word)}</div>`;
+    let meaningHtml = `<div class="meaning-text">${escapeHtml(meaning)}</div>`;
+
+    if(hideMode === "word" && !revealedWordSet.has(index)){
+      wordHtml = `<div class="placeholder">탭하여 보기</div>`;
+    }
+
+    if(hideMode === "meaning" && !revealedMeaningSet.has(index)){
+      meaningHtml = `<div class="placeholder">탭하여 보기</div>`;
+    }
+
+    html += `
+      <div class="word-row" data-index="${index}">
+        <button type="button" class="check-btn ${isUnknown ? "checked" : ""}" data-check="${index}"></button>
+
+        <div class="word-main">
+          <div class="word-box" data-word-box="${index}">
+            ${wordHtml}
+          </div>
+          <div class="meaning-box" data-meaning-box="${index}">
+            ${meaningHtml}
+          </div>
+        </div>
+
+        <button type="button" class="speak-btn" data-speak="${escapeHtml(word)}">🔊</button>
+      </div>
+    `;
+  });
+
+  listWrap.innerHTML = html || `
+    <div class="word-row">
+      <div class="word-main" style="grid-template-columns:1fr;">
+        <div class="meaning-text">체크된 모르는 단어가 없습니다.</div>
+      </div>
+    </div>
+  `;
+
+  bindEvents();
+  updateActiveButtons();
+}
+
+function bindEvents(){
+  document.querySelectorAll("[data-check]").forEach(btn => {
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      const index = Number(this.getAttribute("data-check"));
+
+      if(unknownSet.has(index)){
+        unknownSet.delete(index);
+      }else{
+        unknownSet.add(index);
+      }
+
+      renderList();
+    });
+  });
+
+  document.querySelectorAll("[data-word-box]").forEach(box => {
+    box.addEventListener("click", function(){
+      const index = Number(this.getAttribute("data-word-box"));
+
+      if(hideMode === "word"){
+        if(revealedWordSet.has(index)){
+          revealedWordSet.delete(index);
+        }else{
+          revealedWordSet.add(index);
+        }
+        renderList();
+      }
+    });
+  });
+
+  document.querySelectorAll("[data-meaning-box]").forEach(box => {
+    box.addEventListener("click", function(){
+      const index = Number(this.getAttribute("data-meaning-box"));
+
+      if(hideMode === "meaning"){
+        if(revealedMeaningSet.has(index)){
+          revealedMeaningSet.delete(index);
+        }else{
+          revealedMeaningSet.add(index);
+        }
+        renderList();
+      }
+    });
+  });
+
+  document.querySelectorAll("[data-speak]").forEach(btn => {
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      const word = this.getAttribute("data-speak");
+      speakWord(word);
+    });
+  });
+}
+
+function updateActiveButtons(){
+  allBtn.classList.toggle("active", currentFilter === "all");
+  unknownBtn.classList.toggle("active", currentFilter === "unknown");
+  wordBtn.classList.toggle("active", hideMode === "word");
+  meaningBtn.classList.toggle("active", hideMode === "meaning");
+}
+
+function resetRevealState(){
+  revealedWordSet.clear();
+  revealedMeaningSet.clear();
+}
+
+allBtn.addEventListener("click", function(){
+  currentFilter = "all";
+  renderList();
+});
+
+unknownBtn.addEventListener("click", function(){
+  currentFilter = "unknown";
+  renderList();
+});
+
+wordBtn.addEventListener("click", function(){
+  if(hideMode === "word"){
+    hideMode = "none";
+  }else{
+    hideMode = "word";
+  }
+  resetRevealState();
+  renderList();
+});
+
+meaningBtn.addEventListener("click", function(){
+  if(hideMode === "meaning"){
+    hideMode = "none";
+  }else{
+    hideMode = "meaning";
+  }
+  resetRevealState();
+  renderList();
+});
+
+function speakWord(word){
+  if(!("speechSynthesis" in window)){
+    alert("이 브라우저에서는 음성 기능을 지원하지 않습니다.");
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-US";
+  utterance.rate = 0.95;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+
+  setTimeout(() => {
+    window.speechSynthesis.speak(utterance);
+  }, 60);
+}
+
+renderList();
+</script>
+
+</body>
+</html>
