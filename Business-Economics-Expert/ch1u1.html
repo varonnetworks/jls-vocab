@@ -48,7 +48,7 @@ body{
 }
 
 .title-row{
-  margin-bottom:16px;
+  margin-bottom:14px;
 }
 
 h1{
@@ -57,6 +57,29 @@ h1{
   line-height:1.12;
   font-weight:800;
   letter-spacing:-0.02em;
+}
+
+.status-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+
+.progress-chip{
+  display:inline-flex;
+  align-items:center;
+  min-height:42px;
+  padding:0 16px;
+  border-radius:999px;
+  background:#ffffff;
+  border:2px solid #eceaf3;
+  color:#5a4b7d;
+  font-size:16px;
+  font-weight:800;
+  box-shadow:0 2px 8px rgba(0,0,0,0.03);
 }
 
 .guide{
@@ -285,6 +308,16 @@ h1{
     font-size:28px;
   }
 
+  .status-row{
+    margin-bottom:14px;
+  }
+
+  .progress-chip{
+    min-height:38px;
+    padding:0 14px;
+    font-size:14px;
+  }
+
   .guide{
     padding:14px 16px;
     border-radius:18px;
@@ -432,6 +465,10 @@ h1{
     font-size:17px;
     flex:0 0 38px;
   }
+
+  .progress-chip{
+    font-size:13px;
+  }
 }
 </style>
 </head>
@@ -445,6 +482,10 @@ h1{
 
   <div class="title-row">
     <h1>Chapter 1 · Unit 1</h1>
+  </div>
+
+  <div class="status-row">
+    <div class="progress-chip" id="progressText">모르는 단어 0 / 0</div>
   </div>
 
   <div class="guide">
@@ -503,18 +544,43 @@ const vocabList = [
   ["coop up","가두다"]
 ];
 
+const STORAGE_KEY = "vocab_unknown_ch1un1";
+
 const listWrap = document.getElementById("listWrap");
 const allBtn = document.getElementById("allBtn");
 const unknownBtn = document.getElementById("unknownBtn");
 const wordBtn = document.getElementById("wordBtn");
 const meaningBtn = document.getElementById("meaningBtn");
+const progressText = document.getElementById("progressText");
 
 let currentFilter = "all";
 let hideMode = "none";
+let englishVoices = [];
 
-const unknownSet = new Set();
+const unknownSet = new Set(loadUnknownWords());
 const revealedWordSet = new Set();
 const revealedMeaningSet = new Set();
+
+function loadUnknownWords(){
+  try{
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(!saved) return [];
+    const parsed = JSON.parse(saved);
+    return Array.isArray(parsed) ? parsed : [];
+  }catch(e){
+    return [];
+  }
+}
+
+function saveUnknownWords(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...unknownSet]));
+  }catch(e){}
+}
+
+function updateProgress(){
+  progressText.textContent = `모르는 단어 ${unknownSet.size} / ${vocabList.length}`;
+}
 
 function escapeHtml(text){
   return text
@@ -550,7 +616,7 @@ function renderList(){
 
     html += `
       <div class="word-row" data-index="${index}">
-        <button type="button" class="check-btn ${isUnknown ? "checked" : ""}" data-check="${index}"></button>
+        <button type="button" class="check-btn ${isUnknown ? "checked" : ""}" data-check="${index}" aria-label="모르는 단어 체크"></button>
 
         <div class="word-main">
           <div class="word-box" data-word-box="${index}">
@@ -561,7 +627,7 @@ function renderList(){
           </div>
         </div>
 
-        <button type="button" class="speak-btn" data-speak="${escapeHtml(word)}">🔊</button>
+        <button type="button" class="speak-btn" data-speak="${escapeHtml(word)}" aria-label="발음 듣기">🔊</button>
       </div>
     `;
   });
@@ -573,6 +639,7 @@ function renderList(){
   listWrap.innerHTML = html;
   bindEvents();
   updateActiveButtons();
+  updateProgress();
 }
 
 function bindEvents(){
@@ -587,6 +654,7 @@ function bindEvents(){
         unknownSet.add(index);
       }
 
+      saveUnknownWords();
       renderList();
     });
   });
@@ -672,6 +740,41 @@ meaningBtn.addEventListener("click", function(){
   renderList();
 });
 
+function setBestVoices(){
+  if(!("speechSynthesis" in window)) return;
+
+  const voices = window.speechSynthesis.getVoices();
+
+  englishVoices = voices.filter(voice =>
+    voice.lang && voice.lang.toLowerCase().startsWith("en")
+  );
+}
+
+function getBestVoice(){
+  if(!englishVoices.length) return null;
+
+  const preferredNames = [
+    "Samantha",
+    "Daniel",
+    "Alex",
+    "Karen",
+    "Google US English",
+    "Microsoft Aria Online",
+    "Microsoft Jenny Online",
+    "Microsoft Guy Online"
+  ];
+
+  for(const preferred of preferredNames){
+    const found = englishVoices.find(v => v.name.includes(preferred));
+    if(found) return found;
+  }
+
+  const usVoice = englishVoices.find(v => v.lang.toLowerCase() === "en-us");
+  if(usVoice) return usVoice;
+
+  return englishVoices[0];
+}
+
 function speakWord(word){
   if(!("speechSynthesis" in window)){
     alert("이 브라우저에서는 음성 기능을 지원하지 않습니다.");
@@ -686,9 +789,20 @@ function speakWord(word){
   utterance.pitch = 1;
   utterance.volume = 1;
 
+  const bestVoice = getBestVoice();
+  if(bestVoice){
+    utterance.voice = bestVoice;
+    utterance.lang = bestVoice.lang;
+  }
+
   setTimeout(() => {
     window.speechSynthesis.speak(utterance);
   }, 60);
+}
+
+if("speechSynthesis" in window){
+  setBestVoices();
+  window.speechSynthesis.onvoiceschanged = setBestVoices;
 }
 
 renderList();
