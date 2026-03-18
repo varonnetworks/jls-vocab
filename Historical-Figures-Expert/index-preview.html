@@ -169,9 +169,10 @@ body{
   font-size:18px;
   font-weight:700;
   color:#222;
-  flex-shrink:0;
-  min-width:110px;
+  flex:0 0 86px;
+  width:86px;
   white-space:nowrap;
+  line-height:1.25;
 }
 
 .unit-title{
@@ -179,7 +180,8 @@ body{
   color:#908e8e;
   line-height:1.4;
   font-weight:500;
-  word-break:keep-all;
+  word-break:break-word;
+  overflow-wrap:anywhere;
   min-width:0;
   flex:1;
 }
@@ -240,15 +242,24 @@ body{
     border-radius:16px;
   }
 
+  .unit-main{
+    gap:10px;
+  }
+
   .unit-number{
     font-size:17px;
-    min-width:110px;
+    flex:0 0 86px;
+    width:86px;
     white-space:nowrap;
-    flex-shrink:0;
+    line-height:1.2;
   }
 
   .unit-title{
     font-size:15px;
+    min-width:0;
+    flex:1;
+    word-break:break-word;
+    overflow-wrap:anywhere;
   }
 
   .unit-arrow{
