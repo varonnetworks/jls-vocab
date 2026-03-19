@@ -166,7 +166,7 @@ body{
 
 .unit-main{
   display:flex;
-  align-items:flex-start;
+  align-items:center;
   gap:12px;
   min-width:0;
   flex:1;
@@ -181,11 +181,22 @@ body{
 }
 
 .unit-title{
-  font-size:13px;
-  color:#9e9e9e;
-  line-height:1.4;
-  font-weight:500;
-  word-break:keep-all;
+  flex:1;
+  min-width:0;
+  font-size:11px;
+  color:#aaa8b3;
+  line-height:1.3;
+  font-weight:600;
+  text-align:right;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  padding-right:2px;
+}
+
+.unit-title.has-unknown{
+  color:#2d73d6;
+  font-weight:700;
 }
 
 .unit-arrow{
@@ -193,6 +204,14 @@ body{
   font-size:28px;
   line-height:1;
   color:#a8a8b3;
+}
+
+.unit-no-title .unit-main{
+  align-items:center;
+}
+
+.unit-no-title .unit-number{
+  min-width:auto;
 }
 
 @media (max-width:640px){
@@ -250,7 +269,8 @@ body{
   }
 
   .unit-title{
-    font-size:15px;
+    font-size:10px;
+    padding-right:0;
   }
 
   .unit-arrow{
@@ -278,30 +298,30 @@ body{
       <div class="chapter-head">
         <h2 class="chapter-title">
           <span class="chapter-number">Chapter 1</span>
-          <span class="chapter-name"> From Education to Careers</span>
+          <span class="chapter-name">From Education to Careers</span>
         </h2>
       </div>
 
-      <a class="unit-item" href="ch1un1.html">
+      <a class="unit-item" href="ch1un1.html" data-storage-key="vocab_unknown_ch1un1">
         <span class="unit-main">
           <span class="unit-number">Unit 1</span>
-          <span class="unit-title">Reasons to Be Bilingual</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch1un2.html">
+      <a class="unit-item" href="ch1un2.html" data-storage-key="vocab_unknown_ch1un2">
         <span class="unit-main">
           <span class="unit-number">Unit 2</span>
-          <span class="unit-title">The Bilingual Brain</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch1un3.html">
+      <a class="unit-item" href="ch1un3.html" data-storage-key="vocab_unknown_ch1un3">
         <span class="unit-main">
           <span class="unit-number">Unit 3</span>
-          <span class="unit-title">How Easy Is It to Become Bilingual?</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
@@ -311,30 +331,30 @@ body{
       <div class="chapter-head">
         <h2 class="chapter-title">
           <span class="chapter-number">Chapter 2</span>
-          <span class="chapter-name"> How Technology Will Change Classrooms</span>
+          <span class="chapter-name">How Technology Will Change Classrooms</span>
         </h2>
       </div>
 
-      <a class="unit-item" href="ch2un1.html">
+      <a class="unit-item" href="ch2un1.html" data-storage-key="vocab_unknown_ch2un1">
         <span class="unit-main">
           <span class="unit-number">Unit 1</span>
-          <span class="unit-title">Interactive Learning</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch2un2.html">
+      <a class="unit-item" href="ch2un2.html" data-storage-key="vocab_unknown_ch2un2">
         <span class="unit-main">
           <span class="unit-number">Unit 2</span>
-          <span class="unit-title">Jesse's First Day at His New School</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch2un3.html">
+      <a class="unit-item" href="ch2un3.html" data-storage-key="vocab_unknown_ch2un3">
         <span class="unit-main">
           <span class="unit-number">Unit 3</span>
-          <span class="unit-title">Will We Need Teachers in School?</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
@@ -344,30 +364,30 @@ body{
       <div class="chapter-head">
         <h2 class="chapter-title">
           <span class="chapter-number">Chapter 3</span>
-          <span class="chapter-name"> Unique Jobs</span>
+          <span class="chapter-name">Unique Jobs</span>
         </h2>
       </div>
 
-      <a class="unit-item" href="ch3un1.html">
+      <a class="unit-item" href="ch3un1.html" data-storage-key="vocab_unknown_ch3un1">
         <span class="unit-main">
           <span class="unit-number">Unit 1</span>
-          <span class="unit-title">Wanted! Private Island Caretaker</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch3un2.html">
+      <a class="unit-item" href="ch3un2.html" data-storage-key="vocab_unknown_ch3un2">
         <span class="unit-main">
           <span class="unit-number">Unit 2</span>
-          <span class="unit-title">Our Local Celebrity Gamer</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch3un3.html">
+      <a class="unit-item" href="ch3un3.html" data-storage-key="vocab_unknown_ch3un3">
         <span class="unit-main">
           <span class="unit-number">Unit 3</span>
-          <span class="unit-title">Cool Jobs with Passion</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
@@ -376,5 +396,33 @@ body{
   </div>
 
 </div>
+
+<script>
+function getUnknownCount(storageKey){
+  try{
+    const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    return Array.isArray(saved) ? saved.length : 0;
+  }catch(e){
+    return 0;
+  }
+}
+
+document.querySelectorAll(".unit-item").forEach(item => {
+  const storageKey = item.dataset.storageKey;
+  const titleEl = item.querySelector(".unit-title");
+
+  if(!storageKey || !titleEl) return;
+
+  const count = getUnknownCount(storageKey);
+
+  if(count > 0){
+    titleEl.textContent = `모르는 단어 ${count}개`;
+    titleEl.classList.add("has-unknown");
+  }else{
+    titleEl.textContent = "모르는 단어 없음";
+    titleEl.classList.remove("has-unknown");
+  }
+});
+</script>
 </body>
 </html>
