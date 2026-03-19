@@ -169,6 +169,23 @@ body{
   font-weight:700;
   color:#222;
   flex-shrink:0;
+  min-width:76px;
+}
+
+.unit-title{
+  flex:1;
+  min-width:0;
+  font-size:11px;
+  color:#b4b0a1;
+  text-align:right;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.unit-title.has-unknown{
+  color:#8a6a00;
+  font-weight:700;
 }
 
 .unit-arrow{
@@ -229,6 +246,11 @@ body{
 
   .unit-number{
     font-size:13px;
+    min-width:72px;
+  }
+
+  .unit-title{
+    font-size:10px;
   }
 
   .unit-arrow{
@@ -260,23 +282,26 @@ body{
         </h2>
       </div>
 
-      <a class="unit-item" href="ch1un1-2.html">
+      <a class="unit-item" href="ch1un1-2.html" data-storage-key="vocab_unknown_ch1un1-2">
         <span class="unit-main">
           <span class="unit-number">Unit 1 & 2</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch1un3-4.html">
+      <a class="unit-item" href="ch1un3-4.html" data-storage-key="vocab_unknown_ch1un3-4">
         <span class="unit-main">
           <span class="unit-number">Unit 3 & 4</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch1un5-6.html">
+      <a class="unit-item" href="ch1un5-6.html" data-storage-key="vocab_unknown_ch1un5-6">
         <span class="unit-main">
           <span class="unit-number">Unit 5 & 6</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
@@ -290,23 +315,26 @@ body{
         </h2>
       </div>
 
-      <a class="unit-item" href="ch2un1-2.html">
+      <a class="unit-item" href="ch2un1-2.html" data-storage-key="vocab_unknown_ch2un1-2">
         <span class="unit-main">
           <span class="unit-number">Unit 1 & 2</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch2un3-4.html">
+      <a class="unit-item" href="ch2un3-4.html" data-storage-key="vocab_unknown_ch2un3-4">
         <span class="unit-main">
           <span class="unit-number">Unit 3 & 4</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
 
-      <a class="unit-item" href="ch2un5-6.html">
+      <a class="unit-item" href="ch2un5-6.html" data-storage-key="vocab_unknown_ch2un5-6">
         <span class="unit-main">
           <span class="unit-number">Unit 5 & 6</span>
+          <span class="unit-title">모르는 단어 없음</span>
         </span>
         <span class="unit-arrow">›</span>
       </a>
@@ -315,5 +343,33 @@ body{
   </div>
 
 </div>
+
+<script>
+function getUnknownCount(storageKey){
+  try{
+    const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    return Array.isArray(saved) ? saved.length : 0;
+  }catch(e){
+    return 0;
+  }
+}
+
+document.querySelectorAll(".unit-item").forEach(item => {
+  const storageKey = item.dataset.storageKey;
+  const titleEl = item.querySelector(".unit-title");
+
+  if(!storageKey || !titleEl) return;
+
+  const count = getUnknownCount(storageKey);
+
+  if(count > 0){
+    titleEl.textContent = `모르는 단어 ${count}개`;
+    titleEl.classList.add("has-unknown");
+  }else{
+    titleEl.textContent = "모르는 단어 없음";
+    titleEl.classList.remove("has-unknown");
+  }
+});
+</script>
 </body>
 </html>
