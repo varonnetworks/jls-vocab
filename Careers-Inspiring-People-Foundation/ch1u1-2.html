@@ -89,6 +89,10 @@ h1{
 .filter-btn{
   appearance:none;
   -webkit-appearance:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
   height:48px;
   border-radius:14px;
   border:2px solid #eceaf3;
@@ -98,6 +102,8 @@ h1{
   color:#303030;
   cursor:pointer;
   white-space:nowrap;
+  padding:0 6px;
+  line-height:1;
 }
 
 .filter-btn.active{
@@ -638,7 +644,6 @@ function updateButtons(){
   unknownBtn.classList.toggle("active", filter === "unknown");
   wordBtn.classList.toggle("active", mode === "word");
   meaningBtn.classList.toggle("active", mode === "meaning");
-  // 셔플은 토글 없이 항상 비활성 상태
   shuffleBtn.classList.remove("active");
   testKrBtn.classList.toggle("active", testMode === "kr");
   testEnBtn.classList.toggle("active", testMode === "en");
@@ -668,7 +673,6 @@ function resetScore(){
   scoreMsg.textContent = "";
 }
 
-// 셔플: 누를 때마다 항상 새로 섞기
 function shuffleOrder(){
   displayOrder = [...displayOrder].sort(() => Math.random() - 0.5);
 }
@@ -681,7 +685,7 @@ function normalizeMeaning(str){
   return String(str || "")
     .trim()
     .toLowerCase()
-    .replace(/\([^)]*\)/g,"")   // 괄호 및 괄호 안 내용 제거 예) (뱀 등의) 독 → 독
+    .replace(/\([^)]*\)/g,"")
     .replace(/\s+/g,"")
     .replace(/[.,!?~\-_/()[\]{}"'`·]/g,"");
 }
@@ -706,7 +710,7 @@ function detectKorPos(input){
   if(!s) return "unknown";
   if(/(하게|히|스럽게)$/.test(s)) return "adv";
   if(/(하다|되다|시키다|받다|막다|보다|내다|가다|오다|주다|입다|붙이다|놓다|구하다)$/.test(s)) return "verb";
-  if(/(한|로운|스러운|적인|같은|된|있는|없는)$/.test(s)) return "adj";
+  if(/(한|은|로운|스러운|적인|같은|된|있는|없는)$/.test(s)) return "adj";
   return "noun";
 }
 
@@ -718,21 +722,27 @@ function isPosCompatible(answerPos, userPos){
 
 function localMeaningGrade(userInput, answer, answerPos){
   if(!userInput) return { status:"wrong" };
+
   const userRaw = String(userInput).trim();
   const userPos = detectKorPos(userRaw);
-  if(!isPosCompatible(answerPos, userPos)) return { status:"wrong" };
   const userNorm = normalizeMeaning(userRaw);
   const answers = String(answer).split(/[,，]/).map(v=>v.trim()).filter(Boolean);
   const normalizedAnswers = answers.map(v=>normalizeMeaning(v));
+
   if(normalizedAnswers.includes(userNorm)) return { status:"correct" };
+
   const softened = userNorm.replace(/하게$/,"한").replace(/히$/,"한");
   for(const a of normalizedAnswers){
     if(a===softened) return { status:"correct" };
   }
+
   for(const a of normalizedAnswers){
     const maxDist = a.length<=4?1:2;
     if(editDistance(userNorm,a)<=maxDist) return { status:"correct" };
   }
+
+  if(!isPosCompatible(answerPos, userPos)) return { status:"ai" };
+
   return { status:"ai" };
 }
 
@@ -767,7 +777,7 @@ function startTest(type){
   resetScore();
   shuffleOrder();
   bottomGradeBar.classList.add("show");
-  cancelTopBtn.style.display = "inline-flex";
+  cancelTopBtn.style.display = "flex";
   updateGuide();
   updateButtons();
   render();
@@ -901,10 +911,8 @@ function showResults(results, pairs){
   scoreMsg.textContent = msgs[msgIdx];
   scoreCard.classList.add("show");
 
-  // 점수 localStorage에 저장
   saveScore(correctCount, total, pct, msgIdx);
 
-  // 맨 위로 스크롤
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -1015,7 +1023,6 @@ meaningBtn.onclick = ()=>{
   render();
 };
 
-// 셔플: 누를 때마다 항상 새로 섞기, 활성화 표시 없음
 shuffleBtn.onclick = ()=>{
   if(testMode) return;
   shuffleOrder();
@@ -1078,7 +1085,6 @@ updateGuide();
 updateButtons();
 render();
 
-// 저장된 점수 복원
 const savedScore = loadScore();
 if(savedScore){
   const msgs = ["더 열심히 해봐요! 💪","조금 더 하면 될 것 같아요! 🔥","절반 넘겼어요! 👍","잘하고 있어요! ⭐","거의 다 맞았어요! 🎉","완벽해요! 🏆"];
