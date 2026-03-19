@@ -89,10 +89,6 @@ h1{
 .filter-btn{
   appearance:none;
   -webkit-appearance:none;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
   height:48px;
   border-radius:14px;
   border:2px solid #eceaf3;
@@ -102,8 +98,10 @@ h1{
   color:#303030;
   cursor:pointer;
   white-space:nowrap;
-  padding:0 6px;
-  line-height:1;
+  text-align:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .filter-btn.active{
@@ -457,7 +455,7 @@ h1{
   body{padding:16px 16px 110px;}
   h1{font-size:28px;}
   .guide{padding:14px 16px;font-size:14px;}
-  .filter-btn{height:46px;font-size:14px;border-radius:14px;padding:0 4px;}
+  .filter-btn{height:46px;font-size:14px;border-radius:14px;padding:0 4px;display:flex;align-items:center;justify-content:center;}
   .word-row{min-height:82px;gap:10px;}
   .check-btn{width:28px;height:28px;flex:0 0 28px;}
   .check-btn.checked::after{font-size:16px;}
@@ -471,7 +469,7 @@ h1{
 @media (max-width:430px){
   body{padding:14px 14px 110px;}
   .top{gap:6px;}
-  .filter-btn{height:42px;font-size:12px;border-radius:12px;padding:0 2px;}
+  .filter-btn{height:42px;font-size:12px;border-radius:12px;padding:0 2px;display:flex;align-items:center;justify-content:center;}
   .word-main{grid-template-columns:minmax(70px,96px) minmax(0,1fr);column-gap:8px;}
   .word-text{font-size:15px;}
   .meaning-text{font-size:14px;}
@@ -644,6 +642,7 @@ function updateButtons(){
   unknownBtn.classList.toggle("active", filter === "unknown");
   wordBtn.classList.toggle("active", mode === "word");
   meaningBtn.classList.toggle("active", mode === "meaning");
+  // 셔플은 토글 없이 항상 비활성 상태
   shuffleBtn.classList.remove("active");
   testKrBtn.classList.toggle("active", testMode === "kr");
   testEnBtn.classList.toggle("active", testMode === "en");
@@ -673,6 +672,7 @@ function resetScore(){
   scoreMsg.textContent = "";
 }
 
+// 셔플: 누를 때마다 항상 새로 섞기
 function shuffleOrder(){
   displayOrder = [...displayOrder].sort(() => Math.random() - 0.5);
 }
@@ -685,7 +685,7 @@ function normalizeMeaning(str){
   return String(str || "")
     .trim()
     .toLowerCase()
-    .replace(/\([^)]*\)/g,"")
+    .replace(/\([^)]*\)/g,"")   // 괄호 및 괄호 안 내용 제거 예) (뱀 등의) 독 → 독
     .replace(/\s+/g,"")
     .replace(/[.,!?~\-_/()[\]{}"'`·]/g,"");
 }
@@ -710,7 +710,7 @@ function detectKorPos(input){
   if(!s) return "unknown";
   if(/(하게|히|스럽게)$/.test(s)) return "adv";
   if(/(하다|되다|시키다|받다|막다|보다|내다|가다|오다|주다|입다|붙이다|놓다|구하다)$/.test(s)) return "verb";
-  if(/(한|은|로운|스러운|적인|같은|된|있는|없는)$/.test(s)) return "adj";
+  if(/(한|로운|스러운|적인|같은|된|있는|없는)$/.test(s)) return "adj";
   return "noun";
 }
 
@@ -722,45 +722,39 @@ function isPosCompatible(answerPos, userPos){
 
 function localMeaningGrade(userInput, answer, answerPos){
   if(!userInput) return { status:"wrong" };
-
   const userRaw = String(userInput).trim();
   const userPos = detectKorPos(userRaw);
+  if(!isPosCompatible(answerPos, userPos)) return { status:"wrong" };
   const userNorm = normalizeMeaning(userRaw);
   const answers = String(answer).split(/[,，]/).map(v=>v.trim()).filter(Boolean);
   const normalizedAnswers = answers.map(v=>normalizeMeaning(v));
-
   if(normalizedAnswers.includes(userNorm)) return { status:"correct" };
-
   const softened = userNorm.replace(/하게$/,"한").replace(/히$/,"한");
   for(const a of normalizedAnswers){
     if(a===softened) return { status:"correct" };
   }
-
   for(const a of normalizedAnswers){
     const maxDist = a.length<=4?1:2;
     if(editDistance(userNorm,a)<=maxDist) return { status:"correct" };
   }
-
-  if(!isPosCompatible(answerPos, userPos)) return { status:"ai" };
-
   return { status:"ai" };
 }
 
-const SCORE_KEY = STORAGE_KEY + "_score";
+const SESSION_KEY = STORAGE_KEY + "_session";
 
-function saveScore(correctCount, total, pct, msgIdx){
-  localStorage.setItem(SCORE_KEY, JSON.stringify({correctCount, total, pct, msgIdx}));
+function saveSession(data){
+  try{ localStorage.setItem(SESSION_KEY, JSON.stringify(data)); }catch(e){}
 }
 
-function loadScore(){
+function loadSession(){
   try{
-    const saved = localStorage.getItem(SCORE_KEY);
+    const saved = localStorage.getItem(SESSION_KEY);
     return saved ? JSON.parse(saved) : null;
   }catch(e){ return null; }
 }
 
-function clearScore(){
-  localStorage.removeItem(SCORE_KEY);
+function clearSession(){
+  localStorage.removeItem(SESSION_KEY);
 }
 
 function visibleIndices(){
@@ -777,7 +771,7 @@ function startTest(type){
   resetScore();
   shuffleOrder();
   bottomGradeBar.classList.add("show");
-  cancelTopBtn.style.display = "flex";
+  
   updateGuide();
   updateButtons();
   render();
@@ -789,8 +783,8 @@ function cancelTest(){
   graded = false;
   loadingBar.classList.remove("show");
   bottomGradeBar.classList.remove("show");
-  cancelTopBtn.style.display = "none";
-  clearScore();
+  
+  clearSession();
   resetScore();
   updateGuide();
   updateButtons();
@@ -911,9 +905,17 @@ function showResults(results, pairs){
   scoreMsg.textContent = msgs[msgIdx];
   scoreCard.classList.add("show");
 
-  saveScore(correctCount, total, pct, msgIdx);
+  // 세션 전체 저장 (답안지 포함)
+  saveSession({
+    testMode,
+    displayOrder: [...displayOrder],
+    correctCount, total, pct, msgIdx,
+    results: results.map(r=>({ id:r.id, correct:r.correct })),
+    pairs: pairs.map(p=>({ word:p.word, answer:p.answer, userInput:p.userInput }))
+  });
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  // 맨 위로 스크롤
+  window.scrollTo({ top:0, behavior:"smooth" });
 }
 
 function render(){
@@ -1023,6 +1025,7 @@ meaningBtn.onclick = ()=>{
   render();
 };
 
+// 셔플: 누를 때마다 항상 새로 섞기, 활성화 표시 없음
 shuffleBtn.onclick = ()=>{
   if(testMode) return;
   shuffleOrder();
@@ -1085,13 +1088,61 @@ updateGuide();
 updateButtons();
 render();
 
-const savedScore = loadScore();
-if(savedScore){
+// 저장된 세션 복원 (새로고침해도 답안지+점수 유지)
+const savedSession = loadSession();
+if(savedSession){
   const msgs = ["더 열심히 해봐요! 💪","조금 더 하면 될 것 같아요! 🔥","절반 넘겼어요! 👍","잘하고 있어요! ⭐","거의 다 맞았어요! 🎉","완벽해요! 🏆"];
-  scoreNum.textContent = `${savedScore.correctCount} / ${savedScore.total}`;
-  scorePct.textContent = `정답률 ${savedScore.pct}%`;
-  scoreMsg.textContent = msgs[savedScore.msgIdx];
+
+  // 상태 복원
+  testMode = savedSession.testMode;
+  graded = true;
+  displayOrder = savedSession.displayOrder || displayOrder;
+
+  // UI 복원
+  bottomGradeBar.classList.add("show");
+  
+  gradeBtn.disabled = false;
+  updateGuide();
+  updateButtons();
+
+  // 점수 복원
+  scoreNum.textContent = `${savedSession.correctCount} / ${savedSession.total}`;
+  scorePct.textContent = `정답률 ${savedSession.pct}%`;
+  scoreMsg.textContent = msgs[savedSession.msgIdx];
   scoreCard.classList.add("show");
+
+  // 답안지 복원 (정오답 표시)
+  render();
+  setTimeout(()=>{
+    const rows = [...document.querySelectorAll(".word-row")];
+    savedSession.results.forEach(r=>{
+      const row = rows[r.id];
+      if(!row) return;
+      const input = row.querySelector(".test-input");
+      const checkBtn = row.querySelector(".check-btn");
+      const textBox = row.querySelector(".word-main");
+      const pair = savedSession.pairs[r.id];
+
+      if(input && pair){ input.value = pair.userInput; input.disabled = true; }
+
+      if(r.correct){
+        row.classList.add("correct");
+        if(input) input.classList.add("correct-input");
+        if(checkBtn) checkBtn.className="check-btn result-correct";
+      }else{
+        row.classList.add("wrong");
+        if(input) input.classList.add("wrong-input");
+        if(checkBtn) checkBtn.className="check-btn result-wrong";
+        if(textBox && !textBox.querySelector(".answer-label") && pair){
+          const label = document.createElement("div");
+          label.className = "answer-label wrong-label";
+          label.style.gridColumn = "1 / -1";
+          label.textContent = `정답: ${pair.answer}`;
+          textBox.appendChild(label);
+        }
+      }
+    });
+  }, 50);
 }
 </script>
 
