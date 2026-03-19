@@ -91,9 +91,17 @@ body{
   border:3px solid transparent;
 }
 
-.chapter-1{ border-color:#cab4ff; }
-.chapter-2{ border-color:#b58cff; }
-.chapter-3{ border-color:#8f5ae8; }
+.chapter-1{
+  border-color:#cab4ff;
+}
+
+.chapter-2{
+  border-color:#b58cff;
+}
+
+.chapter-3{
+  border-color:#8f5ae8;
+}
 
 .chapter-head{
   margin:0 0 14px 2px;
@@ -110,7 +118,9 @@ body{
   align-items:baseline;
 }
 
-.chapter-number{ color:#222; }
+.chapter-number{
+  color:#222;
+}
 
 .chapter-name{
   color:#7f8594;
@@ -142,13 +152,21 @@ body{
   box-shadow:0 7px 16px rgba(0,0,0,0.08);
 }
 
-.chapter-1 .unit-item:hover{ border-color:#d9c7ff; }
-.chapter-2 .unit-item:hover{ border-color:#c09eff; }
-.chapter-3 .unit-item:hover{ border-color:#9b73ea; }
+.chapter-1 .unit-item:hover{
+  border-color:#d9c7ff;
+}
+
+.chapter-2 .unit-item:hover{
+  border-color:#c09eff;
+}
+
+.chapter-3 .unit-item:hover{
+  border-color:#9b73ea;
+}
 
 .unit-main{
   display:flex;
-  align-items:flex-start;
+  align-items:center;
   gap:12px;
   min-width:0;
   flex:1;
@@ -162,19 +180,102 @@ body{
   min-width:62px;
 }
 
-/* 🔥 여기만 색 바뀜 */
 .unit-title{
-  font-size:14px;
-  color:#908e8e;
-  line-height:1.4;
-  font-weight:500;
-  word-break:keep-all;
+  flex:1;
+  min-width:0;
+  font-size:11px;
+  color:#aaa8b3;
+  line-height:1.3;
+  font-weight:600;
+  text-align:right;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  padding-right:2px;
+}
+
+.unit-title.has-unknown{
+  color:#7b59d6;
+  font-weight:700;
 }
 
 .unit-arrow{
   flex-shrink:0;
   font-size:28px;
+  line-height:1;
   color:#a8a8b3;
+}
+
+.unit-no-title .unit-main{
+  align-items:center;
+}
+
+.unit-no-title .unit-number{
+  min-width:auto;
+}
+
+@media (max-width:640px){
+  body{
+    padding:18px 12px 28px;
+  }
+
+  .btn{
+    font-size:13px;
+    padding:10px 14px;
+    border-radius:11px;
+  }
+
+  .title-row{
+    align-items:center;
+    gap:8px;
+    flex-wrap:nowrap;
+    margin-bottom:16px;
+  }
+
+  .title-row h1{
+    font-size:22px;
+  }
+
+  .book-badge{
+    min-width:92px;
+    height:34px;
+    font-size:14px;
+    padding:0 12px;
+  }
+
+  .chapter-card{
+    padding:16px 12px 12px;
+    border-radius:20px;
+    border-width:3px;
+  }
+
+  .chapter-title{
+    font-size:18px;
+    gap:6px;
+  }
+
+  .chapter-name{
+    font-size:16px;
+  }
+
+  .unit-item{
+    padding:15px 16px;
+    border-radius:16px;
+  }
+
+  .unit-number{
+    font-size:17px;
+    min-width:58px;
+  }
+
+  .unit-title{
+    font-size:10px;
+    padding-right:0;
+  }
+
+  .unit-arrow{
+    font-size:24px;
+  }
 }
 </style>
 </head>
@@ -182,121 +283,146 @@ body{
 <body>
 <div class="container">
 
-<div class="top">
-<a class="btn" href="../index.html">교재 전체 목록</a>
-</div>
+  <div class="top">
+    <a class="btn" href="../index.html">교재 전체 목록</a>
+  </div>
 
-<div class="title-row">
-<h1>Education & Career</h1>
-<div class="book-badge">Expert</div>
-</div>
+  <div class="title-row">
+    <h1>Education & Career</h1>
+    <div class="book-badge">Expert</div>
+  </div>
 
-<div class="chapter-list">
+  <div class="chapter-list">
 
-<!-- Chapter 1 -->
-<div class="chapter-card chapter-1">
-<div class="chapter-head">
-<h2 class="chapter-title">
-<span class="chapter-number">Chapter 1</span>
-<span class="chapter-name">The Value of Reading</span>
-</h2>
-</div>
+    <div class="chapter-card chapter-1">
+      <div class="chapter-head">
+        <h2 class="chapter-title">
+          <span class="chapter-number">Chapter 1</span>
+          <span class="chapter-name"> he Value of Reading</span>
+        </h2>
+      </div>
 
-<a class="unit-item" href="ch1un1.html">
-<span class="unit-main">
-<span class="unit-number">Unit 01</span>
-<span class="unit-title">The Importance of Lifelong Reading</span>
-</span>
-<span class="unit-arrow">›</span>
-</a>
+      <a class="unit-item" href="ch1u1.html" data-storage-key="vocab_unknown_ch1u1">
+        <span class="unit-main">
+          <span class="unit-number">Unit 1</span>
+          <span class="unit-title">모르는 단어 없음</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
 
-<a class="unit-item" href="ch1un2.html">
-<span class="unit-main">
-<span class="unit-number">Unit 02</span>
-<span class="unit-title">Reading Is Everywhere!</span>
-</span>
-<span class="unit-arrow">›</span>
-</a>
+      <a class="unit-item" href="ch1u2.html" data-storage-key="vocab_unknown_ch1u2">
+        <span class="unit-main">
+          <span class="unit-number">Unit 2</span>
+          <span class="unit-title">모르는 단어 없음</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
 
-<a class="unit-item" href="ch1un3.html">
-<span class="unit-main">
-<span class="unit-number">Unit 03</span>
-<span class="unit-title">Let’s Start Slow Reading</span>
-</span>
-<span class="unit-arrow">›</span>
-</a>
-</div>
+      <a class="unit-item" href="ch1u3.html" data-storage-key="vocab_unknown_ch1u3">
+        <span class="unit-main">
+          <span class="unit-number">Unit 3</span>
+          <span class="unit-title">모르는 단어 없음</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
+    </div>
 
-<!-- Chapter 2 -->
-<div class="chapter-card chapter-2">
-<div class="chapter-head">
-<h2 class="chapter-title">
-<span class="chapter-number">Chapter 2</span>
-<span class="chapter-name">The Power of Play</span>
-</h2>
-</div>
+    <div class="chapter-card chapter-2">
+      <div class="chapter-head">
+        <h2 class="chapter-title">
+          <span class="chapter-number">Chapter 2</span>
+          <span class="chapter-name"> The Power of Play</span>
+        </h2>
+      </div>
 
-<a class="unit-item" href="ch2un1.html">
-<span class="unit-main">
-<span class="unit-number">Unit 01</span>
-<span class="unit-title">Animal Play</span>
-</span>
-<span class="unit-arrow">›</span>
-</a>
+      <a class="unit-item" href="ch2u1.html" data-storage-key="vocab_unknown_ch2u1">
+        <span class="unit-main">
+          <span class="unit-number">Unit 1</span>
+          <span class="unit-title">모르는 단어 없음</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
 
-<a class="unit-item" href="ch2un2.html">
-<span class="unit-main">
-<span class="unit-number">Unit 02</span>
-<span class="unit-title">Learning through Play</span>
-</span>
-<span class="unit-arrow">›</span>
-</a>
+      <a class="unit-item" href="ch2u2.html" data-storage-key="vocab_unknown_ch2u2">
+        <span class="unit-main">
+          <span class="unit-number">Unit 2</span>
+          <span class="unit-title">모르는 단어 없음</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
 
-<a class="unit-item" href="ch2un3.html">
-<span class="unit-main">
-<span class="unit-number">Unit 03</span>
-<span class="unit-title">A Day in the Forest</span>
-</span>
-<span class="unit-arrow">›</span>
-</a>
-</div>
+      <a class="unit-item" href="ch2u3.html" data-storage-key="vocab_unknown_ch2u3">
+        <span class="unit-main">
+          <span class="unit-number">Unit 3</span>
+          <span class="unit-title">모르는 단어 없음</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
+    </div>
 
-<!-- Chapter 3 -->
-<div class="chapter-card chapter-3">
-<div class="chapter-head">
-<h2 class="chapter-title">
-<span class="chapter-number">Chapter 3</span>
-<span class="chapter-name">Careers and the Changing World</span>
-</h2>
-</div>
+    <div class="chapter-card chapter-3">
+      <div class="chapter-head">
+        <h2 class="chapter-title">
+          <span class="chapter-number">Chapter 3</span>
+          <span class="chapter-name"> Careers and the Changing World</span>
+        </h2>
+      </div>
 
-<a class="unit-item" href="ch3un1.html">
-<span class="unit-main">
-<span class="unit-number">Unit 01</span>
-<span class="unit-title">Jobs of the Future</span>
-</span>
-<span class="unit-arrow">›</span>
-</a>
+      <a class="unit-item" href="ch3u1.html" data-storage-key="vocab_unknown_ch3u1">
+        <span class="unit-main">
+          <span class="unit-number">Unit 1</span>
+          <span class="unit-title">모르는 단어 없음</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
 
-<a class="unit-item" href="ch3un2.html">
-<span class="unit-main">
-<span class="unit-number">Unit 02</span>
-<span class="unit-title">What I Want to Be When I Grow Up</span>
-</span>
-<span class="unit-arrow">›</span>
-</a>
+      <a class="unit-item" href="ch3u2.html" data-storage-key="vocab_unknown_ch3u2">
+        <span class="unit-main">
+          <span class="unit-number">Unit 2</span>
+          <span class="unit-title">모르는 단어 없음</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
 
-<a class="unit-item" href="ch3un3.html">
-<span class="unit-main">
-<span class="unit-number">Unit 03</span>
-<span class="unit-title">I’m Never Going to Need This!</span>
-</span>
-<span class="unit-arrow">›</span>
-</a>
-</div>
+      <a class="unit-item" href="ch3u3.html" data-storage-key="vocab_unknown_ch3u3">
+        <span class="unit-main">
+          <span class="unit-number">Unit 3</span>
+          <span class="unit-title">모르는 단어 없음</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
+    </div>
 
-</div>
+  </div>
 
 </div>
+
+<script>
+function getUnknownCount(storageKey){
+  try{
+    const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    return Array.isArray(saved) ? saved.length : 0;
+  }catch(e){
+    return 0;
+  }
+}
+
+document.querySelectorAll(".unit-item").forEach(item => {
+  const storageKey = item.dataset.storageKey;
+  const titleEl = item.querySelector(".unit-title");
+
+  if(!storageKey || !titleEl) return;
+
+  const count = getUnknownCount(storageKey);
+
+  if(count > 0){
+    titleEl.textContent = `모르는 단어 ${count}개`;
+    titleEl.classList.add("has-unknown");
+  }else{
+    titleEl.textContent = "모르는 단어 없음";
+    titleEl.classList.remove("has-unknown");
+  }
+});
+</script>
 </body>
 </html>
