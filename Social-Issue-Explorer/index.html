@@ -3,50 +3,128 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Social Issue Explorer</title>
+<title>Social Issues Explorer</title>
 
 <style>
-
 body{
 font-family:Arial;
 background:#f5f6fa;
-padding:40px;
+padding:24px 16px 40px;
+margin:0;
+color:#222;
+}
+
+.container{
+max-width:820px;
+margin:0 auto;
 }
 
 .top{
-margin-bottom:20px;
+margin-bottom:18px;
 }
 
 .btn{
 display:inline-block;
-padding:10px 14px;
-border-radius:10px;
+padding:11px 16px;
+border-radius:12px;
 border:1px solid #ddd;
 background:white;
 text-decoration:none;
 font-size:14px;
-color:black;
+color:#222;
+box-shadow:0 2px 6px rgba(0,0,0,0.04);
+}
+
+h1{
+margin:0 0 18px 0;
+font-size:28px;
 }
 
 .unit{
+display:flex;
+align-items:center;
+justify-content:space-between;
 background:white;
-padding:20px;
-border-radius:12px;
-margin-bottom:15px;
-border:1px solid #ddd;
+padding:18px 20px;
+border-radius:16px;
+margin-bottom:12px;
+border:1px solid #e6e6ea;
+box-shadow:0 3px 10px rgba(0,0,0,0.04);
+transition:all 0.18s ease;
+}
+
+.unit:hover{
+transform:translateY(-1px);
+box-shadow:0 7px 16px rgba(0,0,0,0.08);
+border-color:#c7e1ff;
+}
+
+.unit-left{
+font-size:18px;
+font-weight:700;
+}
+
+.unit-right{
+font-size:12px;
+color:#aaa8b3;
+font-weight:600;
+text-align:right;
+}
+
+.unit-right.has-unknown{
+color:#2d73d6;
+font-weight:700;
 }
 
 a{
 text-decoration:none;
-font-size:20px;
-color:black;
+color:#222;
+display:block;
+width:100%;
 }
 
+.unit-link{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+width:100%;
+}
+
+@media (max-width:640px){
+body{
+padding:18px 12px 28px;
+}
+
+.btn{
+font-size:13px;
+padding:10px 14px;
+}
+
+h1{
+font-size:22px;
+}
+
+.unit{
+padding:16px 16px;
+border-radius:14px;
+}
+
+.unit-left{
+font-size:17px;
+}
+
+.unit-right{
+font-size:10px;
+}
+}
 </style>
 
 </head>
 
 <body>
+
+<div class="container">
 
 <div class="top">
 <a class="btn" href="../index.html">교재 전체 목록</a>
@@ -54,42 +132,98 @@ color:black;
 
 <h1>Social Issues Explorer</h1>
 
-<div class="unit">
-<a href="ch1un1.html">Chapter 1 Unit 1</a>
+<div class="unit" data-storage-key="vocab_unknown_ch1un1">
+<a class="unit-link" href="ch1un1.html">
+<div class="unit-left">Chapter 1 Unit 1</div>
+<div class="unit-right">모르는 단어 없음</div>
+</a>
 </div>
 
-<div class="unit">
-<a href="ch1un2.html">Chapter 1 Unit 2</a>
+<div class="unit" data-storage-key="vocab_unknown_ch1un2">
+<a class="unit-link" href="ch1un2.html">
+<div class="unit-left">Chapter 1 Unit 2</div>
+<div class="unit-right">모르는 단어 없음</div>
+</a>
 </div>
 
-<div class="unit">
-<a href="ch1un3.html">Chapter 1 Unit 3</a>
+<div class="unit" data-storage-key="vocab_unknown_ch1un3">
+<a class="unit-link" href="ch1un3.html">
+<div class="unit-left">Chapter 1 Unit 3</div>
+<div class="unit-right">모르는 단어 없음</div>
+</a>
 </div>
 
-<div class="unit">
-<a href="ch2un1.html">Chapter 2 Unit 1</a>
+<div class="unit" data-storage-key="vocab_unknown_ch2un1">
+<a class="unit-link" href="ch2un1.html">
+<div class="unit-left">Chapter 2 Unit 1</div>
+<div class="unit-right">모르는 단어 없음</div>
+</a>
 </div>
 
-<div class="unit">
-<a href="ch2un2.html">Chapter 2 Unit 2</a>
+<div class="unit" data-storage-key="vocab_unknown_ch2un2">
+<a class="unit-link" href="ch2un2.html">
+<div class="unit-left">Chapter 2 Unit 2</div>
+<div class="unit-right">모르는 단어 없음</div>
+</a>
 </div>
 
-<div class="unit">
-<a href="ch2un3.html">Chapter 2 Unit 3</a>
+<div class="unit" data-storage-key="vocab_unknown_ch2un3">
+<a class="unit-link" href="ch2un3.html">
+<div class="unit-left">Chapter 2 Unit 3</div>
+<div class="unit-right">모르는 단어 없음</div>
+</a>
 </div>
 
-<div class="unit">
-<a href="ch3un1.html">Chapter 3 Unit 1</a>
+<div class="unit" data-storage-key="vocab_unknown_ch3un1">
+<a class="unit-link" href="ch3un1.html">
+<div class="unit-left">Chapter 3 Unit 1</div>
+<div class="unit-right">모르는 단어 없음</div>
+</a>
 </div>
 
-<div class="unit">
-<a href="ch3un2.html">Chapter 3 Unit 2</a>
+<div class="unit" data-storage-key="vocab_unknown_ch3un2">
+<a class="unit-link" href="ch3un2.html">
+<div class="unit-left">Chapter 3 Unit 2</div>
+<div class="unit-right">모르는 단어 없음</div>
+</a>
 </div>
 
-<div class="unit">
-<a href="ch3un3.html">Chapter 3 Unit 3</a>
+<div class="unit" data-storage-key="vocab_unknown_ch3un3">
+<a class="unit-link" href="ch3un3.html">
+<div class="unit-left">Chapter 3 Unit 3</div>
+<div class="unit-right">모르는 단어 없음</div>
+</a>
 </div>
+
+</div>
+
+<script>
+function getUnknownCount(storageKey){
+  try{
+    const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    return Array.isArray(saved) ? saved.length : 0;
+  }catch(e){
+    return 0;
+  }
+}
+
+document.querySelectorAll(".unit").forEach(item => {
+  const storageKey = item.dataset.storageKey;
+  const titleEl = item.querySelector(".unit-right");
+
+  if(!storageKey || !titleEl) return;
+
+  const count = getUnknownCount(storageKey);
+
+  if(count > 0){
+    titleEl.textContent = `모르는 단어 ${count}개`;
+    titleEl.classList.add("has-unknown");
+  }else{
+    titleEl.textContent = "모르는 단어 없음";
+    titleEl.classList.remove("has-unknown");
+  }
+});
+</script>
 
 </body>
-
 </html>
