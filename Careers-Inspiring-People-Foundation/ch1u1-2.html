@@ -86,6 +86,7 @@ h1{
   margin-bottom:8px;
 }
 
+
 .filter-btn{
   appearance:none;
   -webkit-appearance:none;
@@ -497,13 +498,13 @@ h1{
       <button class="filter-btn active" id="allBtn" type="button">전체</button>
       <button class="filter-btn" id="unknownBtn" type="button">모르는 단어</button>
       <button class="filter-btn" id="shuffleBtn" type="button">셔플</button>
-      <button class="filter-btn" id="testKrBtn" type="button">뜻 시험</button>
+      <button class="filter-btn" style="visibility:hidden;" disabled></button>
     </div>
     <div class="top">
       <button class="filter-btn" id="wordBtn" type="button">단어 숨기기</button>
       <button class="filter-btn" id="meaningBtn" type="button">뜻 숨기기</button>
-      <button class="filter-btn" id="testEnBtn" type="button">영어 시험</button>
-      <button class="filter-btn" id="cancelTopBtn" type="button" style="display:none;">시험 종료</button>
+      <button class="filter-btn" id="testEnBtn" type="button">단어 시험</button>
+      <button class="filter-btn" id="testKrBtn" type="button">뜻 시험</button>
     </div>
   </div>
 
@@ -602,7 +603,7 @@ const meaningBtn = document.getElementById("meaningBtn");
 const shuffleBtn = document.getElementById("shuffleBtn");
 const testKrBtn = document.getElementById("testKrBtn");
 const testEnBtn = document.getElementById("testEnBtn");
-const cancelTopBtn = document.getElementById("cancelTopBtn");
+
 const scoreCard = document.getElementById("scoreCard");
 const scoreNum = document.getElementById("scoreNum");
 const scorePct = document.getElementById("scorePct");
@@ -710,7 +711,7 @@ function detectKorPos(input){
   if(!s) return "unknown";
   if(/(하게|히|스럽게)$/.test(s)) return "adv";
   if(/(하다|되다|시키다|받다|막다|보다|내다|가다|오다|주다|입다|붙이다|놓다|구하다)$/.test(s)) return "verb";
-  if(/(한|로운|스러운|적인|같은|된|있는|없는)$/.test(s)) return "adj";
+  if(/(한|로운|스러운|적인|같은|된|있는|없는|많은|적은|높은|낮은|좋은|나쁜|큰|작은|긴|짧은|넓은|좁은)$/.test(s)) return "adj";
   return "noun";
 }
 
@@ -1034,7 +1035,7 @@ shuffleBtn.onclick = ()=>{
 
 testKrBtn.onclick = ()=>startTest("kr");
 testEnBtn.onclick = ()=>startTest("en");
-cancelTopBtn.onclick = ()=>cancelTest();
+
 gradeBtn.onclick = ()=>gradeAnswers();
 cancelTestBtn.onclick = ()=>cancelTest();
 
