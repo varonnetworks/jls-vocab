@@ -447,138 +447,29 @@ h1{
   to{transform:rotate(360deg);}
 }
 
-.scroll-fab{
-  position:fixed;
-  right:18px;
-  bottom:146px;
-  z-index:110;
-  width:56px;
-  height:56px;
-  border:none;
-  border-radius:50%;
-  background:#fff;
-  box-shadow:0 8px 24px rgba(0,0,0,.16);
-  cursor:pointer;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:0;
-}
-
-.scroll-fab.show{
-  display:flex;
-}
-
-.scroll-fab svg{
-  width:28px;
-  height:28px;
-}
-
 @media (max-width:768px){
-  body{
-    padding:16px 16px 110px;
-  }
-
-  h1{
-    font-size:28px;
-  }
-
-  .guide{
-    padding:14px 16px;
-    font-size:14px;
-  }
-
-  .filter-btn{
-    height:46px;
-    font-size:14px;
-    border-radius:14px;
-    padding:0 4px;
-  }
-
-  .word-row{
-    min-height:82px;
-    gap:10px;
-  }
-
-  .check-btn{
-    width:28px;
-    height:28px;
-    flex:0 0 28px;
-  }
-
-  .check-btn.checked::after{
-    font-size:16px;
-  }
-
-  .word-main{
-    grid-template-columns:minmax(76px,104px) minmax(0,1fr);
-    column-gap:10px;
-  }
-
-  .word-text{
-    font-size:15px;
-    line-height:1.2;
-  }
-
-  .meaning-text{
-    font-size:14px;
-    line-height:1.28;
-  }
-
-  .placeholder{
-    font-size:12px;
-  }
-
-  .speak-btn{
-    width:40px;
-    height:40px;
-    font-size:18px;
-    border-radius:14px;
-    flex:0 0 40px;
-  }
-
-  .scroll-fab{
-    right:14px;
-    width:52px;
-    height:52px;
-  }
+  body{padding:16px 16px 110px;}
+  h1{font-size:28px;}
+  .guide{padding:14px 16px;font-size:14px;}
+  .filter-btn{height:46px;font-size:14px;border-radius:14px;padding:0 4px;}
+  .word-row{min-height:82px;gap:10px;}
+  .check-btn{width:28px;height:28px;flex:0 0 28px;}
+  .check-btn.checked::after{font-size:16px;}
+  .word-main{grid-template-columns:minmax(76px,104px) minmax(0,1fr);column-gap:10px;}
+  .word-text{font-size:15px;line-height:1.2;}
+  .meaning-text{font-size:14px;line-height:1.28;}
+  .placeholder{font-size:12px;}
+  .speak-btn{width:40px;height:40px;font-size:18px;border-radius:14px;flex:0 0 40px;}
 }
 
 @media (max-width:430px){
-  body{
-    padding:14px 14px 110px;
-  }
-
-  .top{
-    gap:6px;
-  }
-
-  .filter-btn{
-    height:42px;
-    font-size:12px;
-    border-radius:12px;
-    padding:0 2px;
-  }
-
-  .word-main{
-    grid-template-columns:minmax(70px,96px) minmax(0,1fr);
-    column-gap:8px;
-  }
-
-  .word-text{
-    font-size:15px;
-  }
-
-  .meaning-text{
-    font-size:14px;
-  }
-
-  .speak-btn{
-    width:38px;
-    height:38px;
-    font-size:17px;
-    flex:0 0 38px;
-  }
+  body{padding:14px 14px 110px;}
+  .top{gap:6px;}
+  .filter-btn{height:42px;font-size:12px;border-radius:12px;padding:0 2px;}
+  .word-main{grid-template-columns:minmax(70px,96px) minmax(0,1fr);column-gap:8px;}
+  .word-text{font-size:15px;}
+  .meaning-text{font-size:14px;}
+  .speak-btn{width:38px;height:38px;font-size:17px;flex:0 0 38px;}
 }
 </style>
 </head>
@@ -638,15 +529,8 @@ h1{
   <span>AI가 채점 중입니다...</span>
 </div>
 
-<button class="scroll-fab" id="scrollFab" type="button" aria-label="빠른 이동">
-  <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-    <path id="fabArrow" d="M6 10l6 6 6-6"></path>
-    <path id="fabLine" d="M6 19h12"></path>
-  </svg>
-</button>
-
 <script>
-const API_ENDPOINT = "https://YOUR-VERCEL-APP.vercel.app/api/grade-meaning";
+const API_ENDPOINT = "https://jls-vocab.vercel.app/api/grade-meaning";
 const STORAGE_KEY = "vocab_unknown_" + location.pathname.split("/").pop().replace(".html","");
 
 const vocab = [
@@ -695,18 +579,14 @@ const vocab = [
 let unknown = new Set(loadUnknown());
 let filter = "all";
 let mode = "none";
-let testMode = null; // 'kr' | 'en' | null
+let testMode = null;
 let graded = false;
 let revealedWords = new Set();
 let revealedMeanings = new Set();
 let englishVoices = [];
 let displayOrder = vocab.map((_,i) => i);
-let isShuffled = false;
 let speakTimer = null;
 let isSpeaking = false;
-let lastScrollY = window.scrollY;
-let scrollDirection = "up";
-let scrollHideTimer = null;
 
 const list = document.getElementById("list");
 const progress = document.getElementById("progress");
@@ -727,18 +607,13 @@ const bottomGradeBar = document.getElementById("bottomGradeBar");
 const gradeBtn = document.getElementById("gradeBtn");
 const cancelTestBtn = document.getElementById("cancelTestBtn");
 const loadingBar = document.getElementById("loadingBar");
-const scrollFab = document.getElementById("scrollFab");
-const fabArrow = document.getElementById("fabArrow");
-const fabLine = document.getElementById("fabLine");
 
 function loadUnknown(){
   try{
     const saved = localStorage.getItem(STORAGE_KEY);
     const parsed = JSON.parse(saved || "[]");
     return Array.isArray(parsed) ? parsed : [];
-  }catch(e){
-    return [];
-  }
+  }catch(e){ return []; }
 }
 
 function saveUnknown(){
@@ -763,7 +638,8 @@ function updateButtons(){
   unknownBtn.classList.toggle("active", filter === "unknown");
   wordBtn.classList.toggle("active", mode === "word");
   meaningBtn.classList.toggle("active", mode === "meaning");
-  shuffleBtn.classList.toggle("active", isShuffled);
+  // 셔플은 토글 없이 항상 비활성 상태
+  shuffleBtn.classList.remove("active");
   testKrBtn.classList.toggle("active", testMode === "kr");
   testEnBtn.classList.toggle("active", testMode === "en");
 }
@@ -792,14 +668,9 @@ function resetScore(){
   scoreMsg.textContent = "";
 }
 
+// 셔플: 누를 때마다 항상 새로 섞기
 function shuffleOrder(){
   displayOrder = [...displayOrder].sort(() => Math.random() - 0.5);
-  isShuffled = true;
-}
-
-function restoreOrder(){
-  displayOrder = vocab.map((_,i) => i);
-  isShuffled = false;
 }
 
 function normalizeEnglish(str){
@@ -810,6 +681,7 @@ function normalizeMeaning(str){
   return String(str || "")
     .trim()
     .toLowerCase()
+    .replace(/\([^)]*\)/g,"")   // 괄호 및 괄호 안 내용 제거 예) (뱀 등의) 독 → 독
     .replace(/\s+/g,"")
     .replace(/[.,!?~\-_/()[\]{}"'`·]/g,"");
 }
@@ -817,83 +689,73 @@ function normalizeMeaning(str){
 function editDistance(a, b){
   const m = a.length, n = b.length;
   const dp = Array.from({length:m+1}, (_,i) =>
-    Array.from({length:n+1}, (_,j) => i === 0 ? j : (j === 0 ? i : 0))
+    Array.from({length:n+1}, (_,j) => i===0?j:(j===0?i:0))
   );
   for(let i=1;i<=m;i++){
     for(let j=1;j<=n;j++){
-      dp[i][j] = a[i-1] === b[j-1]
+      dp[i][j] = a[i-1]===b[j-1]
         ? dp[i-1][j-1]
-        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+        : 1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
     }
   }
   return dp[m][n];
 }
 
 function detectKorPos(input){
-  const s = String(input || "").trim();
+  const s = String(input||"").trim();
   if(!s) return "unknown";
-
   if(/(하게|히|스럽게)$/.test(s)) return "adv";
   if(/(하다|되다|시키다|받다|막다|보다|내다|가다|오다|주다|입다|붙이다|놓다|구하다)$/.test(s)) return "verb";
   if(/(한|로운|스러운|적인|같은|된|있는|없는)$/.test(s)) return "adj";
-
   return "noun";
 }
 
 function isPosCompatible(answerPos, userPos){
   if(answerPos === userPos) return true;
-  if(
-    (answerPos === "adj" && userPos === "adv") ||
-    (answerPos === "adv" && userPos === "adj")
-  ) return true;
+  if((answerPos==="adj"&&userPos==="adv")||(answerPos==="adv"&&userPos==="adj")) return true;
   return false;
 }
 
 function localMeaningGrade(userInput, answer, answerPos){
   if(!userInput) return { status:"wrong" };
-
   const userRaw = String(userInput).trim();
   const userPos = detectKorPos(userRaw);
-
-  if(!isPosCompatible(answerPos, userPos)){
-    return { status:"wrong" };
-  }
-
+  if(!isPosCompatible(answerPos, userPos)) return { status:"wrong" };
   const userNorm = normalizeMeaning(userRaw);
-  const answers = String(answer).split(/[,，]/).map(v => v.trim()).filter(Boolean);
-  const normalizedAnswers = answers.map(v => normalizeMeaning(v));
-
-  if(normalizedAnswers.includes(userNorm)){
-    return { status:"correct" };
-  }
-
-  const softened = userNorm
-    .replace(/하게$/,"한")
-    .replace(/히$/,"한");
-
+  const answers = String(answer).split(/[,，]/).map(v=>v.trim()).filter(Boolean);
+  const normalizedAnswers = answers.map(v=>normalizeMeaning(v));
+  if(normalizedAnswers.includes(userNorm)) return { status:"correct" };
+  const softened = userNorm.replace(/하게$/,"한").replace(/히$/,"한");
   for(const a of normalizedAnswers){
-    if(a === softened){
-      return { status:"correct" };
-    }
+    if(a===softened) return { status:"correct" };
   }
-
   for(const a of normalizedAnswers){
-    const maxDist = a.length <= 4 ? 1 : 2;
-    if(editDistance(userNorm, a) <= maxDist){
-      return { status:"correct" };
-    }
+    const maxDist = a.length<=4?1:2;
+    if(editDistance(userNorm,a)<=maxDist) return { status:"correct" };
   }
-
   return { status:"ai" };
 }
 
-function isSingleLongWord(word){
-  return !word.includes(" ") && word.length >= 11;
+const SCORE_KEY = STORAGE_KEY + "_score";
+
+function saveScore(correctCount, total, pct, msgIdx){
+  localStorage.setItem(SCORE_KEY, JSON.stringify({correctCount, total, pct, msgIdx}));
+}
+
+function loadScore(){
+  try{
+    const saved = localStorage.getItem(SCORE_KEY);
+    return saved ? JSON.parse(saved) : null;
+  }catch(e){ return null; }
+}
+
+function clearScore(){
+  localStorage.removeItem(SCORE_KEY);
 }
 
 function visibleIndices(){
-  return filter === "unknown"
-    ? displayOrder.filter(i => unknown.has(i))
+  return filter==="unknown"
+    ? displayOrder.filter(i=>unknown.has(i))
     : displayOrder;
 }
 
@@ -904,14 +766,12 @@ function startTest(type){
   resetReveal();
   resetScore();
   shuffleOrder();
-
   bottomGradeBar.classList.add("show");
   cancelTopBtn.style.display = "inline-flex";
-
   updateGuide();
   updateButtons();
   render();
-  setTimeout(() => focusFirstInput(), 80);
+  setTimeout(()=>focusFirstInput(), 80);
 }
 
 function cancelTest(){
@@ -920,6 +780,8 @@ function cancelTest(){
   loadingBar.classList.remove("show");
   bottomGradeBar.classList.remove("show");
   cancelTopBtn.style.display = "none";
+  clearScore();
+  resetScore();
   updateGuide();
   updateButtons();
   render();
@@ -932,25 +794,19 @@ function focusFirstInput(){
 
 function focusNextInput(currentIndex){
   const inputs = [...document.querySelectorAll(".test-input")];
-  const next = inputs[currentIndex + 1];
-  if(next){
-    next.focus();
-    next.select();
-  }else{
-    gradeBtn.focus();
-  }
+  const next = inputs[currentIndex+1];
+  if(next){ next.focus(); next.select(); }
+  else gradeBtn.focus();
 }
 
 async function gradeAnswers(){
   if(graded) return;
-
   const inputs = [...document.querySelectorAll(".test-input")];
-  if(inputs.length === 0) return;
-
+  if(inputs.length===0) return;
   gradeBtn.disabled = true;
   loadingBar.classList.add("show");
 
-  const pairs = inputs.map((inp, rowIndex) => ({
+  const pairs = inputs.map((inp,rowIndex)=>({
     rowIndex,
     vocabIndex: Number(inp.dataset.vocabIndex),
     word: inp.dataset.word,
@@ -959,68 +815,44 @@ async function gradeAnswers(){
     userInput: inp.value.trim()
   }));
 
-  if(testMode === "en"){
-    const results = pairs.map((p, i) => ({
+  if(testMode==="en"){
+    const results = pairs.map((p,i)=>({
       id: i,
-      correct: normalizeEnglish(p.userInput) === normalizeEnglish(p.answer)
+      correct: normalizeEnglish(p.userInput)===normalizeEnglish(p.answer)
     }));
     loadingBar.classList.remove("show");
     showResults(results, pairs);
     return;
   }
 
-  const localResults = pairs.map((p, i) => {
+  const localResults = pairs.map((p,i)=>{
     const r = localMeaningGrade(p.userInput, p.answer, p.pos);
-    return {
-      id: i,
-      correct: r.status === "correct",
-      pendingAI: r.status === "ai"
-    };
+    return { id:i, correct:r.status==="correct", pendingAI:r.status==="ai" };
   });
 
   const needAI = pairs
-    .map((p, i) => ({
-      originalId: i,
-      word: p.word,
-      answer: p.answer,
-      pos: p.pos,
-      userInput: p.userInput
-    }))
-    .filter((item, i) => localResults[i].pendingAI && item.userInput.length > 0);
+    .map((p,i)=>({ originalId:i, word:p.word, answer:p.answer, pos:p.pos, userInput:p.userInput }))
+    .filter((item,i)=>localResults[i].pendingAI && item.userInput.length>0);
 
-  if(needAI.length > 0){
+  if(needAI.length>0){
     try{
       const res = await fetch(API_ENDPOINT, {
         method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify({ items: needAI })
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({items:needAI})
       });
-
       if(!res.ok) throw new Error("채점 API 호출 실패");
-
       const data = await res.json();
-      const aiResults = Array.isArray(data.results) ? data.results : [];
-
-      aiResults.forEach(r => {
-        if(typeof r.originalId === "number"){
+      const aiResults = Array.isArray(data.results)?data.results:[];
+      aiResults.forEach(r=>{
+        if(typeof r.originalId==="number"){
           localResults[r.originalId].correct = !!r.correct;
           localResults[r.originalId].pendingAI = false;
         }
       });
-
-      localResults.forEach(r => {
-        if(r.pendingAI){
-          r.correct = false;
-          r.pendingAI = false;
-        }
-      });
+      localResults.forEach(r=>{ if(r.pendingAI){ r.correct=false; r.pendingAI=false; } });
     }catch(e){
-      localResults.forEach(r => {
-        if(r.pendingAI){
-          r.correct = false;
-          r.pendingAI = false;
-        }
-      });
+      localResults.forEach(r=>{ if(r.pendingAI){ r.correct=false; r.pendingAI=false; } });
     }
   }
 
@@ -1031,14 +863,12 @@ async function gradeAnswers(){
 function showResults(results, pairs){
   graded = true;
   gradeBtn.disabled = false;
-
   const rows = [...document.querySelectorAll(".word-row")];
   let correctCount = 0;
 
-  results.forEach(r => {
+  results.forEach(r=>{
     const row = rows[r.id];
     if(!row) return;
-
     const input = row.querySelector(".test-input");
     const checkBtn = row.querySelector(".check-btn");
     const textBox = row.querySelector(".word-main");
@@ -1046,22 +876,12 @@ function showResults(results, pairs){
     if(r.correct){
       correctCount++;
       row.classList.add("correct");
-      if(input){
-        input.classList.add("correct-input");
-        input.disabled = true;
-      }
-      if(checkBtn){
-        checkBtn.className = "check-btn result-correct";
-      }
+      if(input){ input.classList.add("correct-input"); input.disabled=true; }
+      if(checkBtn) checkBtn.className="check-btn result-correct";
     }else{
       row.classList.add("wrong");
-      if(input){
-        input.classList.add("wrong-input");
-        input.disabled = true;
-      }
-      if(checkBtn){
-        checkBtn.className = "check-btn result-wrong";
-      }
+      if(input){ input.classList.add("wrong-input"); input.disabled=true; }
+      if(checkBtn) checkBtn.className="check-btn result-wrong";
       if(textBox && !textBox.querySelector(".answer-label")){
         const label = document.createElement("div");
         label.className = "answer-label wrong-label";
@@ -1073,87 +893,60 @@ function showResults(results, pairs){
   });
 
   const total = pairs.length;
-  const pct = Math.round((correctCount / total) * 100);
+  const pct = Math.round((correctCount/total)*100);
   const msgs = ["더 열심히 해봐요! 💪","조금 더 하면 될 것 같아요! 🔥","절반 넘겼어요! 👍","잘하고 있어요! ⭐","거의 다 맞았어요! 🎉","완벽해요! 🏆"];
-  const msgIdx = Math.min(Math.floor(pct / 20), 5);
-
+  const msgIdx = Math.min(Math.floor(pct/20),5);
   scoreNum.textContent = `${correctCount} / ${total}`;
   scorePct.textContent = `정답률 ${pct}%`;
   scoreMsg.textContent = msgs[msgIdx];
   scoreCard.classList.add("show");
+
+  // 점수 localStorage에 저장
+  saveScore(correctCount, total, pct, msgIdx);
+
+  // 맨 위로 스크롤
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function render(){
   let html = "";
   const indices = visibleIndices();
 
-  indices.forEach((i, rowIdx) => {
+  indices.forEach((i,rowIdx)=>{
     const [word, meaning, pos] = vocab[i];
 
-    const wordHtml = mode === "word" && !revealedWords.has(i)
+    const wordHtml = mode==="word" && !revealedWords.has(i)
       ? `<div class="placeholder">탭하여 보기</div>`
       : `<div class="word-text">${escapeHtml(word)}</div>`;
 
-    const meaningHtml = mode === "meaning" && !revealedMeanings.has(i)
+    const meaningHtml = mode==="meaning" && !revealedMeanings.has(i)
       ? `<div class="placeholder">탭하여 보기</div>`
       : `<div class="meaning-text">${escapeHtml(meaning)}</div>`;
 
     let leftWord = wordHtml;
     let rightMeaning = meaningHtml;
 
-    if(testMode === "kr"){
+    if(testMode==="kr"){
       leftWord = `<div class="word-text">${escapeHtml(word)}</div>`;
-      rightMeaning = `
-        <input
-          class="test-input"
-          type="text"
-          placeholder="뜻 입력..."
-          data-row-index="${rowIdx}"
-          data-vocab-index="${i}"
-          data-word="${escapeHtml(word)}"
-          data-answer="${escapeHtml(meaning)}"
-          data-pos="${escapeHtml(pos)}"
-          autocomplete="off"
-        >
-      `;
-    } else if(testMode === "en"){
-      leftWord = `
-        <input
-          class="test-input"
-          type="text"
-          placeholder="영어 입력..."
-          data-row-index="${rowIdx}"
-          data-vocab-index="${i}"
-          data-word="${escapeHtml(word)}"
-          data-answer="${escapeHtml(word)}"
-          data-pos="${escapeHtml(pos)}"
-          autocomplete="off"
-        >
-      `;
+      rightMeaning = `<input class="test-input" type="text" placeholder="뜻 입력..." data-row-index="${rowIdx}" data-vocab-index="${i}" data-word="${escapeHtml(word)}" data-answer="${escapeHtml(meaning)}" data-pos="${escapeHtml(pos)}" autocomplete="off">`;
+    }else if(testMode==="en"){
+      leftWord = `<input class="test-input" type="text" placeholder="영어 입력..." data-row-index="${rowIdx}" data-vocab-index="${i}" data-word="${escapeHtml(word)}" data-answer="${escapeHtml(word)}" data-pos="${escapeHtml(pos)}" autocomplete="off">`;
       rightMeaning = `<div class="meaning-text">${escapeHtml(meaning)}</div>`;
     }
 
     html += `
       <div class="word-row">
-        <button type="button" class="check-btn ${unknown.has(i) ? "checked" : ""}" data-check="${i}" ${testMode ? "disabled" : ""} aria-label="모르는 단어 체크"></button>
-
+        <button type="button" class="check-btn ${unknown.has(i)?"checked":""}" data-check="${i}" ${testMode?"disabled":""} aria-label="모르는 단어 체크"></button>
         <div class="word-main">
-          <div class="word-box" data-word="${i}">
-            ${leftWord}
-          </div>
-          <div class="meaning-box" data-meaning="${i}">
-            ${rightMeaning}
-          </div>
+          <div class="word-box" data-word="${i}">${leftWord}</div>
+          <div class="meaning-box" data-meaning="${i}">${rightMeaning}</div>
         </div>
-
         <button type="button" class="speak-btn" data-speak="${escapeHtml(word)}" aria-label="발음 듣기">🔊</button>
       </div>
     `;
   });
 
-  if(!html){
-    html = `<div class="empty-row">체크된 모르는 단어가 없습니다.</div>`;
-  }
+  if(!html) html = `<div class="empty-row">체크된 모르는 단어가 없습니다.</div>`;
 
   list.innerHTML = html;
   updateProgress();
@@ -1162,129 +955,93 @@ function render(){
 }
 
 function bindEvents(){
-  document.querySelectorAll("[data-check]").forEach(btn => {
-    btn.onclick = (e) => {
+  document.querySelectorAll("[data-check]").forEach(btn=>{
+    btn.onclick = (e)=>{
       e.stopPropagation();
       if(testMode) return;
       const i = Number(btn.dataset.check);
-
       if(unknown.has(i)) unknown.delete(i);
       else unknown.add(i);
-
       saveUnknown();
       render();
     };
   });
 
-  document.querySelectorAll("[data-word]").forEach(box => {
-    box.onclick = () => {
-      if(mode !== "word" || testMode) return;
+  document.querySelectorAll("[data-word]").forEach(box=>{
+    box.onclick = ()=>{
+      if(mode!=="word"||testMode) return;
       const i = Number(box.dataset.word);
-
       if(revealedWords.has(i)) revealedWords.delete(i);
       else revealedWords.add(i);
-
       render();
     };
   });
 
-  document.querySelectorAll("[data-meaning]").forEach(box => {
-    box.onclick = () => {
-      if(mode !== "meaning" || testMode) return;
+  document.querySelectorAll("[data-meaning]").forEach(box=>{
+    box.onclick = ()=>{
+      if(mode!=="meaning"||testMode) return;
       const i = Number(box.dataset.meaning);
-
       if(revealedMeanings.has(i)) revealedMeanings.delete(i);
       else revealedMeanings.add(i);
-
       render();
     };
   });
 
-  document.querySelectorAll("[data-speak]").forEach(btn => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      speakWord(btn.dataset.speak);
-    };
+  document.querySelectorAll("[data-speak]").forEach(btn=>{
+    btn.onclick = (e)=>{ e.stopPropagation(); speakWord(btn.dataset.speak); };
   });
 
-  document.querySelectorAll(".test-input").forEach((input, idx) => {
+  document.querySelectorAll(".test-input").forEach((input,idx)=>{
     input.addEventListener("keydown", function(e){
-      if(e.key === "Enter"){
-        e.preventDefault();
-        focusNextInput(idx);
-      }
+      if(e.key==="Enter"){ e.preventDefault(); focusNextInput(idx); }
     });
   });
 }
 
-allBtn.onclick = () => {
-  filter = "all";
-  render();
-};
+allBtn.onclick = ()=>{ filter="all"; render(); };
+unknownBtn.onclick = ()=>{ filter="unknown"; render(); };
 
-unknownBtn.onclick = () => {
-  filter = "unknown";
-  render();
-};
-
-wordBtn.onclick = () => {
+wordBtn.onclick = ()=>{
   if(testMode) return;
-  mode = mode === "word" ? "none" : "word";
-  if(mode === "word") mode = "word";
-  if(mode === "word") meaningBtn.classList.remove("active");
+  mode = mode==="word"?"none":"word";
   resetReveal();
   render();
 };
 
-meaningBtn.onclick = () => {
+meaningBtn.onclick = ()=>{
   if(testMode) return;
-  mode = mode === "meaning" ? "none" : "meaning";
+  mode = mode==="meaning"?"none":"meaning";
   resetReveal();
   render();
 };
 
-shuffleBtn.onclick = () => {
+// 셔플: 누를 때마다 항상 새로 섞기, 활성화 표시 없음
+shuffleBtn.onclick = ()=>{
   if(testMode) return;
-  if(isShuffled){
-    restoreOrder();
-  }else{
-    shuffleOrder();
-  }
+  shuffleOrder();
   render();
 };
 
-testKrBtn.onclick = () => startTest("kr");
-testEnBtn.onclick = () => startTest("en");
-cancelTopBtn.onclick = () => cancelTest();
-gradeBtn.onclick = () => gradeAnswers();
-cancelTestBtn.onclick = () => cancelTest();
+testKrBtn.onclick = ()=>startTest("kr");
+testEnBtn.onclick = ()=>startTest("en");
+cancelTopBtn.onclick = ()=>cancelTest();
+gradeBtn.onclick = ()=>gradeAnswers();
+cancelTestBtn.onclick = ()=>cancelTest();
 
 function setBestVoices(){
   if(!("speechSynthesis" in window)) return;
   const voices = window.speechSynthesis.getVoices();
-  englishVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith("en"));
+  englishVoices = voices.filter(v=>v.lang&&v.lang.toLowerCase().startsWith("en"));
 }
 
 function getBestVoice(){
   if(!englishVoices.length) return null;
-
-  const preferredNames = [
-    "Samantha",
-    "Daniel",
-    "Alex",
-    "Karen",
-    "Google US English",
-    "Microsoft Aria Online",
-    "Microsoft Jenny Online",
-    "Microsoft Guy Online"
-  ];
-
+  const preferredNames = ["Samantha","Daniel","Alex","Karen","Google US English","Microsoft Aria Online","Microsoft Jenny Online","Microsoft Guy Online"];
   for(const name of preferredNames){
-    const found = englishVoices.find(v => v.name.includes(name));
+    const found = englishVoices.find(v=>v.name.includes(name));
     if(found) return found;
   }
-
-  return englishVoices.find(v => v.lang.toLowerCase() === "en-us") || englishVoices[0];
+  return englishVoices.find(v=>v.lang.toLowerCase()==="en-us")||englishVoices[0];
 }
 
 function speakWord(word){
@@ -1292,83 +1049,24 @@ function speakWord(word){
     alert("이 브라우저에서는 음성 기능을 지원하지 않습니다.");
     return;
   }
-
-  if(speakTimer){
-    clearTimeout(speakTimer);
-    speakTimer = null;
-  }
-
-  try{
-    window.speechSynthesis.cancel();
-  }catch(e){}
-
+  if(speakTimer){ clearTimeout(speakTimer); speakTimer=null; }
+  try{ window.speechSynthesis.cancel(); }catch(e){}
   isSpeaking = false;
-
   const utterance = new SpeechSynthesisUtterance(word);
   utterance.lang = "en-US";
   utterance.rate = 0.95;
   utterance.pitch = 1;
   utterance.volume = 1;
-
   const bestVoice = getBestVoice();
-  if(bestVoice){
-    utterance.voice = bestVoice;
-    utterance.lang = bestVoice.lang;
-  }
-
-  utterance.onstart = function(){ isSpeaking = true; };
-  utterance.onend = function(){ isSpeaking = false; };
-  utterance.onerror = function(){ isSpeaking = false; };
-
-  speakTimer = setTimeout(() => {
-    if(!isSpeaking){
-      window.speechSynthesis.speak(utterance);
-    }
+  if(bestVoice){ utterance.voice=bestVoice; utterance.lang=bestVoice.lang; }
+  utterance.onstart = ()=>{ isSpeaking=true; };
+  utterance.onend = ()=>{ isSpeaking=false; };
+  utterance.onerror = ()=>{ isSpeaking=false; };
+  speakTimer = setTimeout(()=>{
+    if(!isSpeaking) window.speechSynthesis.speak(utterance);
     speakTimer = null;
   }, 60);
 }
-
-function updateFabByDirection(direction){
-  scrollDirection = direction;
-
-  if(direction === "up"){
-    fabArrow.setAttribute("d","M6 14l6-6 6 6");
-    fabLine.setAttribute("d","M6 19h12");
-  }else{
-    fabArrow.setAttribute("d","M6 10l6 6 6-6");
-    fabLine.setAttribute("d","M6 19h12");
-  }
-
-  scrollFab.classList.add("show");
-
-  if(scrollHideTimer) clearTimeout(scrollHideTimer);
-  scrollHideTimer = setTimeout(() => {
-    scrollFab.classList.remove("show");
-  }, 900);
-}
-
-window.addEventListener("scroll", () => {
-  const currentY = window.scrollY;
-  const diff = currentY - lastScrollY;
-
-  if(Math.abs(diff) >= 32){
-    if(diff > 0){
-      updateFabByDirection("up");
-    }else{
-      updateFabByDirection("down");
-    }
-  }
-
-  lastScrollY = currentY;
-});
-
-scrollFab.addEventListener("click", () => {
-  if(scrollDirection === "up"){
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }else{
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-  }
-});
 
 if("speechSynthesis" in window){
   setBestVoices();
@@ -1379,6 +1077,16 @@ updateProgress();
 updateGuide();
 updateButtons();
 render();
+
+// 저장된 점수 복원
+const savedScore = loadScore();
+if(savedScore){
+  const msgs = ["더 열심히 해봐요! 💪","조금 더 하면 될 것 같아요! 🔥","절반 넘겼어요! 👍","잘하고 있어요! ⭐","거의 다 맞았어요! 🎉","완벽해요! 🏆"];
+  scoreNum.textContent = `${savedScore.correctCount} / ${savedScore.total}`;
+  scorePct.textContent = `정답률 ${savedScore.pct}%`;
+  scoreMsg.textContent = msgs[savedScore.msgIdx];
+  scoreCard.classList.add("show");
+}
 </script>
 
 </body>
