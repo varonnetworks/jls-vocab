@@ -1,83 +1,319 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pollution & Environmental Technology Foundation</title>
 
 <style>
+*{
+  box-sizing:border-box;
+}
 
 body{
-font-family:Arial;
-background:#f5f6fa;
-padding:40px;
+  font-family:Arial, sans-serif;
+  background:#f5f6fa;
+  padding:24px 16px 40px;
+  margin:0;
+  color:#222;
+}
+
+.container{
+  max-width:820px;
+  margin:0 auto;
 }
 
 .top{
-margin-bottom:20px;
+  margin-bottom:18px;
 }
 
 .btn{
-display:inline-block;
-padding:10px 14px;
-border-radius:10px;
-border:1px solid #ddd;
-background:white;
-text-decoration:none;
-font-size:14px;
-color:black;
+  display:inline-block;
+  padding:11px 16px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  background:white;
+  text-decoration:none;
+  font-size:14px;
+  color:#222;
+  box-shadow:0 2px 6px rgba(0,0,0,0.04);
+  transition:all 0.18s ease;
 }
 
-.unit{
-background:white;
-padding:20px;
-border-radius:12px;
-margin-bottom:15px;
-border:1px solid #ddd;
+.btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 5px 12px rgba(0,0,0,0.08);
 }
 
-a{
-text-decoration:none;
-font-size:20px;
-color:black;
+.title-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+  flex-wrap:nowrap;
 }
 
+.title-row h1{
+  margin:0;
+  font-size:28px;
+  line-height:1.2;
+  font-weight:700;
+}
+
+.book-badge{
+  flex-shrink:0;
+  min-width:118px;
+  height:38px;
+  padding:0 14px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+  font-weight:700;
+  background:#ffe9a8;
+  color:#8a6a00;
+  border:1px solid #f0cd63;
+  margin-left:4px;
+}
+
+.chapter-list{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.chapter-card{
+  background:#fff;
+  border-radius:22px;
+  padding:18px 16px 14px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+  border:3px solid transparent;
+}
+
+.chapter-1{
+  border-color:#f1d36c;
+}
+
+.chapter-2{
+  border-color:#e5bd42;
+}
+
+.chapter-head{
+  margin:0 0 14px 2px;
+}
+
+.chapter-title{
+  margin:0;
+  font-size:18px;
+  font-weight:700;
+  line-height:1.35;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:baseline;
+}
+
+.chapter-number{
+  color:#222;
+}
+
+.chapter-name{
+  color:#8b7b4f;
+  font-weight:600;
+}
+
+.unit-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  background:#fff;
+  border:1px solid #e6e6ea;
+  border-radius:18px;
+  padding:16px 18px;
+  margin-bottom:10px;
+  text-decoration:none;
+  color:#222;
+  box-shadow:0 3px 10px rgba(0,0,0,0.04);
+  transition:all 0.18s ease;
+}
+
+.unit-item:last-child{
+  margin-bottom:0;
+}
+
+.unit-item:hover{
+  transform:translateY(-1px);
+  box-shadow:0 7px 16px rgba(0,0,0,0.08);
+}
+
+.chapter-1 .unit-item:hover{
+  border-color:#f1d97f;
+}
+
+.chapter-2 .unit-item:hover{
+  border-color:#e7c65c;
+}
+
+.unit-main{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+  flex:1;
+}
+
+.unit-number{
+  font-size:13px;
+  font-weight:700;
+  color:#222;
+  flex-shrink:0;
+}
+
+.unit-arrow{
+  flex-shrink:0;
+  font-size:28px;
+  line-height:1;
+  color:#b4b0a1;
+}
+
+@media (max-width:640px){
+  body{
+    padding:18px 12px 28px;
+  }
+
+  .btn{
+    font-size:13px;
+    padding:10px 14px;
+    border-radius:11px;
+  }
+
+  .title-row{
+    align-items:center;
+    gap:8px;
+    flex-wrap:nowrap;
+    margin-bottom:16px;
+  }
+
+  .title-row h1{
+    font-size:22px;
+  }
+
+  .book-badge{
+    min-width:104px;
+    height:34px;
+    font-size:14px;
+    padding:0 12px;
+  }
+
+  .chapter-card{
+    padding:16px 12px 12px;
+    border-radius:20px;
+    border-width:3px;
+  }
+
+  .chapter-title{
+    font-size:18px;
+    gap:6px;
+  }
+
+  .chapter-name{
+    font-size:16px;
+  }
+
+  .unit-item{
+    padding:15px 16px;
+    border-radius:16px;
+  }
+
+  .unit-number{
+    font-size:13px;
+  }
+
+  .unit-arrow{
+    font-size:24px;
+  }
+}
 </style>
-
 </head>
 
 <body>
+<div class="container">
 
-<div class="top">
-<a class="btn" href="../index.html">교재 전체 목록</a>
+  <div class="top">
+    <a class="btn" href="../index.html">교재 전체 목록</a>
+  </div>
+
+  <div class="title-row">
+    <h1>Pollution & Environmental Technology</h1>
+    <div class="book-badge">Foundation</div>
+  </div>
+
+  <div class="chapter-list">
+
+    <div class="chapter-card chapter-1">
+      <div class="chapter-head">
+        <h2 class="chapter-title">
+          <span class="chapter-number">Chapter 1</span>
+          <span class="chapter-name">POLLUTION</span>
+        </h2>
+      </div>
+
+      <a class="unit-item" href="ch1un1-2.html">
+        <span class="unit-main">
+          <span class="unit-number">Unit 1 & 2</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
+
+      <a class="unit-item" href="ch1un3-4.html">
+        <span class="unit-main">
+          <span class="unit-number">Unit 3 & 4</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
+
+      <a class="unit-item" href="ch1un5-6.html">
+        <span class="unit-main">
+          <span class="unit-number">Unit 5 & 6</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
+    </div>
+
+    <div class="chapter-card chapter-2">
+      <div class="chapter-head">
+        <h2 class="chapter-title">
+          <span class="chapter-number">Chapter 2</span>
+          <span class="chapter-name">ENVIRONMENTAL TECHNOLOGY</span>
+        </h2>
+      </div>
+
+      <a class="unit-item" href="ch2un1-2.html">
+        <span class="unit-main">
+          <span class="unit-number">Unit 1 & 2</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
+
+      <a class="unit-item" href="ch2un3-4.html">
+        <span class="unit-main">
+          <span class="unit-number">Unit 3 & 4</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
+
+      <a class="unit-item" href="ch2un5-6.html">
+        <span class="unit-main">
+          <span class="unit-number">Unit 5 & 6</span>
+        </span>
+        <span class="unit-arrow">›</span>
+      </a>
+    </div>
+
+  </div>
+
 </div>
-
-<h1>Pollution & Environmental Technology_Foundation</h1>
-
-<div class="unit">
-<a href="ch1un1-2.html">Chapter 1 Unit 1 & 2</a>
-</div>
-
-<div class="unit">
-<a href="ch1un3-4.html">Chapter 1 Unit 3 & 4</a>
-</div>
-
-<div class="unit">
-<a href="ch1un5-6.html">Chapter 1 Unit 5 & 6</a>
-</div>
-
-<div class="unit">
-<a href="ch2un1-2.html">Chapter 2 Unit 1 & 2</a>
-</div>
-
-<div class="unit">
-<a href="ch2un3-4.html">Chapter 2 Unit 3 & 4</a>
-</div>
-
-<div class="unit">
-<a href="ch2un5-6.html">Chapter 2 Unit 5 & 6</a>
-</div>
-
 </body>
-
 </html>
