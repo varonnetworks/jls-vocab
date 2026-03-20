@@ -527,6 +527,7 @@ h1{
   <div class="bottom-grade-inner">
     <button class="grade-btn" id="gradeBtn" type="button">채점하기</button>
     <button class="cancel-test-btn" id="cancelTestBtn" type="button">시험 종료</button>
+    <button class="grade-btn" id="retryBtn" type="button" style="display:none;">재도전</button>
   </div>
 </div>
 
@@ -612,6 +613,7 @@ const scoreMsg = document.getElementById("scoreMsg");
 const bottomGradeBar = document.getElementById("bottomGradeBar");
 const gradeBtn = document.getElementById("gradeBtn");
 const cancelTestBtn = document.getElementById("cancelTestBtn");
+const retryBtn = document.getElementById("retryBtn");
 const loadingBar = document.getElementById("loadingBar");
 
 function loadUnknown(){
@@ -647,6 +649,8 @@ function updateButtons(){
   shuffleBtn.classList.remove("active");
   testKrBtn.classList.toggle("active", testMode === "kr");
   testEnBtn.classList.toggle("active", testMode === "en");
+  testEnBtn.textContent = "단어 테스트";
+  testKrBtn.textContent = "뜻 테스트";
 }
 
 function updateGuide(){
@@ -755,21 +759,25 @@ function localMeaningGrade(userInput, answer, answerPos){
   return { status:"ai" };
 }
 
-const SESSION_KEY = STORAGE_KEY + "_session";
+const SESSION_KEY_EN = STORAGE_KEY + "_session_en";
+const SESSION_KEY_KR = STORAGE_KEY + "_session_kr";
 
 function saveSession(data){
-  try{ localStorage.setItem(SESSION_KEY, JSON.stringify(data)); }catch(e){}
+  const key = data.testMode === "en" ? SESSION_KEY_EN : SESSION_KEY_KR;
+  try{ localStorage.setItem(key, JSON.stringify(data)); }catch(e){}
 }
 
-function loadSession(){
+function loadSession(type){
+  const key = type === "en" ? SESSION_KEY_EN : SESSION_KEY_KR;
   try{
-    const saved = localStorage.getItem(SESSION_KEY);
+    const saved = localStorage.getItem(key);
     return saved ? JSON.parse(saved) : null;
   }catch(e){ return null; }
 }
 
-function clearSession(){
-  localStorage.removeItem(SESSION_KEY);
+function clearSession(type){
+  if(!type || type === "en") localStorage.removeItem(SESSION_KEY_EN);
+  if(!type || type === "kr") localStorage.removeItem(SESSION_KEY_KR);
 }
 
 function visibleIndices(){
@@ -778,14 +786,78 @@ function visibleIndices(){
     : displayOrder;
 }
 
+function showGradeBar(){
+  gradeBtn.style.display = "";
+  cancelTestBtn.style.display = "";
+  retryBtn.style.display = "none";
+  bottomGradeBar.classList.add("show");
+}
+
+function showRetryBar(){
+  gradeBtn.style.display = "none";
+  cancelTestBtn.style.display = "none";
+  retryBtn.style.display = "";
+  bottomGradeBar.classList.add("show");
+}
+
+function hideGradeBar(){
+  bottomGradeBar.classList.remove("show");
+}
+
+function restoreSession(session){
+  const msgs = ["더 열심히 해봐요! 💪","조금 더 하면 될 것 같아요! 🔥","절반 넘겼어요! 👍","잘하고 있어요! ⭐","거의 다 맞았어요! 🎉","완벽해요! 🏆"];
+  testMode = session.testMode;
+  graded = true;
+  displayOrder = session.displayOrder || displayOrder;
+  resetScore();
+  updateGuide();
+  updateButtons();
+  scoreNum.textContent = `${session.correctCount} / ${session.total}`;
+  scorePct.textContent = `정답률 ${session.pct}%`;
+  scoreMsg.textContent = msgs[session.msgIdx];
+  scoreCard.classList.add("show");
+  showRetryBar();
+  render();
+  setTimeout(()=>{
+    const rows = [...document.querySelectorAll(".word-row")];
+    session.results.forEach(r=>{
+      const row = rows[r.id];
+      if(!row) return;
+      const input = row.querySelector(".test-input");
+      const checkBtn = row.querySelector(".check-btn");
+      const textBox = row.querySelector(".word-main");
+      const pair = session.pairs[r.id];
+      if(input && pair){ input.value = pair.userInput; input.disabled = true; }
+      if(r.correct){
+        row.classList.add("correct");
+        if(input) input.classList.add("correct-input");
+        if(checkBtn) checkBtn.className="check-btn result-correct";
+      }else{
+        row.classList.add("wrong");
+        if(input) input.classList.add("wrong-input");
+        if(checkBtn) checkBtn.className="check-btn result-wrong";
+        if(textBox && !textBox.querySelector(".answer-label") && pair){
+          const label = document.createElement("div");
+          label.className = "answer-label wrong-label";
+          label.style.gridColumn = "1 / -1";
+          label.textContent = `정답: ${pair.answer}`;
+          textBox.appendChild(label);
+        }
+      }
+    });
+    window.scrollTo({ top:0, behavior:"smooth" });
+  }, 50);
+}
+
 function startTest(type){
   testMode = type;
   graded = false;
   mode = "none";
   resetReveal();
   resetScore();
+  clearSession(type);
   shuffleOrder();
-  bottomGradeBar.classList.add("show");
+  showGradeBar();
   updateGuide();
   updateButtons();
   render();
@@ -793,11 +865,12 @@ function startTest(type){
 }
 
 function cancelTest(){
+  const type = testMode;
   testMode = null;
   graded = false;
   loadingBar.classList.remove("show");
-  bottomGradeBar.classList.remove("show");
-  clearSession();
+  hideGradeBar();
+  clearSession(type);
   resetScore();
   updateGuide();
   updateButtons();
@@ -922,11 +995,13 @@ function showResults(results, pairs){
     testMode,
     displayOrder: [...displayOrder],
     correctCount, total, pct, msgIdx,
+    savedAt: Date.now(),
     results: results.map(r=>({ id:r.id, correct:r.correct })),
     pairs: pairs.map(p=>({ word:p.word, answer:p.answer, userInput:p.userInput }))
   });
 
   window.scrollTo({ top:0, behavior:"smooth" });
+  showRetryBar();
 }
 
 function render(){
@@ -1019,8 +1094,36 @@ function bindEvents(){
   });
 }
 
-allBtn.onclick = ()=>{ filter="all"; render(); };
-unknownBtn.onclick = ()=>{ filter="unknown"; render(); };
+allBtn.onclick = ()=>{
+  if(testMode){
+    testMode = null;
+    graded = false;
+    loadingBar.classList.remove("show");
+    hideGradeBar();
+    resetScore();
+    updateGuide();
+  }
+  filter = "all";
+  render();
+};
+
+unknownBtn.onclick = ()=>{
+  if(testMode){
+    testMode = null;
+    graded = false;
+    loadingBar.classList.remove("show");
+    hideGradeBar();
+    resetScore();
+    updateGuide();
+  }
+  filter = "unknown";
+  render();
+};
+
+retryBtn.onclick = ()=>{
+  const type = testMode || (loadSession("en") ? "en" : "kr");
+  startTest(type);
+};
 
 wordBtn.onclick = ()=>{
   if(testMode) return;
@@ -1042,10 +1145,22 @@ shuffleBtn.onclick = ()=>{
   render();
 };
 
-testKrBtn.onclick = ()=>startTest("kr");
-testEnBtn.onclick = ()=>startTest("en");
+testEnBtn.onclick = ()=>{
+  const session = loadSession("en");
+  if(session) restoreSession(session);
+  else startTest("en");
+};
+testKrBtn.onclick = ()=>{
+  const session = loadSession("kr");
+  if(session) restoreSession(session);
+  else startTest("kr");
+};
 gradeBtn.onclick = ()=>gradeAnswers();
 cancelTestBtn.onclick = ()=>cancelTest();
+retryBtn.onclick = ()=>{
+  const type = testMode || (loadSession("en") ? "en" : "kr");
+  startTest(type);
+};
 
 function setBestVoices(){
   if(!("speechSynthesis" in window)) return;
@@ -1097,51 +1212,16 @@ updateGuide();
 updateButtons();
 render();
 
-const savedSession = loadSession();
-if(savedSession){
-  const msgs = ["더 열심히 해봐요! 💪","조금 더 하면 될 것 같아요! 🔥","절반 넘겼어요! 👍","잘하고 있어요! ⭐","거의 다 맞았어요! 🎉","완벽해요! 🏆"];
-  testMode = savedSession.testMode;
-  graded = true;
-  displayOrder = savedSession.displayOrder || displayOrder;
-  bottomGradeBar.classList.add("show");
-  gradeBtn.disabled = false;
-  updateGuide();
-  updateButtons();
-  scoreNum.textContent = `${savedSession.correctCount} / ${savedSession.total}`;
-  scorePct.textContent = `정답률 ${savedSession.pct}%`;
-  scoreMsg.textContent = msgs[savedSession.msgIdx];
-  scoreCard.classList.add("show");
-  render();
-  setTimeout(()=>{
-    const rows = [...document.querySelectorAll(".word-row")];
-    savedSession.results.forEach(r=>{
-      const row = rows[r.id];
-      if(!row) return;
-      const input = row.querySelector(".test-input");
-      const checkBtn = row.querySelector(".check-btn");
-      const textBox = row.querySelector(".word-main");
-      const pair = savedSession.pairs[r.id];
-      if(input && pair){ input.value = pair.userInput; input.disabled = true; }
-      if(r.correct){
-        row.classList.add("correct");
-        if(input) input.classList.add("correct-input");
-        if(checkBtn) checkBtn.className="check-btn result-correct";
-      }else{
-        row.classList.add("wrong");
-        if(input) input.classList.add("wrong-input");
-        if(checkBtn) checkBtn.className="check-btn result-wrong";
-        if(textBox && !textBox.querySelector(".answer-label") && pair){
-          const label = document.createElement("div");
-          label.className = "answer-label wrong-label";
-          label.style.gridColumn = "1 / -1";
-          label.textContent = `정답: ${pair.answer}`;
-          textBox.appendChild(label);
-        }
-      }
-    });
-  }, 50);
-}
+const savedSessionEn = loadSession("en");
+const savedSessionKr = loadSession("kr");
+const latestSession = (savedSessionEn && savedSessionKr)
+  ? (savedSessionEn.savedAt > savedSessionKr.savedAt ? savedSessionEn : savedSessionKr)
+  : (savedSessionEn || savedSessionKr);
+
+if(latestSession) restoreSession(latestSession);
 </script>
 
 </body>
 </html>
+
+
