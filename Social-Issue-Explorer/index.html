@@ -91,17 +91,9 @@ body{
   border:3px solid transparent;
 }
 
-.chapter-1{
-  border-color:#cbe6ff;
-}
-
-.chapter-2{
-  border-color:#a8d4ff;
-}
-
-.chapter-3{
-  border-color:#7ebeff;
-}
+.chapter-1{ border-color:#cbe6ff; }
+.chapter-2{ border-color:#a8d4ff; }
+.chapter-3{ border-color:#7ebeff; }
 
 .chapter-head{
   margin:0 0 14px 2px;
@@ -124,7 +116,7 @@ body{
 }
 
 .chapter-name{
-  color:#6F7785;
+  color:#6f7785;
   font-weight:600;
 }
 
@@ -132,7 +124,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
+  gap:13px;
   background:#fff;
   border:1px solid #e6e6ea;
   border-radius:18px;
@@ -153,21 +145,13 @@ body{
   box-shadow:0 7px 16px rgba(0,0,0,0.08);
 }
 
-.chapter-1 .unit-item:hover{
-  border-color:#c7e1ff;
-}
-
-.chapter-2 .unit-item:hover{
-  border-color:#abd5ff;
-}
-
-.chapter-3 .unit-item:hover{
-  border-color:#84c1ff;
-}
+.chapter-1 .unit-item:hover{ border-color:#c7e1ff; }
+.chapter-2 .unit-item:hover{ border-color:#abd5ff; }
+.chapter-3 .unit-item:hover{ border-color:#84c1ff; }
 
 .unit-main{
   display:flex;
-  align-items:flex-start;
+  align-items:center;
   gap:12px;
   min-width:0;
   flex:1;
@@ -182,11 +166,22 @@ body{
 }
 
 .unit-title{
-  font-size:14px;
-  color:#9e9e9e;
-  line-height:1.4;
-  font-weight:500;
-  word-break:keep-all;
+  flex:1;
+  min-width:0;
+  font-size:11px;
+  color:#aaa8b3;
+  line-height:1.3;
+  font-weight:600;
+  text-align:right;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  padding-right:2px;
+}
+
+.unit-title.has-unknown{
+  color:#2d73d6;
+  font-weight:700;
 }
 
 .unit-arrow{
@@ -251,7 +246,8 @@ body{
   }
 
   .unit-title{
-    font-size:15px;
+    font-size:10px;
+    padding-right:0;
   }
 
   .unit-arrow{
@@ -264,118 +260,148 @@ body{
 <body>
 <div class="container">
 
-  <div class="top">
-    <a class="btn" href="../index-preview.html">교재 전체 목록</a>
-  </div>
+<div class="top">
+<a class="btn" href="../index.html">교재 전체 목록</a>
+</div>
 
-  <div class="title-row">
-    <h1>Social Issues</h1>
-    <div class="book-badge">Explorer</div>
-  </div>
+<div class="title-row">
+<h1>Social Issues</h1>
+<div class="book-badge">Explorer</div>
+</div>
 
-  <div class="chapter-list">
+<div class="chapter-list">
 
-    <div class="chapter-card chapter-1">
-      <div class="chapter-head">
-        <h2 class="chapter-title">
-          <span class="chapter-number">Chapter 1</span>
-          <span class="chapter-name">Creative Commuting</span>
-        </h2>
-      </div>
+<div class="chapter-card chapter-1">
+<div class="chapter-head">
+<h2 class="chapter-title">
+<span class="chapter-number">Chapter 1</span>
+<span class="chapter-name">Creative Commuting</span>
+</h2>
+</div>
 
-      <a class="unit-item" href="ch1un1.html">
-        <span class="unit-main">
-          <span class="unit-number">Unit 1</span>
-          <span class="unit-title">The Daily Ride: A History of the Commute</span>
-        </span>
-        <span class="unit-arrow">›</span>
-      </a>
+<a class="unit-item" href="ch1un1.html" data-storage-key="vocab_unknown_ch1un1">
+<span class="unit-main">
+<span class="unit-number">Unit 01</span>
+<span class="unit-title">모르는 단어 없음</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
 
-      <a class="unit-item" href="ch1un2.html">
-        <span class="unit-main">
-          <span class="unit-number">Unit 2</span>
-          <span class="unit-title">Green Commuting</span>
-        </span>
-        <span class="unit-arrow">›</span>
-      </a>
+<a class="unit-item" href="ch1un2.html" data-storage-key="vocab_unknown_ch1un2">
+<span class="unit-main">
+<span class="unit-number">Unit 02</span>
+<span class="unit-title">모르는 단어 없음</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
 
-      <a class="unit-item" href="ch1un3.html">
-        <span class="unit-main">
-          <span class="unit-number">Unit 3</span>
-          <span class="unit-title">Make the Most of Your Commute</span>
-        </span>
-        <span class="unit-arrow">›</span>
-      </a>
-    </div>
+<a class="unit-item" href="ch1un3.html" data-storage-key="vocab_unknown_ch1un3">
+<span class="unit-main">
+<span class="unit-number">Unit 03</span>
+<span class="unit-title">모르는 단어 없음</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
+</div>
 
-    <div class="chapter-card chapter-2">
-      <div class="chapter-head">
-        <h2 class="chapter-title">
-          <span class="chapter-number">Chapter 2</span>
-          <span class="chapter-name">Cash-Free Society</span>
-        </h2>
-      </div>
+<div class="chapter-card chapter-2">
+<div class="chapter-head">
+<h2 class="chapter-title">
+<span class="chapter-number">Chapter 2</span>
+<span class="chapter-name">Cash-Free Society</span>
+</h2>
+</div>
 
-      <a class="unit-item" href="ch2un1.html">
-        <span class="unit-main">
-          <span class="unit-number">Unit 1</span>
-          <span class="unit-title">A Future without Cash</span>
-        </span>
-        <span class="unit-arrow">›</span>
-      </a>
+<a class="unit-item" href="ch2un1.html" data-storage-key="vocab_unknown_ch2un1">
+<span class="unit-main">
+<span class="unit-number">Unit 01</span>
+<span class="unit-title">모르는 단어 없음</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
 
-      <a class="unit-item" href="ch2un2.html">
-        <span class="unit-main">
-          <span class="unit-number">Unit 2</span>
-          <span class="unit-title">Two Ways to Pay</span>
-        </span>
-        <span class="unit-arrow">›</span>
-      </a>
+<a class="unit-item" href="ch2un2.html" data-storage-key="vocab_unknown_ch2un2">
+<span class="unit-main">
+<span class="unit-number">Unit 02</span>
+<span class="unit-title">모르는 단어 없음</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
 
-      <a class="unit-item" href="ch2un3.html">
-        <span class="unit-main">
-          <span class="unit-number">Unit 3</span>
-          <span class="unit-title">Teaching Children about Money</span>
-        </span>
-        <span class="unit-arrow">›</span>
-      </a>
-    </div>
+<a class="unit-item" href="ch2un3.html" data-storage-key="vocab_unknown_ch2un3">
+<span class="unit-main">
+<span class="unit-number">Unit 03</span>
+<span class="unit-title">모르는 단어 없음</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
+</div>
 
-    <div class="chapter-card chapter-3">
-      <div class="chapter-head">
-        <h2 class="chapter-title">
-          <span class="chapter-number">Chapter 3</span>
-          <span class="chapter-name">Animal Rights</span>
-        </h2>
-      </div>
+<div class="chapter-card chapter-3">
+<div class="chapter-head">
+<h2 class="chapter-title">
+<span class="chapter-number">Chapter 3</span>
+<span class="chapter-name">Animal Rights</span>
+</h2>
+</div>
 
-      <a class="unit-item" href="ch3un1.html">
-        <span class="unit-main">
-          <span class="unit-number">Unit 1</span>
-          <span class="unit-title">Exploring Our Relationship with Animals</span>
-        </span>
-        <span class="unit-arrow">›</span>
-      </a>
+<a class="unit-item" href="ch3un1.html" data-storage-key="vocab_unknown_ch3un1">
+<span class="unit-main">
+<span class="unit-number">Unit 01</span>
+<span class="unit-title">모르는 단어 없음</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
 
-      <a class="unit-item" href="ch3un2.html">
-        <span class="unit-main">
-          <span class="unit-number">Unit 2</span>
-          <span class="unit-title">The Problem with Exotic Pets</span>
-        </span>
-        <span class="unit-arrow">›</span>
-      </a>
+<a class="unit-item" href="ch3un2.html" data-storage-key="vocab_unknown_ch3un2">
+<span class="unit-main">
+<span class="unit-number">Unit 02</span>
+<span class="unit-title">모르는 단어 없음</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
 
-      <a class="unit-item" href="ch3un3.html">
-        <span class="unit-main">
-          <span class="unit-number">Unit 3</span>
-          <span class="unit-title">Medical Testing on Animals: Is It Right or Wrong?</span>
-        </span>
-        <span class="unit-arrow">›</span>
-      </a>
-    </div>
-
-  </div>
+<a class="unit-item" href="ch3un3.html" data-storage-key="vocab_unknown_ch3un3">
+<span class="unit-main">
+<span class="unit-number">Unit 03</span>
+<span class="unit-title">모르는 단어 없음</span>
+</span>
+<span class="unit-arrow">›</span>
+</a>
 
 </div>
+
+</div>
+
+</div>
+
+<script>
+function getUnknownCount(storageKey){
+  try{
+    const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    return Array.isArray(saved) ? saved.length : 0;
+  }catch(e){
+    return 0;
+  }
+}
+
+document.querySelectorAll(".unit-item").forEach(item => {
+  const storageKey = item.dataset.storageKey;
+  const titleEl = item.querySelector(".unit-title");
+
+  if(!storageKey || !titleEl) return;
+
+  const count = getUnknownCount(storageKey);
+
+  if(count > 0){
+    titleEl.textContent = `모르는 단어 ${count}개`;
+    titleEl.classList.add("has-unknown");
+  }else{
+    titleEl.textContent = "모르는 단어 없음";
+    titleEl.classList.remove("has-unknown");
+  }
+});
+</script>
 </body>
 </html>
+
