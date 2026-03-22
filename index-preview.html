@@ -12,11 +12,9 @@
 <meta name="apple-mobile-web-app-title" content="JLS활용독해">
 <meta name="theme-color" content="#1B5EAB">
 
-<!-- 앱 아이콘 (인라인 SVG → data URL) -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' rx='40' fill='%23fff'/%3E%3Crect x='72' y='110' width='16' height='46' rx='8' fill='%23E8233A'/%3E%3Crect x='92' y='88' width='16' height='68' rx='8' fill='%231B5EAB'/%3E%3Crect x='112' y='66' width='16' height='90' rx='8' fill='%23F5A623'/%3E%3C/svg%3E">
-
-<!-- 애플 홈 화면 아이콘 -->
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' rx='40' fill='%23fff'/%3E%3Crect x='72' y='110' width='16' height='46' rx='8' fill='%23E8233A'/%3E%3Crect x='92' y='88' width='16' height='68' rx='8' fill='%231B5EAB'/%3E%3Crect x='112' y='66' width='16' height='90' rx='8' fill='%23F5A623'/%3E%3C/svg%3E">
+<!-- 앱 아이콘: JS로 Canvas → PNG 생성 후 동적 주입 -->
+<link id="favicon" rel="icon" type="image/png">
+<link id="apple-icon" rel="apple-touch-icon">
 
 <!-- 스플래시 화면 (iOS) -->
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -529,6 +527,85 @@ body {
 </div>
 
 <script>
+  /* ── 앱 아이콘 Canvas로 생성 ── */
+  (function generateIcon() {
+    const S = 512; // 고해상도
+    const c = document.createElement('canvas');
+    c.width = c.height = S;
+    const ctx = c.getContext('2d');
+
+    // 흰 배경
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, S, S);
+
+    // 바 설정 — 크고 굵게
+    const barW = 72;   // 두께
+    const gap  = 24;   // 간격
+    const totalW = barW * 3 + gap * 2;
+    const startX = (S - totalW) / 2;
+    const baseY  = S * 0.62; // 바 바닥 기준선
+
+    const bars = [
+      { color: '#E8233A', h: S * 0.22 },  // 빨강 (짧)
+      { color: '#1B5EAB', h: S * 0.34 },  // 파랑 (중간)
+      { color: '#F5A623', h: S * 0.46 },  // 노랑 (가장 높)
+    ];
+
+    bars.forEach((bar, i) => {
+      const x = startX + i * (barW + gap);
+      const y = baseY - bar.h;
+      const r = barW / 2; // 둥근 모서리
+
+      ctx.fillStyle = bar.color;
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + barW - r, y);
+      ctx.quadraticCurveTo(x + barW, y, x + barW, y + r);
+      ctx.lineTo(x + barW, y + bar.h - r);
+      ctx.quadraticCurveTo(x + barW, y + bar.h, x + barW - r, y + bar.h);
+      ctx.lineTo(x + r, y + bar.h);
+      ctx.quadraticCurveTo(x, y + bar.h, x, y + bar.h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+      ctx.fill();
+    });
+
+    // 텍스트 — JLS활용독해
+    const textY = S * 0.82;
+
+    // JLS (파랑)
+    ctx.font = `900 ${S * 0.145}px "Nunito", Arial`;
+    ctx.fillStyle = '#1B5EAB';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // 세 단어 각각 색상 다르게
+    const jlsW   = S * 0.145 * 1.8 * 0.62; // 대략 JLS 폭
+    const hwalW  = S * 0.145 * 1.1 * 0.9;
+    const dokW   = S * 0.145 * 1.1 * 0.9;
+    const totalTW = jlsW + hwalW + dokW;
+    let tx = S / 2 - totalTW / 2;
+
+    ctx.font = `900 ${Math.round(S * 0.13)}px Arial`;
+    ctx.textAlign = 'left';
+
+    ctx.fillStyle = '#1B5EAB';
+    ctx.fillText('JLS', tx, textY);
+    tx += ctx.measureText('JLS').width;
+
+    ctx.fillStyle = '#E8233A';
+    ctx.fillText('활용', tx, textY);
+    tx += ctx.measureText('활용').width;
+
+    ctx.fillStyle = '#111111';
+    ctx.fillText('독해', tx, textY);
+
+    const png = c.toDataURL('image/png');
+    document.getElementById('favicon').href     = png;
+    document.getElementById('apple-icon').href  = png;
+  })();
+
   /* ── 스플래시 제어 ── */
   window.addEventListener('load', () => {
     // 홈 화면에서 열었을 때(standalone)는 1.2초, 브라우저는 0.6초 유지
