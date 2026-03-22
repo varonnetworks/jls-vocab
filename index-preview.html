@@ -529,7 +529,7 @@ body {
 <script>
   /* ── 앱 아이콘 Canvas로 생성 ── */
   (function generateIcon() {
-    const S = 512; // 고해상도
+    const S = 512;
     const c = document.createElement('canvas');
     c.width = c.height = S;
     const ctx = c.getContext('2d');
@@ -538,24 +538,23 @@ body {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, S, S);
 
-    // 바 설정 — 크고 굵게
-    const barW = 72;   // 두께
-    const gap  = 24;   // 간격
-    const totalW = barW * 3 + gap * 2;
-    const startX = (S - totalW) / 2;
-    const baseY  = S * 0.62; // 바 바닥 기준선
+    // 바 — 작게 위쪽에
+    const barW = 44;
+    const gap  = 16;
+    const totalBarW = barW * 3 + gap * 2;
+    const startX = (S - totalBarW) / 2;
+    const baseY  = S * 0.45;
 
     const bars = [
-      { color: '#E8233A', h: S * 0.22 },  // 빨강 (짧)
-      { color: '#1B5EAB', h: S * 0.34 },  // 파랑 (중간)
-      { color: '#F5A623', h: S * 0.46 },  // 노랑 (가장 높)
+      { color: '#E8233A', h: S * 0.13 },
+      { color: '#1B5EAB', h: S * 0.20 },
+      { color: '#F5A623', h: S * 0.28 },
     ];
 
     bars.forEach((bar, i) => {
       const x = startX + i * (barW + gap);
       const y = baseY - bar.h;
-      const r = barW / 2; // 둥근 모서리
-
+      const r = barW / 2;
       ctx.fillStyle = bar.color;
       ctx.beginPath();
       ctx.moveTo(x + r, y);
@@ -571,39 +570,29 @@ body {
       ctx.fill();
     });
 
-    // 텍스트 — JLS활용독해
-    const textY = S * 0.82;
-
-    // JLS (파랑)
-    ctx.font = `900 ${S * 0.145}px "Nunito", Arial`;
-    ctx.fillStyle = '#1B5EAB';
-    ctx.textAlign = 'center';
+    // 활독 — 크게 아래쪽
+    // 먼저 폰트 세팅 후 measureText로 정확한 위치 계산
+    const fontSize = Math.round(S * 0.27);
+    ctx.font = `900 ${fontSize}px Arial`;
     ctx.textBaseline = 'middle';
-
-    // 세 단어 각각 색상 다르게
-    const jlsW   = S * 0.145 * 1.8 * 0.62; // 대략 JLS 폭
-    const hwalW  = S * 0.145 * 1.1 * 0.9;
-    const dokW   = S * 0.145 * 1.1 * 0.9;
-    const totalTW = jlsW + hwalW + dokW;
-    let tx = S / 2 - totalTW / 2;
-
-    ctx.font = `900 ${Math.round(S * 0.13)}px Arial`;
     ctx.textAlign = 'left';
 
-    ctx.fillStyle = '#1B5EAB';
-    ctx.fillText('JLS', tx, textY);
-    tx += ctx.measureText('JLS').width;
+    const hwalW = ctx.measureText('활').width;
+    const dokW  = ctx.measureText('독').width;
+    const totalTW = hwalW + dokW;
+    let tx = (S - totalTW) / 2;
+    const textY = S * 0.74;
 
     ctx.fillStyle = '#E8233A';
-    ctx.fillText('활용', tx, textY);
-    tx += ctx.measureText('활용').width;
+    ctx.fillText('활', tx, textY);
+    tx += hwalW;
 
     ctx.fillStyle = '#111111';
-    ctx.fillText('독해', tx, textY);
+    ctx.fillText('독', tx, textY);
 
     const png = c.toDataURL('image/png');
-    document.getElementById('favicon').href     = png;
-    document.getElementById('apple-icon').href  = png;
+    document.getElementById('favicon').href    = png;
+    document.getElementById('apple-icon').href = png;
   })();
 
   /* ── 스플래시 제어 ── */
