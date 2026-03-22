@@ -12,9 +12,9 @@
 <meta name="apple-mobile-web-app-title" content="JLS활용독해">
 <meta name="theme-color" content="#1B5EAB">
 
-<!-- 앱 아이콘: JS로 Canvas → PNG 생성 후 동적 주입 -->
-<link id="favicon" rel="icon" type="image/png">
-<link id="apple-icon" rel="apple-touch-icon">
+<!-- 앱 아이콘 -->
+<link rel="icon" type="image/png" href="./images/logo-vee2.png">
+<link rel="apple-touch-icon" href="./images/logo-vee2.png">
 
 <!-- 스플래시 화면 (iOS) -->
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -527,88 +527,7 @@ body {
 </div>
 
 <script>
-  /* ── 앱 아이콘 Canvas로 생성 ── */
-  (function generateIcon() {
-    const S = 512;
-    const c = document.createElement('canvas');
-    c.width = c.height = S;
-    const ctx = c.getContext('2d');
 
-    // 흰 배경
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, S, S);
-
-    const PAD = 28; // 여백
-
-    // ── 활독 꽉 차게 ──
-    // 이진탐색으로 S 너비에 꽉 맞는 폰트 크기 계산
-    let lo = 10, hi = 500, fs = 200;
-    ctx.textBaseline = 'alphabetic';
-    ctx.textAlign = 'left';
-    for (let i = 0; i < 30; i++) {
-      const mid = (lo + hi) / 2;
-      ctx.font = `900 ${mid}px Arial`;
-      const w = ctx.measureText('활독').width;
-      if (w < S - PAD * 2) lo = mid; else hi = mid;
-    }
-    fs = lo;
-    ctx.font = `900 ${fs}px Arial`;
-
-    // 텍스트 세로 중앙 (살짝 아래쪽)
-    const metrics = ctx.measureText('활독');
-    const textH = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
-    const totalH = textH; // 텍스트만
-    const textY = S * 0.62 + metrics.actualBoundingBoxAscent;
-
-    const totalTW = ctx.measureText('활독').width;
-    const hwalW = ctx.measureText('활').width;
-    let tx = (S - totalTW) / 2;
-
-    // 활 — 빨강
-    ctx.fillStyle = '#E8233A';
-    ctx.fillText('활', tx, textY);
-    tx += hwalW;
-
-    // 독 — 파랑
-    ctx.fillStyle = '#1B5EAB';
-    ctx.fillText('독', tx, textY);
-
-    // ── 그래프 바 — 텍스트 위 작게 ──
-    const barW  = 28;
-    const gap   = 10;
-    const totalBarW = barW * 3 + gap * 2;
-    const bx    = (S - totalBarW) / 2;
-    const baseY = S * 0.30;
-
-    const bars = [
-      { color: '#E8233A', h: 40 },
-      { color: '#1B5EAB', h: 62 },
-      { color: '#F5A623', h: 84 },
-    ];
-
-    bars.forEach((bar, i) => {
-      const x = bx + i * (barW + gap);
-      const y = baseY - bar.h;
-      const r = barW / 2;
-      ctx.fillStyle = bar.color;
-      ctx.beginPath();
-      ctx.moveTo(x + r, y);
-      ctx.lineTo(x + barW - r, y);
-      ctx.quadraticCurveTo(x + barW, y, x + barW, y + r);
-      ctx.lineTo(x + barW, y + bar.h - r);
-      ctx.quadraticCurveTo(x + barW, y + bar.h, x + barW - r, y + bar.h);
-      ctx.lineTo(x + r, y + bar.h);
-      ctx.quadraticCurveTo(x, y + bar.h, x, y + bar.h - r);
-      ctx.lineTo(x, y + r);
-      ctx.quadraticCurveTo(x, y, x + r, y);
-      ctx.closePath();
-      ctx.fill();
-    });
-
-    const png = c.toDataURL('image/png');
-    document.getElementById('favicon').href    = png;
-    document.getElementById('apple-icon').href = png;
-  })();
 
   /* ── 스플래시 제어 ── */
   window.addEventListener('load', () => {
