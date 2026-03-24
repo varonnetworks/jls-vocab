@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JLS Race</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    :root{
+      --bg: #f4f4f2;
+      --shell: #f7f7f5;
+      --navy: #5f677a;
+      --navy-dark: #586176;
+      --line: #e5e5e2;
+      --white: #ffffff;
+      --text: #222833;
+      --muted: #a9afb9;
+      --green: #33d3a4;
+      --yellow: #f0dfab;
+      --track: #d99699;
+      --track-line: rgba(255,255,255,0.52);
+      --blue: #4f79d6;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      font-family: Arial, sans-serif;
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .page {
+      padding: 6px;
+    }
+
+    .shell {
+      background: var(--shell);
+      border-radius: 22px;
+      padding: 8px;
+      min-height: calc(100vh - 12px);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1f2430;
+      letter-spacing: -0.4px;
+    }
+
+    .level-chip {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eaf1ff;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .user-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .user-chip,
+    .logout-btn {
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      background: #fff;
+    }
+
+    .user-chip {
+      border: 1px solid #dfdfdf;
+      color: #555;
+    }
+
+    .logout-btn {
+      border: none;
+      background: var(--navy-dark);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .tab-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .tab-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      border: 1px solid #dcdcdc;
+      background: #fff;
+      color: #666;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .pill.active {
+      background: var(--navy-dark);
+      border-color: var(--navy-dark);
+      color: #fff;
+    }
+
+    .board {
+      background: var(--navy);
+      border-radius: 22px;
+      padding: 10px;
+    }
+
+    .board-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .board-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+      letter-spacing: -0.4px;
+    }
+
+    .board-sub {
+      font-size: 13px;
+      font-weight: 700;
+      color: #d6dbe7;
+    }
+
+    .summary-chip {
+      border-radius: 18px;
+      background: rgba(255,255,255,0.09);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 10px 14px;
+      white-space: nowrap;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .rank-box,
+    .track-box {
+      background: #fff;
+      border-radius: 18px;
+      padding: 10px;
+      min-height: 0;
+    }
+
+    .rank-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #3a4660;
+      margin: 2px 2px 10px;
+    }
+
+    .rank-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .rank-item {
+      display: grid;
+      grid-template-columns: 30px 44px minmax(0,1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 10px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #ecebe7;
+      min-height: 74px;
+    }
+
+    .rank-item.me {
+      background: var(--navy-dark);
+      border-color: var(--navy-dark);
+      color: #fff;
+    }
+
+    .rank-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #efefef;
+      color: #555;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .rank-item:first-child .rank-num {
+      background: #f0c13c;
+      color: #fff;
+    }
+
+    .rank-item.me .rank-num {
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #cfd8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      border: 2px solid rgba(0,0,0,0.04);
+    }
+
+    .rank-item.me .avatar {
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .rank-main {
+      min-width: 0;
+    }
+
+    .rank-name {
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 3px;
+      letter-spacing: -0.2px;
+    }
+
+    .rank-desc {
+      font-size: 10px;
+      color: #9ba2ae;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .rank-item.me .rank-desc {
+      color: rgba(255,255,255,0.72);
+    }
+
+    .rank-score {
+      text-align: right;
+      color: var(--green);
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1;
+      padding-left: 4px;
+      flex-shrink: 0;
+    }
+
+    .rank-score small {
+      display: block;
+      font-size: 10px;
+      color: #b1b6be;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .rank-item.me .rank-score small {
+      color: rgba(255,255,255,0.72);
+    }
+
+    .track-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .track-stage {
+      position: relative;
+      background: #f7f6f3;
+      border-radius: 18px;
+      min-height: 248px;
+      padding: 4px 8px 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #trackCanvas {
+      width: 100%;
+      height: 248px;
+      display: block;
+    }
+
+    .bottom-cards {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .info-card {
+      min-width: 165px;
+      border-radius: 16px;
+      padding: 12px 16px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .info-card.dark {
+      background: var(--navy-dark);
+      color: #fff;
+    }
+
+    .info-card.yellow {
+      background: var(--yellow);
+      color: #4d4b42;
+    }
+
+    .info-main {
+      font-size: 14px;
+      margin-bottom: 5px;
+      line-height: 1.35;
+    }
+
+    .info-sub {
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .loading {
+      padding: 54px 20px;
+      text-align: center;
+      color: #666;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .error-box {
+      margin: 20px auto 0;
+      max-width: 700px;
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 18px;
+      padding: 18px;
+      color: #444;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    @media (max-width: 1100px) {
+      .main {
+        grid-template-columns: 235px 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .main {
+        grid-template-columns: 1fr;
+      }
+
+      .rank-box,
+      .track-box {
+        min-height: auto;
+      }
+
+      .track-stage {
+        min-height: 220px;
+      }
+
+      #trackCanvas {
+        height: 220px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        padding: 4px;
+      }
+
+      .shell {
+        padding: 6px;
+        border-radius: 18px;
+      }
+
+      .board {
+        border-radius: 18px;
+        padding: 8px;
+      }
+
+      .board-title {
+        font-size: 20px;
+      }
+
+      .summary-chip {
+        white-space: normal;
+      }
+
+      .rank-item {
+        grid-template-columns: 28px 40px minmax(0,1fr) auto;
+        gap: 8px;
+        padding: 9px;
+      }
+
+      .rank-score {
+        font-size: 15px;
+      }
+
+      .info-card {
+        min-width: 145px;
+        padding: 11px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="shell">
+      <div id="loading" class="loading">불러오는 중...</div>
+
+      <div id="errorBox" class="error-box" style="display:none;"></div>
+
+      <div id="racePage" style="display:none;">
+        <div class="topbar">
+          <div class="brand-wrap">
+            <div class="brand">JLS Race</div>
+            <div class="level-chip" id="levelChip">DSC2</div>
+          </div>
+
+          <div class="user-wrap">
+            <div class="user-chip" id="userChip">김리아 · CHESS</div>
+            <button class="logout-btn" id="logoutBtn">로그아웃</button>
+          </div>
+        </div>
+
+        <div class="tab-row">
+          <div class="tab-group" id="periodTabs"></div>
+          <div class="tab-group" id="examTabs"></div>
+        </div>
+
+        <div class="board">
+          <div class="board-head">
+            <div>
+              <div class="board-title" id="boardTitle">단어 레이스</div>
+              <div class="board-sub" id="boardSub">DSC2 레벨 학생 경쟁 중</div>
+            </div>
+            <div class="summary-chip" id="summaryChip">내 점수 420점 · 현재 4위 · 앞 친구와 15점 차</div>
+          </div>
+
+          <div class="main">
+            <div class="rank-box">
+              <div class="rank-title" id="rankTitle">DSC2 월간 랭킹</div>
+              <div class="rank-list" id="rankList"></div>
+            </div>
+
+            <div class="track-box">
+              <div class="track-stage">
+                <canvas id="trackCanvas"></canvas>
+              </div>
+
+              <div class="bottom-cards">
+                <div class="info-card dark">
+                  <div class="info-main" id="myStatusMain">김리아 4위</div>
+                  <div class="info-sub" id="myStatusSub">2바퀴 420m</div>
+                </div>
+
+                <div class="info-card yellow">
+                  <div class="info-main" id="gapMain">1위 친구와 40점 차</div>
+                  <div class="info-sub" id="gapSub">앞 친구와 15점 차</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBauSseHX5NAcjKN_5arZE7Tk21t3VyA3o",
+      authDomain: "jls-race.firebaseapp.com",
+      projectId: "jls-race",
+      storageBucket: "jls-race.firebasestorage.app",
+      messagingSenderId: "509200059580",
+      appId: "1:509200059580:web:57ae684ffa77c6f35a14b9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentStudent = null;
+    let currentPeriod = "monthly";
+    let currentExam = "word";
+    let resizeTimer = null;
+
+    const periodMultiplier = {
+      monthly: 1,
+      semester: 2.35
+    };
+
+    const scoreSeed = {
+      word: [460, 450, 435, 420, 410, 395, 382, 370, 356, 340, 325, 308],
+      grammar: [210, 198, 186, 174, 162, 150, 145, 138, 129, 120, 112, 105],
+      chat: [155, 146, 138, 130, 122, 115, 108, 101, 94, 88, 82, 76]
+    };
+
+    const examBoardTitle = {
+      word: "단어 레이스",
+      grammar: "문법 레이스",
+      chat: "CHAT 레이스"
+    };
+
+    function showError(message) {
+      document.getElementById("loading").style.display = "none";
+      const errorBox = document.getElementById("errorBox");
+      errorBox.style.display = "block";
+      errorBox.innerHTML = message;
+    }
+
+    function getDisplayId(email) {
+      if (!email) return "";
+      return email.replace("@race.com", "");
+    }
+
+    function getInitial(name) {
+      if (!name) return "?";
+      return String(name).trim().charAt(0);
+    }
+
+    function getAvatarColor(index = 0) {
+      const colors = ["#cfd8e8", "#9ed9cb", "#d7b58d", "#c5d08f", "#d6b5c9", "#7db6dd"];
+      return colors[index % colors.length];
+    }
+
+    function buildAvatarHtml(student, index = 0) {
+      if (student.photoURL) {
+        return `<div class="avatar"><img src="${student.photoURL}" alt="${student.name}"></div>`;
+      }
+
+      const bg = student.avatarColor || getAvatarColor(index);
+      return `<div class="avatar" style="background:${bg};">${getInitial(student.name)}</div>`;
+    }
+
+    function buildPeriodTabs() {
+      const el = document.getElementById("periodTabs");
+      el.innerHTML = `
+        <button class="pill ${currentPeriod === "monthly" ? "active" : ""}" data-period="monthly">월간</button>
+        <button class="pill ${currentPeriod === "semester" ? "active" : ""}" data-period="semester">학기누적</button>
+      `;
+
+      el.querySelectorAll("[data-period]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          currentPeriod = btn.dataset.period;
+          buildPeriodTabs();
+          renderRace();
+        });
+      });
+    }
+
+    function buildExamTabs() {
+      const el = document.getElementById("examTabs");
+      el.innerHTML = `
+        <button class="pill ${currentExam === "word" ? "active" : ""}" data-exam="word">단어</button>
+        <button class="pill ${currentExam === "grammar" ? "active" : ""}" data-exam="grammar">문법</button>
+        <button class="pill ${currentExam === "chat" ? "active" : ""}" data-exam="chat">CHAT</button>
+      `;
+
+      el.querySelectorAll("[data-exam]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          currentExam = btn.dataset.exam;
+          buildExamTabs();
+          renderRace();
+        });
+      });
+    }
+
+    async function handleLogout() {
+      try {
+        await signOut(auth);
+        showError('로그아웃되었어요.<br><br><a href="index.html">로그인 페이지로 이동</a>');
+      } catch (error) {
+        console.error(error);
+        alert("로그아웃 중 오류가 발생했어요.");
+      }
+    }
+
+    async function loadStudentsByLevel(type, level) {
+      const q = query(
+        collection(db, "students"),
+        where("type", "==", type),
+        where("level", "==", level)
+      );
+
+      const snap = await getDocs(q);
+      const students = [];
+
+      snap.forEach((docSnap, index) => {
+        const data = docSnap.data();
+        students.push({
+          uid: docSnap.id,
+          ...data,
+          avatarColor: data.avatarColor || getAvatarColor(index),
+          photoURL: data.photoURL || data.profileImage || ""
+        });
+      });
+
+      return students;
+    }
+
+    function addDemoScores(students) {
+      return students
+        .map((student, index) => {
+          const base = scoreSeed[currentExam][index] || Math.max(140, 300 - index * 11);
+          const score = Math.round(base * periodMultiplier[currentPeriod]);
+
+          return {
+            ...student,
+            score
+          };
+        })
+        .sort((a, b) => b.score - a.score);
+    }
+
+    function renderRankList(ranked, myIndex) {
+      const rankList = document.getElementById("rankList");
+
+      rankList.innerHTML = ranked.slice(0, 5).map((student, index) => {
+        const isMe = student.uid === currentStudent.uid;
+        return `
+          <div class="rank-item ${isMe ? "me" : ""}">
+            <div class="rank-num">${index + 1}</div>
+            ${buildAvatarHtml(student, index)}
+            <div class="rank-main">
+              <div class="rank-name">${student.name}</div>
+              <div class="rank-desc">${currentPeriod === "monthly" ? "이번 달 누적 점수" : "학기 누적 점수"}</div>
+            </div>
+            <div class="rank-score">
+              ${student.score}
+              <small>points</small>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      if (myIndex >= 5) {
+        const me = ranked[myIndex];
+        rankList.innerHTML += `
+          <div style="text-align:center;color:#c2c5ca;letter-spacing:6px;font-size:14px;padding:2px 0 0;">···</div>
+          <div class="rank-item me">
+            <div class="rank-num">${myIndex + 1}</div>
+            ${buildAvatarHtml(me, myIndex)}
+            <div class="rank-main">
+              <div class="rank-name">${me.name}</div>
+              <div class="rank-desc">내 현재 위치</div>
+            </div>
+            <div class="rank-score">
+              ${me.score}
+              <small>points</small>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function drawRoundedTrack(ctx, cx, cy, w, h, fill) {
+      const r = h / 2;
+      const x = cx - w / 2;
+      const y = cy - h / 2;
+
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.arcTo(x + w, y, x + w, y + r, r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+      ctx.lineTo(x + r, y + h);
+      ctx.arcTo(x, y + h, x, y + h - r, r);
+      ctx.lineTo(x, y + r);
+      ctx.arcTo(x, y, x + r, y, r);
+      ctx.closePath();
+      ctx.fillStyle = fill;
+      ctx.fill();
+    }
+
+    function drawRoundedTrackStroke(ctx, cx, cy, w, h, stroke) {
+      const r = h / 2;
+      const x = cx - w / 2;
+      const y = cy - h / 2;
+
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.arcTo(x + w, y, x + w, y + r, r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+      ctx.lineTo(x + r, y + h);
+      ctx.arcTo(x, y + h, x, y + h - r, r);
+      ctx.lineTo(x, y + r);
+      ctx.arcTo(x, y, x + r, y, r);
+      ctx.closePath();
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    function getTrackPoint(progress, cx, cy, w, h) {
+      const r = h / 2;
+      const straight = w - 2 * r;
+      const curve = Math.PI * r;
+      const total = straight * 2 + curve * 2;
+      let dist = progress * total;
+
+      const left = cx - w / 2;
+      const top = cy - h / 2;
+      const right = cx + w / 2;
+      const bottom = cy + h / 2;
+
+      if (dist <= straight) {
+        return { x: left + r + dist, y: top };
+      }
+      dist -= straight;
+
+      if (dist <= curve) {
+        const angle = -Math.PI / 2 + (dist / curve) * Math.PI;
+        return {
+          x: right - r + Math.cos(angle) * r,
+          y: cy + Math.sin(angle) * r
+        };
+      }
+      dist -= curve;
+
+      if (dist <= straight) {
+        return { x: right - r - dist, y: bottom };
+      }
+      dist -= straight;
+
+      const angle = Math.PI / 2 + (dist / curve) * Math.PI;
+      return {
+        x: left + r + Math.cos(angle) * r,
+        y: cy + Math.sin(angle) * r
+      };
+    }
+
+    function drawFlag(ctx, x, y) {
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x, y + 56);
+      ctx.stroke();
+
+      const size = 8;
+      for (let row = 0; row < 3; row++) {
+        for (let col = 0; col < 3; col++) {
+          ctx.fillStyle = (row + col) % 2 === 0 ? "#4f79d6" : "#fff";
+          ctx.fillRect(x + col * size, y - 12 + row * size, size, size);
+        }
+      }
+    }
+
+    function drawStudentMarker(ctx, student, x, y, index, isMe) {
+      const radius = 14;
+
+      if (student.photoURL) {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.clip();
+          ctx.drawImage(img, x - radius, y - radius, radius * 2, radius * 2);
+          ctx.restore();
+
+          ctx.strokeStyle = isMe ? "#35d3a6" : "#fff";
+          ctx.lineWidth = isMe ? 4 : 3;
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.stroke();
+        };
+        img.onerror = () => {
+          ctx.fillStyle = student.avatarColor || getAvatarColor(index);
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.strokeStyle = isMe ? "#35d3a6" : "#fff";
+          ctx.lineWidth = isMe ? 4 : 3;
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.stroke();
+
+          ctx.fillStyle = "#fff";
+          ctx.font = "800 16px Arial";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(getInitial(student.name), x, y + 0.5);
+        };
+        img.src = student.photoURL;
+      } else {
+        ctx.fillStyle = student.avatarColor || getAvatarColor(index);
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = isMe ? "#35d3a6" : "#fff";
+        ctx.lineWidth = isMe ? 4 : 3;
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = "#fff";
+        ctx.font = "800 16px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(getInitial(student.name), x, y + 0.5);
+      }
+    }
+
+    function drawTrack(ranked) {
+      const canvas = document.getElementById("trackCanvas");
+      const ctx = canvas.getContext("2d");
+
+      const parentWidth = canvas.parentElement.clientWidth;
+      const width = Math.max(320, parentWidth - 6);
+      const height = 248;
+
+      canvas.width = width;
+      canvas.height = height;
+
+      ctx.clearRect(0, 0, width, height);
+
+      const cx = width / 2;
+      const cy = height / 2 - 4;
+      const outerW = Math.min(width * 0.84, 640);
+      const outerH = 150;
+      const laneGap = 16;
+      const lanes = Math.min(ranked.length, 5);
+
+      for (let i = lanes - 1; i >= 0; i--) {
+        drawRoundedTrack(ctx, cx, cy, outerW - i * laneGap * 2, outerH - i * laneGap * 2, getComputedStyle(document.documentElement).getPropertyValue("--track").trim());
+      }
+
+      for (let i = 0; i < lanes; i++) {
+        drawRoundedTrackStroke(
+          ctx,
+          cx,
+          cy,
+          outerW - i * laneGap * 2,
+          outerH - i * laneGap * 2,
+          "rgba(255,255,255,0.52)"
+        );
+      }
+
+      drawFlag(ctx, cx + 2, cy - outerH / 2 + 24);
+
+      const topScore = ranked[0]?.score || 1;
+
+      ranked.slice(0, 5).forEach((student, index) => {
+        const laneW = outerW - index * laneGap * 2;
+        const laneH = outerH - index * laneGap * 2;
+        const progress = Math.max(0.03, Math.min(0.95, (student.score / topScore) * 0.92));
+        const point = getTrackPoint(progress, cx, cy, laneW, laneH);
+        const isMe = currentStudent && student.uid === currentStudent.uid;
+        drawStudentMarker(ctx, student, point.x, point.y, index, isMe);
+      });
+    }
+
+    function updateSummary(ranked, myIndex) {
+      const me = ranked[myIndex];
+      const first = ranked[0];
+      const prev = ranked[myIndex - 1];
+
+      const gapToFirst = first ? Math.max(0, first.score - me.score) : 0;
+      const gapToPrev = prev ? Math.max(0, prev.score - me.score) : 0;
+
+      document.getElementById("summaryChip").textContent =
+        `내 점수 ${me.score}점 · 현재 ${myIndex + 1}위 · 앞 친구와 ${gapToPrev}점 차`;
+
+      document.getElementById("myStatusMain").textContent =
+        `${me.name} ${myIndex + 1}위`;
+
+      const lap = Math.max(1, Math.floor(me.score / 200));
+      document.getElementById("myStatusSub").textContent =
+        `${lap}바퀴 ${me.score}m`;
+
+      document.getElementById("gapMain").textContent =
+        `1위 친구와 ${gapToFirst}점 차`;
+
+      document.getElementById("gapSub").textContent =
+        `${prev ? `앞 친구와 ${gapToPrev}점 차` : "현재 1위입니다!"}`;
+    }
+
+    async function renderRace() {
+      if (!currentStudent) return;
+
+      document.getElementById("levelChip").textContent = currentStudent.level || "";
+      document.getElementById("userChip").textContent =
+        `${currentStudent.name || getDisplayId(currentStudent.email)} · ${currentStudent.type || ""}`;
+
+      document.getElementById("boardTitle").textContent = examBoardTitle[currentExam];
+      document.getElementById("boardSub").textContent =
+        `${currentStudent.level || ""} 레벨 학생 경쟁 중`;
+
+      document.getElementById("rankTitle").textContent =
+        `${currentStudent.level || ""} ${currentPeriod === "monthly" ? "월간" : "학기누적"} 랭킹`;
+
+      const students = await loadStudentsByLevel(currentStudent.type, currentStudent.level);
+      const merged = students.some(s => s.uid === currentStudent.uid)
+        ? students
+        : [...students, currentStudent];
+
+      const ranked = addDemoScores(merged);
+      const myIndex = ranked.findIndex(s => s.uid === currentStudent.uid);
+
+      renderRankList(ranked, myIndex);
+      drawTrack(ranked);
+      updateSummary(ranked, myIndex);
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", handleLogout);
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        showError('로그인 정보가 없어요.<br><br><a href="index.html">index.html에서 다시 로그인해주세요.</a>');
+        return;
+      }
+
+      const id = getDisplayId(user.email);
+
+      try {
+        const q = query(collection(db, "students"), where("email", "==", user.email));
+        const snap = await getDocs(q);
+
+        if (!snap.empty) {
+          const docSnap = snap.docs[0];
+          const data = docSnap.data();
+
+          currentStudent = {
+            uid: docSnap.id,
+            email: user.email,
+            name: data.name || id,
+            type: data.type || "CHESS",
+            level: data.level || "DSC2",
+            avatarColor: data.avatarColor || getAvatarColor(0),
+            photoURL: data.photoURL || data.profileImage || ""
+          };
+        } else {
+          currentStudent = {
+            uid: user.uid,
+            email: user.email,
+            name: id,
+            type: "CHESS",
+            level: "DSC2",
+            avatarColor: getAvatarColor(0),
+            photoURL: ""
+          };
+        }
+
+        buildPeriodTabs();
+        buildExamTabs();
+        await renderRace();
+
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("racePage").style.display = "block";
+      } catch (error) {
+        console.error(error);
+        showError(`데이터를 불러오는 중 오류가 발생했어요.<br><br>${error.message}`);
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (!currentStudent) return;
+
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        renderRace();
+      }, 150);
+    });
+  </script>
+</body>
+</html>
